@@ -121,10 +121,12 @@ class Personaje(MiSprite):
         # Las velocidades a las que iba hasta este momento
         (velocidadx, velocidady) = self.velocidad
 
+        
+        
         # Si vamos a la izquierda o a la derecha        
         if (self.movimiento == IZQUIERDA) or (self.movimiento == DERECHA):
-            # Esta mirando hacia ese lado
             self.mirando = self.movimiento
+            # Esta mirando hacia ese lado
             # Si vamos a la izquierda, le ponemos velocidad en esa dirección
             if self.movimiento == IZQUIERDA:
                 self.numPostura = SPRITE_ANDANDO_IZQ
@@ -136,22 +138,28 @@ class Personaje(MiSprite):
                
         # Si queremos saltar
         elif self.movimiento == ARRIBA:
+            self.mirando = self.movimiento
             self.numPostura = SPRITE_ARRIBA
             # Le imprimimos una velocidad en el eje y
             velocidady = -self.velocidadSalto
 
         # Si queremos bajar
         elif self.movimiento == ABAJO:
+            self.mirando = self.movimiento
             self.numPostura = SPRITE_ABAJO
             # Le imprimimos una velocidad en el eje y
             velocidady = self.velocidadSalto
 
         # Si no se ha pulsado ninguna tecla
         elif self.movimiento == QUIETO:
-            self.numPostura = SPRITE_QUIETO
+            if self.mirando == SPRITE_ABAJO:
+                self.numPostura = SPRITE_QUIETO
+            else:
+                self.numPostura = self.mirando
             velocidadx = 0
             velocidady = 0
 
+        
         #  miramos si hay colision con alguna plataforma del grupo
         plataformas = pygame.sprite.spritecollide(self, grupoPlataformas,False)
         #  Ademas, esa colision solo nos interesa cuando estamos cayendo
@@ -173,7 +181,7 @@ class Personaje(MiSprite):
 
             if (plataforma != None) and (velocidadx > 0) and (plataforma.rect.right >= self.rect.right) and (plataforma.rect.left >= self.rect.left):
                 self.establecerPosicion((plataforma.posicion[0] - plataforma.rect.width - 20, self.posicion[1]))
-                
+                # Lo ponemos como quieto   
                 velocidadx = 0
 
             if (plataforma != None) and (velocidadx < 0) and (plataforma.rect.left <= self.rect.left) and (plataforma.rect.right <= self.rect.right):
