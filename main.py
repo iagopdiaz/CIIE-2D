@@ -347,32 +347,33 @@ class Personaje(MiSprite):
             velocidady = 0
 
         #  miramos si hay colision con alguna plataforma del grupo
-        plataforma = pygame.sprite.spritecollideany(self, grupoPlataformas)
+        plataformas = pygame.sprite.spritecollide(self, grupoPlataformas,False)
         #  Ademas, esa colision solo nos interesa cuando estamos cayendo
         #  y solo es efectiva cuando caemos encima, no de lado, es decir,
         #  cuando nuestra posicion inferior esta por encima de la parte de abajo de la plataforma
-        if (plataforma != None) and (velocidady>0) and (plataforma.rect.bottom >= self.rect.bottom) and (plataforma.rect.top >= self.rect.top):
-            # Lo situamos con la parte de abajo un pixel colisionando con la plataforma
-            #  para poder detectar cuando se cae de ella
-            self.establecerPosicion((self.posicion[0], plataforma.posicion[1] - plataforma.rect.height - 1))
-            # Lo ponemos como quieto
-            velocidady = 0
+        for plataforma in plataformas:
+            if (plataforma != None) and (velocidady>0) and (plataforma.rect.bottom >= self.rect.bottom) and (plataforma.rect.top >= self.rect.top):
+                # Lo situamos con la parte de abajo un pixel colisionando con la plataforma
+                #  para poder detectar cuando se cae de ella
+                self.establecerPosicion((self.posicion[0], plataforma.posicion[1] - plataforma.rect.height - 1))
+                # Lo ponemos como quieto
+                velocidady = 0
 
-                # Si hay colisión y nos estamos moviendo hacia arriba (subiendo)
-        if (plataforma != None) and (velocidady < 0) and (plataforma.rect.top <= self.rect.top) and (plataforma.rect.bottom <= self.rect.bottom):
-            # Ajustamos la posición para que el sprite no se "incruste" en la plataforma
-            self.establecerPosicion((self.posicion[0], plataforma.posicion[1] + plataforma.rect.height + 30))
-            velocidady = 0  # Cambia esto según el comportamiento deseado (rebote o detención completa)
+                    # Si hay colisión y nos estamos moviendo hacia arriba (subiendo)
+            if (plataforma != None) and (velocidady < 0) and (plataforma.rect.top <= self.rect.top) and (plataforma.rect.bottom <= self.rect.bottom):
+                # Ajustamos la posición para que el sprite no se "incruste" en la plataforma
+                self.establecerPosicion((self.posicion[0], plataforma.posicion[1] + plataforma.rect.height + 30))
+                velocidady = 0  # Cambia esto según el comportamiento deseado (rebote o detención completa)
 
-        if (plataforma != None) and (velocidadx > 0) and (plataforma.rect.right >= self.rect.right) and (plataforma.rect.left >= self.rect.left):
-            self.establecerPosicion((plataforma.posicion[0] - plataforma.rect.width - 20, self.posicion[1]))
-            
-            velocidadx = 0
+            if (plataforma != None) and (velocidadx > 0) and (plataforma.rect.right >= self.rect.right) and (plataforma.rect.left >= self.rect.left):
+                self.establecerPosicion((plataforma.posicion[0] - plataforma.rect.width - 20, self.posicion[1]))
+                
+                velocidadx = 0
 
-        if (plataforma != None) and (velocidadx < 0) and (plataforma.rect.left <= self.rect.left) and (plataforma.rect.right <= self.rect.right):
-            self.establecerPosicion((plataforma.posicion[0] + plataforma.rect.width + 1, self.posicion[1]))
-            # Lo ponemos como quieto    
-            velocidadx = 0
+            if (plataforma != None) and (velocidadx < 0) and (plataforma.rect.left <= self.rect.left) and (plataforma.rect.right <= self.rect.right):
+                self.establecerPosicion((plataforma.posicion[0] + plataforma.rect.width + 1, self.posicion[1]))
+                # Lo ponemos como quieto    
+                velocidadx = 0
 
             
 
