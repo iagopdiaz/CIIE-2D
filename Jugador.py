@@ -27,6 +27,14 @@ class MiSprite(pygame.sprite.Sprite):
         incrementox = self.velocidad[0]*tiempo
         incrementoy = self.velocidad[1]*tiempo
         self.incrementarPosicion((incrementox, incrementoy))
+
+    def establecerPosicionPantalla(self, scrollDecorado):
+        self.scroll = scrollDecorado
+        (scrollx, scrolly) = self.scroll
+        (posx, posy) = self.posicion
+        self.rect.left = posx - scrollx
+        self.rect.bottom = posy - scrolly
+
         
 class Personaje(MiSprite):
     "Cualquier personaje del juego"
@@ -115,6 +123,8 @@ class Personaje(MiSprite):
 
             elif self.mirando == ABAJO:
                 self.image = self.hoja.subsurface(self.coordenadasHoja[self.numPostura][self.numImagenPostura])
+
+
 
     def update(self, grupoPlataformas, tiempo):
 

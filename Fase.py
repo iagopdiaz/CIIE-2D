@@ -19,15 +19,16 @@ class Fase:
 
         # Que parte del decorado estamos visualizando
         self.scrollx = 0
+        self.scrolly = 0
         #  En ese caso solo hay scroll horizontal
         #  Si ademas lo hubiese vertical, seria self.scroll = (0, 0)
         self.decorado = Decorado()
         # Creamos los sprites de los jugadores
-        self.jugador1 = Jugador()
-        self.grupoJugadores = pygame.sprite.Group( self.jugador1)
+        self.jugador = Jugador()
+        self.grupoJugadores = pygame.sprite.Group( self.jugador)
 
         # Ponemos a los jugadores en sus posiciones iniciales
-        self.jugador1.establecerPosicion((200, 462))
+        self.jugador.establecerPosicion((200, 462))
 
         # Cargar las coordenadas de las plataformas
         datosPlataformas = GestorRecursos.CargarCoordenadasPlataformas('coordPlataformas.txt')
@@ -40,16 +41,50 @@ class Fase:
             self.grupoPlataformas.add(plataforma)
 
         # Inicializa los grupos de sprites como antes
-        self.grupoSpritesDinamicos = pygame.sprite.Group(self.jugador1)  # Asumiendo que solo hay un jugador por simplicidad
-        self.grupoSprites = pygame.sprite.Group(self.jugador1, self.grupoPlataformas)
+        self.grupoSpritesDinamicos = pygame.sprite.Group(self.jugador)  # Asumiendo que solo hay un jugador por simplicidad
+        self.grupoSprites = pygame.sprite.Group(self.jugador, self.grupoPlataformas)
 
     
     def update(self, tiempo):
 
         self.grupoSpritesDinamicos.update(self.grupoPlataformas, tiempo)
+        self.actualizarScroll()
 
         return False
-    
+
+    def actualizarScroll(self):
+        # Definimos el límite para el scroll como los 3/4 de la pantalla
+        LIMITE_SCROLL_X = ANCHO_PANTALLA * 3 / 4
+        LIMITE_SCROLL_Y = ALTO_PANTALLA * 3 / 4
+
+        # Si el jugador se encuentra más allá del límite de la pantalla en el eje X
+        if self.jugador.rect.right > LIMITE_SCROLL_X:
+            # Calculamos cuántos píxeles está fuera del límite
+            desplazamiento_x = self.jugador.rect.right - LIMITE_SCROLL_X
+            # Actualizamos el scroll en el eje X
+            self.scrollx = self.scrollx + desplazamiento_x
+        elif self.jugador.rect.left < ANCHO_PANTALLA - LIMITE_SCROLL_X:
+            desplazamiento_x = ANCHO_PANTALLA - LIMITE_SCROLL_X - self.jugador.rect.left
+            self.scrollx = max(0, self.scrollx - desplazamiento_x)
+
+        # Si el jugador se encuentra más allá del límite de la pantalla en el eje Y
+        if self.jugador.rect.bottom > LIMITE_SCROLL_Y:
+            # Calculamos cuántos píxeles está fuera del límite
+            desplazamiento_y = self.jugador.rect.bottom - LIMITE_SCROLL_Y
+            # Actualizamos el scroll en el eje Y
+            self.scrolly = self.scrolly + desplazamiento_y
+        elif self.jugador.rect.top < ALTO_PANTALLA - LIMITE_SCROLL_Y:
+            desplazamiento_y = ALTO_PANTALLA - LIMITE_SCROLL_Y - self.jugador.rect.top
+            self.scrolly = max(0, self.scrolly - desplazamiento_y)
+
+        # Actualizamos la posición en pantalla de todos los Sprites según el scroll actual
+        for sprite in iter(self.grupoSprites):
+            sprite.establecerPosicionPantalla((self.scrollx, self.scrolly))
+
+        # Además, actualizamos el decorado para que se muestre una parte distinta
+        self.decorado.update(self.scrollx, self.scrolly)
+
+
     def dibujar(self, pantalla):
         # Luego los Sprites
         self.decorado.dibujar(pantalla)
@@ -64,7 +99,7 @@ class Fase:
 
         # Indicamos la acción a realizar segun la tecla pulsada para cada jugador
         teclasPulsadas = pygame.key.get_pressed()
-        self.jugador1.mover(teclasPulsadas, K_UP, K_DOWN, K_LEFT, K_RIGHT)
+        self.jugador.mover(teclasPulsadas, K_UP, K_DOWN, K_LEFT, K_RIGHT)
         # No se sale del programa
         return False
     
@@ -81,8 +116,9 @@ class Decorado:
         self.rectSubimagen = pygame.Rect(0, 0, ANCHO_PANTALLA, ALTO_PANTALLA)
         self.rectSubimagen.left = 0 # El scroll horizontal empieza en la posicion 0 por defecto
 
-    def update(self, scrollx):
+    def update(self, scrollx, scrolly):
         self.rectSubimagen.left = scrollx
+        self.rectSubimagen.top = scrolly
 
     def dibujar(self, pantalla):
         pantalla.blit(self.imagen, self.rect, self.rectSubimagen)
