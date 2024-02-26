@@ -1,8 +1,8 @@
 import pygame, sys, os
 from pygame.locals import *
-from GestorRecursos import *
-from Jugador import *
-from Plataforma import *
+from gestor_recursos import *
+from jugador import *
+from plataforma import *
 
 class Fase:
     def __init__(self):

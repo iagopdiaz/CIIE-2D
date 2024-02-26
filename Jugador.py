@@ -1,7 +1,7 @@
 import pygame, sys, os
 from pygame.locals import *
-from GestorRecursos import *
-from Jugador import *
+from gestor_recursos import *
+from jugador import *
 from settings import *
 ###############################################################################################################
 # Clase MiSprite
