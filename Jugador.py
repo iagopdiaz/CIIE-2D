@@ -89,7 +89,6 @@ class Personaje(MiSprite):
     def mover(self, movimiento):
         self.movimiento = movimiento
 
-
     def actualizarPostura(self):
         self.retardoMovimiento -= 1
         # Miramos si ha pasado el retardo para dibujar una nueva postura
@@ -121,7 +120,9 @@ class Personaje(MiSprite):
         # Las velocidades a las que iba hasta este momento
         (velocidadx, velocidady) = self.velocidad
 
-        
+        if (velocidadx != 0) and (velocidady != 0):
+            velocidadx = COS_45 * velocidadx
+            velocidady = COS_45 * velocidady
         
         # Si vamos a la izquierda o a la derecha        
         if (self.movimiento == IZQUIERDA) or (self.movimiento == DERECHA):
@@ -174,13 +175,13 @@ class Personaje(MiSprite):
                 velocidady = 0
 
                     # Si hay colisión y nos estamos moviendo hacia arriba (subiendo)
-            if (plataforma != None) and (velocidady < 0) and (plataforma.rect.top <= self.rect.top) and (plataforma.rect.bottom <= self.rect.bottom):
+            elif (plataforma != None) and (velocidady < 0) and (plataforma.rect.top <= self.rect.top) and (plataforma.rect.bottom <= self.rect.bottom):
                 # Ajustamos la posición para que el sprite no se "incruste" en la plataforma
                 self.establecerPosicion((self.posicion[0], plataforma.posicion[1] + plataforma.rect.height + 30))
                 velocidady = 0  # Cambia esto según el comportamiento deseado (rebote o detención completa)
 
             if (plataforma != None) and (velocidadx > 0) and (plataforma.rect.right >= self.rect.right) and (plataforma.rect.left >= self.rect.left):
-                self.establecerPosicion((plataforma.posicion[0] - plataforma.rect.width - 20, self.posicion[1]))
+                self.establecerPosicion((plataforma.posicion[0] - plataforma.rect.width - 25, self.posicion[1]))
                 # Lo ponemos como quieto   
                 velocidadx = 0
 
@@ -188,8 +189,6 @@ class Personaje(MiSprite):
                 self.establecerPosicion((plataforma.posicion[0] + plataforma.rect.width + 1, self.posicion[1]))
                 # Lo ponemos como quieto    
                 velocidadx = 0
-
-            
 
         # Actualizamos la imagen a mostrar
         self.actualizarPostura()
@@ -208,9 +207,9 @@ class Personaje(MiSprite):
     
 class Jugador(Personaje):
     "Cualquier personaje del juego"
-    def __init__(self):
+    def __init__(self, archivoImagen, archivoCoordenadas, numImagenes, velocidadCarrera, velocidadSalto, retardoAnimacion):
         # Invocamos al constructor de la clase padre con la configuracion de este personaje concreto
-        Personaje.__init__(self,'alchemist.png','coordJugador.txt', [4, 4, 4, 4, 4, 4, 4, 4], VELOCIDAD_JUGADOR, VELOCIDAD_JUGADOR, RETARDO_ANIMACION_JUGADOR)
+        Personaje.__init__(self, archivoImagen, archivoCoordenadas, numImagenes, velocidadCarrera, velocidadSalto, retardoAnimacion)
 
 
     def mover(self, teclasPulsadas, arriba, abajo, izquierda, derecha):
@@ -222,7 +221,24 @@ class Jugador(Personaje):
         elif teclasPulsadas[derecha]:
             Personaje.mover(self,DERECHA)
         elif teclasPulsadas[abajo]:
-            Personaje.mover(self,ABAJO)
+            Personaje.mover(self,ABAJO)            
         else:
             Personaje.mover(self,QUIETO)
 
+class Alchemist(Jugador):
+    "Personaje Alchemist"
+    def __init__(self):
+        # Invocamos al constructor de la clase padre con la configuracion de este personaje concreto
+        Jugador.__init__(self,'Alchemist.png','coordJugador1.txt', [4, 4, 4, 4, 4, 4, 4, 4], VELOCIDAD_JUGADOR, VELOCIDAD_JUGADOR, RETARDO_ANIMACION_JUGADOR)
+
+class Bartender(Jugador):
+    "Personaje Alchemist"
+    def __init__(self):
+        # Invocamos al constructor de la clase padre con la configuracion de este personaje concreto
+        Jugador.__init__(self,'Bartender.png','coordJugador2.txt', [4, 4, 4, 4, 4, 4, 4, 4], VELOCIDAD_JUGADOR, VELOCIDAD_JUGADOR, RETARDO_ANIMACION_JUGADOR)
+
+class Merchant(Jugador):
+    "Personaje Alchemist"
+    def __init__(self):
+        # Invocamos al constructor de la clase padre con la configuracion de este personaje concreto
+        Jugador.__init__(self,'Merchant.png','coordJugador3.txt', [4, 4, 4, 4, 4, 4, 4, 4], VELOCIDAD_JUGADOR, VELOCIDAD_JUGADOR, RETARDO_ANIMACION_JUGADOR)

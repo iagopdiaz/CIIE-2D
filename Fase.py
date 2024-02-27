@@ -23,11 +23,17 @@ class Fase:
         #  Si ademas lo hubiese vertical, seria self.scroll = (0, 0)
         self.decorado = Decorado()
         # Creamos los sprites de los jugadores
-        self.jugador1 = Jugador()
-        self.grupoJugadores = pygame.sprite.Group( self.jugador1)
+        self.jugador1 = Alchemist()
+        self.jugador2 = Bartender()
+        self.jugador3 = Merchant()
+        self.grupoJugadores = pygame.sprite.Group(self.jugador1, self.jugador2, self.jugador3)
 
         # Ponemos a los jugadores en sus posiciones iniciales
         self.jugador1.establecerPosicion((200, 462))
+        self.jugador2.establecerPosicion((200, 462))
+        self.jugador3.establecerPosicion((200, 462))
+
+        self.jugador_activo = self.jugador1
 
         # Cargar las coordenadas de las plataformas
         datosPlataformas = GestorRecursos.CargarCoordenadasPlataformas('coordPlataformas.txt')
@@ -40,8 +46,8 @@ class Fase:
             self.grupoPlataformas.add(plataforma)
 
         # Inicializa los grupos de sprites como antes
-        self.grupoSpritesDinamicos = pygame.sprite.Group(self.jugador1)  # Asumiendo que solo hay un jugador por simplicidad
-        self.grupoSprites = pygame.sprite.Group(self.jugador1, self.grupoPlataformas)
+        self.grupoSpritesDinamicos = pygame.sprite.Group(self.jugador_activo)  # Asumiendo que solo hay un jugador por simplicidad
+        self.grupoSprites = pygame.sprite.Group(self.jugador_activo, self.grupoPlataformas)
 
     
     def update(self, tiempo):
@@ -55,16 +61,49 @@ class Fase:
         self.decorado.dibujar(pantalla)
         self.grupoSprites.draw(pantalla)
 
+    def cambiar_jugador(self):
+        
+        if (self.jugador_activo == self.jugador1):
+            nuevo_jugador_activo = self.jugador2
+
+        elif (self.jugador_activo == self.jugador2):
+            nuevo_jugador_activo = self.jugador3
+
+        elif (self.jugador_activo == self.jugador3):
+            nuevo_jugador_activo = self.jugador1
+
+        # Establece la posición del nuevo jugador activo a la posición del actual antes de cambiar
+        nuevo_jugador_activo.establecerPosicion(self.jugador_activo.posicion)
+
+        # Actualiza el grupo de sprites para que contenga al nuevo jugador activo
+        # Primero, elimina el jugador activo actual de los grupos relevantes
+        self.grupoSpritesDinamicos.remove(self.jugador_activo)
+        self.grupoSprites.remove(self.jugador_activo)
+
+        # Luego, agrega el nuevo jugador activo a los grupos
+        self.grupoSpritesDinamicos.add(nuevo_jugador_activo)
+        self.grupoSprites.add(nuevo_jugador_activo)
+
+        # Finalmente, actualiza la referencia de jugador_activo al nuevo jugador
+        self.jugador_activo = nuevo_jugador_activo
+
     def eventos(self, lista_eventos):
         # Miramos a ver si hay algun evento de salir del programa
         for evento in lista_eventos:
             # Si se sale del programa
             if evento.type == pygame.QUIT:
                 return True
+            elif evento.type == pygame.KEYDOWN:
+                # Si la tecla presionada es TAB
+                if evento.key == pygame.K_TAB:
+                    self.cambiar_jugador()
+                    # No necesitas continuar el bucle después de cambiar de jugador
+                    continue
 
         # Indicamos la acción a realizar segun la tecla pulsada para cada jugador
         teclasPulsadas = pygame.key.get_pressed()
-        self.jugador1.mover(teclasPulsadas, K_UP, K_DOWN, K_LEFT, K_RIGHT)
+        self.jugador_activo.mover(teclasPulsadas, K_UP, K_DOWN, K_LEFT, K_RIGHT)
+        
         # No se sale del programa
         return False
     
