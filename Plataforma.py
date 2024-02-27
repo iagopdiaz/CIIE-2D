@@ -1,6 +1,6 @@
 import pygame, sys, os
 from pygame.locals import *
-from Jugador import *
+from jugador import *
 
 #class Plataforma(pygame.sprite.Sprite):
 class Plataforma(MiSprite):

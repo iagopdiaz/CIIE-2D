@@ -21,8 +21,8 @@ class GestorRecursos(object):
                 print (f'Cannot load image: {fullname}')
                 raise SystemExit(message)
             imagen = imagen.convert()
-            if colorkey is not None:
-                if colorkey is -1:
+            if colorkey != None:
+                if colorkey == -1:
                     colorkey = imagen.get_at((0,0))
                 imagen.set_colorkey(colorkey, RLEACCEL)
             # Se almacena
