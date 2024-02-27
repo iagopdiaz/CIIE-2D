@@ -1,8 +1,8 @@
 import pygame, sys, os
 from pygame.locals import *
-from gestor_recursos import *
-from Fase import *
+from Gestor_recursos import *
 from settings import *
+
 ###############################################################################################################
 # Clase MiSprite
 class MiSprite(pygame.sprite.Sprite):

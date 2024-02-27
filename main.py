@@ -1,9 +1,8 @@
 import pygame, sys, os
 from pygame.locals import *
-from gestor_recursos import *
-from jugador import *
-from plataforma import *
-from fase import *
+from Gestor_recursos import *
+from Jugador import *
+from Fase import *
 from settings import *
 
 

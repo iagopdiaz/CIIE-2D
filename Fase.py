@@ -1,8 +1,8 @@
 import pygame, sys, os
 from pygame.locals import *
-from gestor_recursos import *
+from Gestor_recursos import *
 from Jugador import *
-from Plataforma import *
+from Jugador import MiSprite
 
 class Fase:
     def __init__(self):
@@ -35,11 +35,6 @@ class Fase:
         self.jugador3.establecerPosicion((200, 462))
 
         self.jugador_activo = self.jugador1
-        self.jugador = Jugador()
-        self.grupoJugadores = pygame.sprite.Group( self.jugador)
-
-        # Ponemos a los jugadores en sus posiciones iniciales
-        self.jugador.establecerPosicion((200, 462))
 
         # Cargar las coordenadas de las plataformas
         datosPlataformas = GestorRecursos.CargarCoordenadasPlataformas('coordPlataformas.txt')
@@ -69,23 +64,23 @@ class Fase:
         LIMITE_SCROLL_Y = ALTO_PANTALLA * 3 / 4
 
         # Si el jugador se encuentra más allá del límite de la pantalla en el eje X
-        if self.jugador.rect.right > LIMITE_SCROLL_X:
+        if self.jugador_activo.rect.right > LIMITE_SCROLL_X:
             # Calculamos cuántos píxeles está fuera del límite
-            desplazamiento_x = self.jugador.rect.right - LIMITE_SCROLL_X
+            desplazamiento_x = self.jugador_activo.rect.right - LIMITE_SCROLL_X
             # Actualizamos el scroll en el eje X
             self.scrollx = self.scrollx + desplazamiento_x
-        elif self.jugador.rect.left < ANCHO_PANTALLA - LIMITE_SCROLL_X:
-            desplazamiento_x = ANCHO_PANTALLA - LIMITE_SCROLL_X - self.jugador.rect.left
+        elif self.jugador_activo.rect.left < ANCHO_PANTALLA - LIMITE_SCROLL_X:
+            desplazamiento_x = ANCHO_PANTALLA - LIMITE_SCROLL_X - self.jugador_activo.rect.left
             self.scrollx = max(0, self.scrollx - desplazamiento_x)
 
         # Si el jugador se encuentra más allá del límite de la pantalla en el eje Y
-        if self.jugador.rect.bottom > LIMITE_SCROLL_Y:
+        if self.jugador_activo.rect.bottom > LIMITE_SCROLL_Y:
             # Calculamos cuántos píxeles está fuera del límite
-            desplazamiento_y = self.jugador.rect.bottom - LIMITE_SCROLL_Y
+            desplazamiento_y = self.jugador_activo.rect.bottom - LIMITE_SCROLL_Y
             # Actualizamos el scroll en el eje Y
             self.scrolly = self.scrolly + desplazamiento_y
-        elif self.jugador.rect.top < ALTO_PANTALLA - LIMITE_SCROLL_Y:
-            desplazamiento_y = ALTO_PANTALLA - LIMITE_SCROLL_Y - self.jugador.rect.top
+        elif self.jugador_activo.rect.top < ALTO_PANTALLA - LIMITE_SCROLL_Y:
+            desplazamiento_y = ALTO_PANTALLA - LIMITE_SCROLL_Y - self.jugador_activo.rect.top
             self.scrolly = max(0, self.scrolly - desplazamiento_y)
 
         # Actualizamos la posición en pantalla de todos los Sprites según el scroll actual
@@ -146,7 +141,18 @@ class Fase:
         
         # No se sale del programa
         return False
-    
+
+class Plataforma(MiSprite):
+    def __init__(self,rectangulo):
+        # Primero invocamos al constructor de la clase padre
+        MiSprite.__init__(self)
+        # Rectangulo con las coordenadas en pantalla que ocupara
+        self.rect = rectangulo
+        # Y lo situamos de forma global en esas coordenadas
+        self.establecerPosicion((self.rect.left, self.rect.bottom))
+        # En el caso particular de este juego, las plataformas no se van a ver, asi que no se carga ninguna imagen
+        self.image = pygame.Surface((0, 0))
+
 
 class Decorado:
     def __init__(self):
