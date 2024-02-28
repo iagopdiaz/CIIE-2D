@@ -1,8 +1,8 @@
 import pygame, sys, os
 from pygame.locals import *
-from Gestor_recursos import *
-from Jugador import *
-from Jugador import MiSprite
+from gestor_recursos import *
+from jugador import *
+from jugador import MiSprite
 
 class Fase:
     def __init__(self):

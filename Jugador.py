@@ -1,6 +1,6 @@
 import pygame, sys, os
 from pygame.locals import *
-from Gestor_recursos import *
+from gestor_recursos import *
 from settings import *
 
 ###############################################################################################################
