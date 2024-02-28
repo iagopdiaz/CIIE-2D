@@ -11,7 +11,7 @@ pygame.display.set_caption("Herramienta de Selección de Plataformas")
 color_fondo = (173, 216, 230)  # Azul claro (Light Blue)
 
 # Cargar la imagen de fondo
-fondo = pygame.image.load('./imagenes/mapa.png')  # Cambia 'tuImagenDeFondo.png' al nombre de tu archivo
+fondo = pygame.image.load('./imagenes/mapa1paredes.png')  # Cambia 'tuImagenDeFondo.png' al nombre de tu archivo
 
 # Variables de control
 start_pos = None  # Posición inicial del rectángulo

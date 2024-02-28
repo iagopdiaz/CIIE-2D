@@ -30,13 +30,13 @@ class Fase:
         self.grupoJugadores = pygame.sprite.Group(self.jugador1, self.jugador2, self.jugador3)
 
         # Ponemos a los jugadores en sus posiciones iniciales
-        self.jugador1.establecerPosicion((200, 462))
-        self.jugador2.establecerPosicion((200, 462))
-        self.jugador3.establecerPosicion((200, 462))
+        self.jugador1.establecerPosicion((350, 520))
+        self.jugador2.establecerPosicion((350, 520))
+        self.jugador3.establecerPosicion((350, 520))
 
         self.jugador_activo = self.jugador1
 
-        # Cargar las coordenadas de las plataformas
+        # Cargar las coordenadas de las plataformas -> AQUI SE USA PARA LAS PUERTAS DEL LABERINTO O MOVIDAS ASI
         datosPlataformas = GestorRecursos.CargarCoordenadasPlataformas('coordPlataformas.txt')
         
         # Creamos las plataformas del decorado basándonos en las coordenadas cargadas
@@ -50,6 +50,8 @@ class Fase:
         self.grupoSpritesDinamicos = pygame.sprite.Group(self.jugador_activo)  # Asumiendo que solo hay un jugador por simplicidad
         self.grupoSprites = pygame.sprite.Group(self.jugador_activo, self.grupoPlataformas)
 
+        #Aqui añadimos la mascara de colisiones para las paredes
+        self.mascara = pygame.mask.from_surface(GestorRecursos.CargarImagen('mapa1paredes.png'))                                
     
     def update(self, tiempo):
 
@@ -63,12 +65,13 @@ class Fase:
         LIMITE_SCROLL_X = ANCHO_PANTALLA * 3 / 4
         LIMITE_SCROLL_Y = ALTO_PANTALLA * 3 / 4
 
+
         # Si el jugador se encuentra más allá del límite de la pantalla en el eje X
         if self.jugador_activo.rect.right > LIMITE_SCROLL_X:
             # Calculamos cuántos píxeles está fuera del límite
             desplazamiento_x = self.jugador_activo.rect.right - LIMITE_SCROLL_X
             # Actualizamos el scroll en el eje X
-            self.scrollx = self.scrollx + desplazamiento_x
+            self.scrollx = min(self.scrollx + desplazamiento_x, self.decorado.imagen.get_width() - ANCHO_PANTALLA)
         elif self.jugador_activo.rect.left < ANCHO_PANTALLA - LIMITE_SCROLL_X:
             desplazamiento_x = ANCHO_PANTALLA - LIMITE_SCROLL_X - self.jugador_activo.rect.left
             self.scrollx = max(0, self.scrollx - desplazamiento_x)
@@ -78,10 +81,11 @@ class Fase:
             # Calculamos cuántos píxeles está fuera del límite
             desplazamiento_y = self.jugador_activo.rect.bottom - LIMITE_SCROLL_Y
             # Actualizamos el scroll en el eje Y
-            self.scrolly = self.scrolly + desplazamiento_y
+            self.scrolly = min(self.scrolly + desplazamiento_y, self.decorado.imagen.get_height() - ALTO_PANTALLA)
         elif self.jugador_activo.rect.top < ALTO_PANTALLA - LIMITE_SCROLL_Y:
             desplazamiento_y = ALTO_PANTALLA - LIMITE_SCROLL_Y - self.jugador_activo.rect.top
             self.scrolly = max(0, self.scrolly - desplazamiento_y)
+
 
         # Actualizamos la posición en pantalla de todos los Sprites según el scroll actual
         for sprite in iter(self.grupoSprites):
@@ -156,19 +160,22 @@ class Plataforma(MiSprite):
 
 class Decorado:
     def __init__(self):
-        self.imagen = GestorRecursos.CargarImagen('mapa.png', -1)
+        self.imagen = GestorRecursos.CargarImagen('mapa1decorado.png')
         #self.imagen = pygame.transform.scale(self.imagen, (1200, 300))
 
         self.rect = self.imagen.get_rect()
-        self.rect.bottom = ALTO_PANTALLA
-
+        
         # La subimagen que estamos viendo
         self.rectSubimagen = pygame.Rect(0, 0, ANCHO_PANTALLA, ALTO_PANTALLA)
         self.rectSubimagen.left = 0 # El scroll horizontal empieza en la posicion 0 por defecto
+        self.rectSubimagen.top = 0
 
     def update(self, scrollx, scrolly):
-        self.rectSubimagen.left = scrollx
-        self.rectSubimagen.top = scrolly
+        # Asegúrate de que scrollx no sea menor que 0 ni mayor que la anchura de la imagen menos la anchura de la pantalla
+        self.rectSubimagen.left = max(0, min(scrollx, self.imagen.get_width() - ANCHO_PANTALLA))
+        # Asegúrate de que scrolly no sea menor que 0 ni mayor que la altura de la imagen menos la altura de la pantalla
+        self.rectSubimagen.top = max(0, min(scrolly, self.imagen.get_height() - ALTO_PANTALLA))
+
 
     def dibujar(self, pantalla):
         pantalla.blit(self.imagen, self.rect, self.rectSubimagen)

@@ -5,8 +5,6 @@ from jugador import *
 from fase import *
 from settings import *
 
-
-######################################################################################################################
 def main():
 
     # Inicializar pygame

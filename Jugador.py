@@ -52,6 +52,12 @@ class Personaje(MiSprite):
 
         # Se carga la hoja
         self.hoja = GestorRecursos.CargarImagen(archivoImagen, -1)
+        
+        # La colision es con el color negro
+        #self.mascaraParedes = pygame.mask.from_surface(GestorRecursos.CargarImagen('mapa1paredes.png', -1))
+        white_threshold = (255, 255, 255)
+        black_threshold = (0, 0, 0)
+        self.mascaraParedes = pygame.mask.from_threshold(GestorRecursos.CargarImagen('mapa1paredes.png'), white_threshold, black_threshold)
 
         self.hoja = self.hoja.convert_alpha()
         # El movimiento que esta realizando
@@ -171,7 +177,7 @@ class Personaje(MiSprite):
             velocidady = 0
 
         
-        #  miramos si hay colision con alguna plataforma del grupo
+        #  miramos si hay colision con alguna plataforma del grupo -> ESTO ES PARA LAS PAREDES
         plataformas = pygame.sprite.spritecollide(self, grupoPlataformas,False)
         #  Ademas, esa colision solo nos interesa cuando estamos cayendo
         #  y solo es efectiva cuando caemos encima, no de lado, es decir,
@@ -198,19 +204,33 @@ class Personaje(MiSprite):
             if (plataforma != None) and (velocidadx < 0) and (plataforma.rect.left <= self.rect.left) and (plataforma.rect.right <= self.rect.right):
                 self.establecerPosicion((plataforma.posicion[0] + plataforma.rect.width + 1, self.posicion[1]))
                 # Lo ponemos como quieto    
-                velocidadx = 0
+                velocidadx = 0   
 
         # Actualizamos la imagen a mostrar
         self.actualizarPostura()
 
-        # Aplicamos la velocidad en cada eje      
-        self.velocidad = (velocidadx, velocidady)
+        # Crea una nueva máscara para el personaje en la nueva posición
+        mascaraPersonaje = pygame.mask.from_surface(self.image)
+
+        # Comprueba si la máscara del personaje se solapa con la máscara del mapa
+        area_solapamiento = self.mascaraParedes.overlap_area(mascaraPersonaje, (0, 0))
+    
+        # Si el área de solapamiento es 0, entonces el personaje puede moverse a la nueva posición
+        print(area_solapamiento)
+        if area_solapamiento == 0:
+            self.velocidad = (velocidadx, velocidady)
+        else:
+            # Si el área de solapamiento no es 0, entonces el personaje no puede moverse a la nueva posición
+            # Puedes ajustar la velocidad a 0 o manejar esto de otra manera según lo que quieras hacer
+            self.velocidad = (0, 0)
 
         # Y llamamos al método de la superclase para que, según la velocidad y el tiempo
-        #  calcule la nueva posición del Sprite
+        # calcule la nueva posición del Sprite
         MiSprite.update(self, tiempo)
-        
+
         return
+        
+        
 
 
 # -------------------------------------------------
