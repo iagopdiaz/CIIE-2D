@@ -152,7 +152,10 @@ class Personaje(MiSprite):
         futura_posicion_y = self.posicion[1] + velocidady * tiempo - self.scroll[1]
 
         # Y creamos un rectangulo con ella
-        futuro_rect = pygame.Rect(futura_posicion_x, futura_posicion_y, self.rect.width, self.rect.height)
+        futuro_rect = pygame.Rect(futura_posicion_x, futura_posicion_y - self.rect.height, self.rect.width, self.rect.height)
+
+        #Imprimir la posicion del pixel izquierdo superior del rectangulo
+        print(f'x: {futura_posicion_x}, y: {futura_posicion_y}')
 
         # Comprobamos si al moverse se va a chocar con alguna plataforma
         if any(futuro_rect.colliderect(plataforma.rect) for plataforma in grupoPlataformas):
