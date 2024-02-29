@@ -123,95 +123,46 @@ class Personaje(MiSprite):
             elif self.mirando == ABAJO:
                 self.image = self.hoja.subsurface(self.coordenadasHoja[self.numPostura][self.numImagenPostura])
 
-
-
+    # Metodo para actualizar el estado del personaje
     def update(self, grupoPlataformas, tiempo):
+        velocidadx, velocidady = 0, 0
 
-        # Las velocidades a las que iba hasta este momento
-        (velocidadx, velocidady) = self.velocidad
-        
-        # Si vamos a la izquierda o a la derecha        
-        if (self.movimiento == IZQUIERDA) or (self.movimiento == DERECHA):
+        # Segun el movimiento que este realizando, actualizamos su velocidad
+        if self.movimiento in [IZQUIERDA, DERECHA, ARRIBA, ABAJO]:
             self.mirando = self.movimiento
-            # Esta mirando hacia ese lado
-            # Si vamos a la izquierda, le ponemos velocidad en esa dirección
+
             if self.movimiento == IZQUIERDA:
                 self.numPostura = SPRITE_ANDANDO_IZQ
                 velocidadx = -self.velocidadCarrera
-                velocidady = 0
-            # Si vamos a la derecha, le ponemos velocidad en esa dirección
-            else:
+            elif self.movimiento == DERECHA:
                 self.numPostura = SPRITE_ANDANDO_DER
                 velocidadx = self.velocidadCarrera
-                velocidady = 0
-               
-        # Si queremos saltar
-        elif self.movimiento == ARRIBA:
-            self.mirando = self.movimiento
-            self.numPostura = SPRITE_ARRIBA
-            # Le imprimimos una velocidad en el eje y
-            velocidady = -self.velocidadSalto
-            velocidadx = 0
+            elif self.movimiento == ARRIBA:
+                self.numPostura = SPRITE_ARRIBA
+                velocidady = -self.velocidadSalto
+            elif self.movimiento == ABAJO:
+                self.numPostura = SPRITE_ABAJO
+                velocidady = self.velocidadSalto
 
-        # Si queremos bajar
-        elif self.movimiento == ABAJO:
-            self.mirando = self.movimiento
-            self.numPostura = SPRITE_ABAJO
-            # Le imprimimos una velocidad en el eje y
-            velocidady = self.velocidadSalto
-            velocidadx = 0
-
-        # Si no se ha pulsado ninguna tecla
         elif self.movimiento == QUIETO:
-            if self.mirando == SPRITE_ABAJO:
-                self.numPostura = SPRITE_QUIETO
-            else:
-                self.numPostura = self.mirando
-            velocidadx = 0
-            velocidady = 0
+            self.numPostura = SPRITE_QUIETO if self.mirando == SPRITE_ABAJO else self.mirando
 
-        #  miramos si hay colision con alguna plataforma del grupo
-        plataformas = pygame.sprite.spritecollide(self, grupoPlataformas,False)
-        #  Ademas, esa colision solo nos interesa cuando estamos cayendo
-        #  y solo es efectiva cuando caemos encima, no de lado, es decir,
-        #  cuando nuestra posicion inferior esta por encima de la parte de abajo de la plataforma
-        for plataforma in plataformas:
-            if (plataforma != None) and (velocidady>0) and (plataforma.rect.bottom >= self.rect.bottom) and (plataforma.rect.top >= self.rect.top):
-                self.establecerPosicion((self.posicion[0], plataforma.posicion[1] - plataforma.rect.height - 1))
-                # Lo ponemos como quieto
-                velocidady = 0
+        # Calculamos la futura posicion del Sprite
+        futura_posicion_x = self.posicion[0] + velocidadx * tiempo - self.scroll[0]
+        futura_posicion_y = self.posicion[1] + velocidady * tiempo - self.scroll[1]
 
-                    # Si hay colisión y nos estamos moviendo hacia arriba (subiendo)
-            elif (plataforma != None) and (velocidady < 0) and (plataforma.rect.top <= self.rect.top) and (plataforma.rect.bottom <= self.rect.bottom):
-                # Ajustamos la posición para que el sprite no se "incruste" en la plataforma
-                self.establecerPosicion((self.posicion[0], plataforma.posicion[1] + plataforma.rect.height + 35))
-                velocidady = 0  # Cambia esto según el comportamiento deseado (rebote o detención completa)
+        # Y creamos un rectangulo con ella
+        futuro_rect = pygame.Rect(futura_posicion_x, futura_posicion_y, self.rect.width, self.rect.height)
 
-            if (plataforma != None) and (velocidadx > 0) and (plataforma.rect.right >= self.rect.right) and (plataforma.rect.left >= self.rect.left):
-                self.establecerPosicion((plataforma.posicion[0] - plataforma.rect.width - 25, self.posicion[1]))
-                # Lo ponemos como quieto   
-                velocidadx = 0
+        # Comprobamos si al moverse se va a chocar con alguna plataforma
+        if any(futuro_rect.colliderect(plataforma.rect) for plataforma in grupoPlataformas):
+            velocidadx, velocidady = 0, 0
 
-            if (plataforma != None) and (velocidadx < 0) and (plataforma.rect.left <= self.rect.left) and (plataforma.rect.right <= self.rect.right):
-                self.establecerPosicion((plataforma.posicion[0] + plataforma.rect.width + 1, self.posicion[1]))
-                # Lo ponemos como quieto    
-                velocidadx = 0
-
-        if (velocidadx != 0) and (velocidady != 0):
-            velocidadx = COS_45 * velocidadx
-            velocidady = COS_45 * velocidady
-
-        # Actualizamos la imagen a mostrar
+        # Si no, actualizamos su posicion
         self.actualizarPostura()
-
-        # Aplicamos la velocidad en cada eje      
         self.velocidad = (velocidadx, velocidady)
-
-        # Y llamamos al método de la superclase para que, según la velocidad y el tiempo
-        #  calcule la nueva posición del Sprite
         MiSprite.update(self, tiempo)
-        
-        return
+
 
 
 # -------------------------------------------------
