@@ -23,6 +23,7 @@ class Fase:
         #  En ese caso solo hay scroll horizontal
         #  Si ademas lo hubiese vertical, seria self.scroll = (0, 0)
         self.decorado = Decorado()
+        self.muros = Muros()
         # Creamos los sprites de los jugadores
         self.jugador1 = Alchemist()
         self.jugador2 = Bartender()
@@ -30,13 +31,10 @@ class Fase:
         self.grupoJugadores = pygame.sprite.Group(self.jugador1, self.jugador2, self.jugador3)
 
         # Ponemos a los jugadores en sus posiciones iniciales
-        self.jugador1.establecerPosicion((350, 520))
-        self.jugador2.establecerPosicion((350, 520))
-        self.jugador3.establecerPosicion((350, 520))
+        self.jugador1.establecerPosicion((255, 530))
 
         self.jugador_activo = self.jugador1
 
-        # Cargar las coordenadas de las plataformas -> AQUI SE USA PARA LAS PUERTAS DEL LABERINTO O MOVIDAS ASI
         datosPlataformas = GestorRecursos.CargarCoordenadasPlataformas('coordPlataformas.txt')
         
         # Creamos las plataformas del decorado basándonos en las coordenadas cargadas
@@ -48,10 +46,7 @@ class Fase:
 
         # Inicializa los grupos de sprites como antes
         self.grupoSpritesDinamicos = pygame.sprite.Group(self.jugador_activo)  # Asumiendo que solo hay un jugador por simplicidad
-        self.grupoSprites = pygame.sprite.Group(self.jugador_activo, self.grupoPlataformas)
-
-        #Aqui añadimos la mascara de colisiones para las paredes
-        self.mascara = pygame.mask.from_surface(GestorRecursos.CargarImagen('mapa1paredes.png'))                                
+        self.grupoSprites = pygame.sprite.Group(self.jugador_activo, self.grupoPlataformas)                  
     
     def update(self, tiempo):
 
@@ -93,11 +88,14 @@ class Fase:
 
         # Además, actualizamos el decorado para que se muestre una parte distinta
         self.decorado.update(self.scrollx, self.scrolly)
+        self.muros.update(self.scrollx, self.scrolly)
+
 
 
     def dibujar(self, pantalla):
         # Luego los Sprites
         self.decorado.dibujar(pantalla)
+        self.muros.dibujar(pantalla)
         self.grupoSprites.draw(pantalla)
 
     def cambiar_jugador(self):
@@ -138,6 +136,22 @@ class Fase:
                     self.cambiar_jugador()
                     # No necesitas continuar el bucle después de cambiar de jugador
                     continue
+            elif evento.type == pygame.MOUSEBUTTONDOWN:
+                if evento.button == 1:  # Botón izquierdo del ratón
+                # Ajustar las posiciones iniciales con el desplazamiento actual
+                    self.start_pos = (evento.pos[0] + self.scrollx, evento.pos[1] + self.scrolly)
+            elif evento.type == pygame.MOUSEBUTTONUP:
+                if evento.button == 1:  # Botón izquierdo del ratón
+                    # Ajustar las posiciones finales con el desplazamiento actual
+                    self.end_pos = (evento.pos[0] + self.scrollx, evento.pos[1] + self.scrolly)
+                    # Calcula las coordenadas y dimensiones del rectángulo ajustadas al desplazamiento
+                    x = min(self.start_pos[0], self.end_pos[0])
+                    y = min(self.start_pos[1], self.end_pos[1])
+                    ancho = abs(self.start_pos[0] - self.end_pos[0])
+                    alto = abs(self.start_pos[1] - self.end_pos[1])
+                    print(f'x: {x}, y: {y}, ancho: {ancho}, alto: {alto}')
+                    with open('./imagenes/coordPlataformas.txt', 'a') as archivo:
+                        archivo.write(f'{int(x)} {int(y)} {int(ancho)} {int(alto)}\n')
 
         # Indicamos la acción a realizar segun la tecla pulsada para cada jugador
         teclasPulsadas = pygame.key.get_pressed()
@@ -157,12 +171,10 @@ class Plataforma(MiSprite):
         # En el caso particular de este juego, las plataformas no se van a ver, asi que no se carga ninguna imagen
         self.image = pygame.Surface((0, 0))
 
-
-class Decorado:
+class Muros:
     def __init__(self):
-        self.imagen = GestorRecursos.CargarImagen('mapa1decorado.png')
-        #self.imagen = pygame.transform.scale(self.imagen, (1200, 300))
-
+        self.imagen = GestorRecursos.CargarImagen('mapa1paredes.png', -1)
+       
         self.rect = self.imagen.get_rect()
         
         # La subimagen que estamos viendo
@@ -176,6 +188,25 @@ class Decorado:
         # Asegúrate de que scrolly no sea menor que 0 ni mayor que la altura de la imagen menos la altura de la pantalla
         self.rectSubimagen.top = max(0, min(scrolly, self.imagen.get_height() - ALTO_PANTALLA))
 
+    def dibujar(self, pantalla):
+        pantalla.blit(self.imagen, self.rect, self.rectSubimagen)
+
+class Decorado:
+    def __init__(self):
+        self.imagen = GestorRecursos.CargarImagen('mapa1decorado.png')
+
+        self.rect = self.imagen.get_rect()
+        
+        # La subimagen que estamos viendo
+        self.rectSubimagen = pygame.Rect(0, 0, ANCHO_PANTALLA, ALTO_PANTALLA)
+        self.rectSubimagen.left = 0 # El scroll horizontal empieza en la posicion 0 por defecto
+        self.rectSubimagen.top = 0
+
+    def update(self, scrollx, scrolly):
+        # Asegúrate de que scrollx no sea menor que 0 ni mayor que la anchura de la imagen menos la anchura de la pantalla
+        self.rectSubimagen.left = max(0, min(scrollx, self.imagen.get_width() - ANCHO_PANTALLA))
+        # Asegúrate de que scrolly no sea menor que 0 ni mayor que la altura de la imagen menos la altura de la pantalla
+        self.rectSubimagen.top = max(0, min(scrolly, self.imagen.get_height() - ALTO_PANTALLA))
 
     def dibujar(self, pantalla):
         pantalla.blit(self.imagen, self.rect, self.rectSubimagen)

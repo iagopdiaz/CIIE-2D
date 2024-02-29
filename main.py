@@ -16,6 +16,8 @@ def main():
     # Creamos el objeto reloj para sincronizar el juego
     reloj = pygame.time.Clock()
     fase = Fase()
+    fase.start_pos = None  # Posición inicial del rectángulo
+    fase.end_pos = None    # Posición final del rectángulo
 
     while True:
 
