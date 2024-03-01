@@ -2,10 +2,11 @@ import pygame, sys, os
 from pygame.locals import *
 from gestor_recursos import *
 from jugador import *
-from jugador import MiSprite
+from escena import *
 
 class Fase:
-    def __init__(self):
+    def __init__(self, director):
+        Escena.__init__(self, director)
 
         # Habria que pasarle como parámetro el número de fase, a partir del cual se cargue
         #  un fichero donde este la configuracion de esa fase en concreto, con cosas como

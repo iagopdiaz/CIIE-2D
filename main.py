@@ -4,42 +4,17 @@ from gestor_recursos import *
 from jugador import *
 from fase import *
 from settings import *
+from director import *
+from menu_principal import *
 
-def main():
-
-    # Inicializar pygame
+if __name__ == '__main__':
+    
     pygame.init()
 
-    # Crear la pantalla
-    pantalla = pygame.display.set_mode((ANCHO_PANTALLA, ALTO_PANTALLA), 0, 32)
-    colorFondo = (255, 255, 255)  # Color fondo
-    # Creamos el objeto reloj para sincronizar el juego
-    reloj = pygame.time.Clock()
-    fase = Fase()
-    fase.start_pos = None  # Posición inicial del rectángulo
-    fase.end_pos = None    # Posición final del rectángulo
-
-    while True:
-
-        # Sincronizar el juego a 60 fps
-        tiempo_pasado = reloj.tick(60)
-        pantalla.fill(colorFondo)
-        # Coge la lista de eventos y se la pasa a la escena
-        # Devuelve si se debe parar o no el juego
-        if (fase.eventos(pygame.event.get())):
-            pygame.quit()
-            sys.exit()
-        # Actualiza la escena
-        # Devuelve si se debe parar o no el juego
-        if (fase.update(tiempo_pasado)):
-            pygame.quit()
-            sys.exit()
-
-        # Se dibuja en pantalla
-        fase.dibujar(pantalla)
-        pygame.display.flip()
-
-
-
-if __name__ == "__main__":
-    main()
+    director = Director()
+    escena = Menu(director)
+    director.apilarEscena(escena)
+    
+    director.ejecutar()
+    
+    pygame.quit()
