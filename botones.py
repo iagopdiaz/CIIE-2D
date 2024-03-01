@@ -4,8 +4,7 @@ from escena import *
 from gestor_recursos import *
 from fase import *
 from menu_nivel import *
-from GUI import *
-from GUIElemento import *
+from GUIElemento import GUIElemento
 
 class Boton(GUIElemento):
     def __init__(self, pantalla, nombreImagen, posicion):

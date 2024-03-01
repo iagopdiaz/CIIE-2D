@@ -6,7 +6,6 @@ from fase import *
 from menu_nivel import *
 from GUIElemento import *
 from botones import *
-from GUI import *
 
 
 class GUIInicial(GUI):

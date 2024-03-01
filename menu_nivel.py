@@ -3,9 +3,21 @@ from pygame.locals import *
 from escena import *
 from gestor_recursos import *
 from fase import *
-from GUI import *
 from GUIElemento import *
 from botones import *
+
+class GUIInicial(GUI):
+    def __init__(self, menu):
+        GUI.__init__(self, menu, "menu/wallpaper.jpg")
+        botonFase1 = BotonNivel1(self)
+        botonFase2 = BotonNivel2(self)
+        botonFase3 = BotonNivel3(self)
+        botonAtras = BotonAtras(self)
+        self.GUIelementos.append(botonFase1)
+        self.GUIelementos.append(botonFase2)
+        self.GUIelementos.append(botonFase3)
+        self.GUIelementos.append(botonAtras)
+
 class BotonNivel1(Boton):
     def __init__(self, pantalla):
         Boton.__init__(self, pantalla, "menu/boton/nivel1.png", (100, 120))
