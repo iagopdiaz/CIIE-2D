@@ -3,9 +3,10 @@ from pygame.locals import *
 from escena import *
 from gestor_recursos import *
 from fase import *
-from GUI import *
 from GUIElemento import *
 from botones import *
+from GUI import *
+
 class BotonNivel1(Boton):
     def __init__(self, pantalla):
         Boton.__init__(self, pantalla, "menu/boton/nivel1.png", (100, 120))
@@ -37,7 +38,7 @@ class BotonAtras(Boton):
     def accion(self):
         self.pantalla.menu.ejecutarAtras()
 
-class MenuNivel(Escena):
+class MenuAjustes(Escena):
     def __init__(self, director):
         #Llamamos al constructor de la clase padre
         Escena.__init__(self, director)
