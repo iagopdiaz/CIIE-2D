@@ -4,7 +4,7 @@ from escena import *
 from gestor_recursos import *
 from fase import *
 from GUIElemento import *
-from botones import *
+from botones import GUI, Boton
 
 class GUIInicial(GUI):
     def __init__(self, menu):
