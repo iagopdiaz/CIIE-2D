@@ -4,6 +4,7 @@ from escena import *
 from gestor_recursos import *
 from fase import *
 from menu_nivel import *
+from menu_settings import * 
 from GUIElemento import *
 from botones import *
 
@@ -56,7 +57,7 @@ class Menu(Escena):
         self.director.apilarEscena(fase)
         
     def ejecutarAjustes(self):
-        ajustes = Fase(self.director)
+        ajustes = MenuAjustes(self.director)
         self.director.apilarEscena(ajustes)
         
     def ejecutarNivel(self):

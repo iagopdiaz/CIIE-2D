@@ -5,40 +5,17 @@ from gestor_recursos import *
 from fase import *
 from GUIElemento import *
 from botones import *
-from GUI import *
 
-class BotonNivel1(Boton):
-    def __init__(self, pantalla):
-        Boton.__init__(self, pantalla, "menu/boton/nivel1.png", (100, 120))
-    
-    def accion(self):
-        self.pantalla.menu.ejecutarNivel1()
-
-
-class BotonNivel2(Boton):
-    def __init__(self, pantalla):
-        Boton.__init__(self, pantalla, "menu/boton/nivel2.png", (100, 240))
-    
-    def accion(self):
-        self.pantalla.menu.ejecutarNivel2()
-
-
-class BotonNivel3(Boton):
-    def __init__(self, pantalla):
-        Boton.__init__(self, pantalla, "menu/boton/nivel3.png", (100, 360))
-    
-    def accion(self):
-        self.pantalla.menu.ejecutarNivel3()
-
-
-class BotonAtras(Boton):
-    def __init__(self, pantalla):
-        Boton.__init__(self, pantalla, "menu/boton/atras.png", (100, 480))
-    
-    def accion(self):
-        self.pantalla.menu.ejecutarAtras()
-
+class GUIInicial(GUI):
+    def __init__(self, menu):
+        GUI.__init__(self, menu, "menu/wallpaper.jpg")
+        botonPantallaCompleta = BotonPantallaCompleta(self)
+        botonAtras = BotonAtras(self)
+        self.GUIelementos.append(botonPantallaCompleta)
+        self.GUIelementos.append(botonAtras)
+        
 class MenuAjustes(Escena):
+    
     def __init__(self, director):
         #Llamamos al constructor de la clase padre
         Escena.__init__(self, director)
@@ -72,17 +49,9 @@ class MenuAjustes(Escena):
     def ejecutarSalir(self):
         self.director.salirPrograma()
 
-    def ejecutarNivel1(self):
-        fase1 = Fase(self.director)
-        self.director.cambiarEscena(fase1)
-    
-    def ejecutarNivel2(self):
-        fase2 = Fase(self.director)
-        self.director.cambiarEscena(fase2)
-    
-    def ejecutarNivel3(self):
-        fase3 = Fase(self.director)
-        self.director.cambiarEscena(fase3)
+    def ejecutarPantallaCompleta(self):
+        self.director.pantallaCompleta()
+
     
     def ejecutarAtras(self):
         self.director.salirEscena()

@@ -32,7 +32,7 @@ class BotonJugar(Boton):
 
 class BotonAjuste(Boton):
     def __init__(self, pantalla):
-        Boton.__init__(self, pantalla, "menu/boton/ajustes.png", (500, 500))
+        Boton.__init__(self, pantalla, "menu/boton/nivel.png", (300, 300))
     
     def accion(self):
         self.pantalla.menu.ejecutarAjustes()
@@ -51,7 +51,12 @@ class BotonSalir(Boton):
     def accion(self):
         self.pantalla.menu.ejecutarSalir()
 
-
+class BotonPantallaCompleta(Boton):
+    def __init__(self, pantalla):
+        Boton.__init__(self, pantalla, "menu/boton/salir.png", (100, 150))
+    
+    def accion(self):
+        self.pantalla.menu.ejecutarPantallaCompleta()
 
 class BotonAtras(Boton):
     def __init__(self, pantalla):
