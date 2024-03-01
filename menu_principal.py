@@ -2,6 +2,7 @@ import pygame
 from pygame.locals import *
 from escena import *
 from gestor_recursos import *
+from gestor_sonido import GestorSonido
 from fase import *
 from menu_nivel import *
 from menu_settings import * 
@@ -69,3 +70,6 @@ class Menu(Escena):
 
     def mostrarPantallaInicial(self):
         self.pantallaActual = 0
+    
+    def encender_musica(self):
+        GestorSonido.musica_nivel_1()      

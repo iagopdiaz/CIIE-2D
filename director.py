@@ -1,9 +1,6 @@
-import pygame, sys
-from escena import *
-from pygame.locals import *
+import pygame
 from settings import *
 from gestor_usuario import *
-
 class Director:
     """Representa el objeto principal del juego.
     
@@ -33,7 +30,7 @@ class Director:
             
         self.pila = []
         self.salir_escena = False
-        #Musica
+        self.musica = True
         self.reloj = pygame.time.Clock()
  
     def loop(self, escena):
@@ -69,13 +66,15 @@ class Director:
         while (len(self.pila) > 0):
             #Se coge la escena a ejecutar como la que este en la cima de la pila
             escena = self.pila[len(self.pila) - 1]
-            #if musica
+            if self.musica:
+                escena.encender_musica()
+                escena.musica = False
             #Ejecutamos el bucle de eventos hasta que termine la escena
             self.loop(escena)
 
-    def salirEscena(self):#(self,updateMuscia = True)
+    def salirEscena(self, actualizarMusica = True):
         #Indicamos en el flag que se quiere salir de la escena
-        #update music
+        self.musica = actualizarMusica
         self.salir_escena = True
         #Eliminamos la escena actual de la pila. La popeamos
         if (len(self.pila) > 0):
@@ -89,14 +88,14 @@ class Director:
         self.pila = []
         self.salir_escena = True
 
-    def cambiarEscena(self, escena):
-        #update music
+    def cambiarEscena(self, escena, actualizarMusica = True):
+        self.musica = actualizarMusica
         self.salirEscena()
         #Ponemos la escena en la cima de la pila eliminando la anterior
         self.pila.append(escena)
 
-    def apilarEscena(self, escena):
-        #update music
+    def apilarEscena(self, escena, actualizarMusica = True):
+        self.musica = actualizarMusica
         self.salir_escena = True
         #Ponemos la escena en la cima de la pila sin eliminar la anterior
         self.pila.append(escena)

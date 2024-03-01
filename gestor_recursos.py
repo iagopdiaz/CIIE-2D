@@ -59,9 +59,8 @@ class GestorRecursos(object):
                 datos = pfile.readlines()
             cls.recursos[nombre] = datos
             return datos    
-        
-
-
+    
+    
     @classmethod
     def CargarArchivoCoordenadasPartituras(cls, nombre):
         # Si el nombre de archivo está entre los recursos ya cargados
@@ -77,4 +76,4 @@ class GestorRecursos(object):
             # Se almacena
             cls.recursos[nombre] = datos
             # Se devuelve
-            return datos
+            return datos    

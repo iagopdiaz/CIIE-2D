@@ -13,14 +13,17 @@ class Escena:
     def __init__(self, director):
         self.director = director
  
-    def on_update(self):
+    def update(self):
         "Actualización lógica que se llama automáticamente desde el director."
         raise NotImplemented("Tiene que implementar el método on_update.")
  
-    def on_event(self, event):
+    def eventos(self, event):
         "Se llama cuando llega un evento especifico al bucle."
         raise NotImplemented("Tiene que implementar el método on_event.")
  
-    def on_draw(self, screen):
+    def dibujar(self, screen):
         "Se llama cuando se quiere dibujar la pantalla."
         raise NotImplemented("Tiene que implementar el método on_draw.")
+    def encender_musica(self):
+        "Se llama cuando se quiere encender la música."
+        raise NotImplemented("Tiene que implementar el método encender_musica.")

@@ -2,6 +2,7 @@ import pygame
 from pygame.locals import *
 from escena import *
 from gestor_recursos import *
+from gestor_sonido import GestorSonido
 from fase import *
 from GUIElemento import *
 from botones import GUI, Boton
@@ -100,3 +101,6 @@ class MenuNivel(Escena):
     
     def mostrarPantallaInicial(self):
         self.pantallaActual = 0
+        
+    def encender_musica(self):
+        GestorSonido.musica_nivel_1()    

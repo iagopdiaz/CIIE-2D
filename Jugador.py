@@ -12,7 +12,6 @@ class Jugador(Personaje):
         Personaje.__init__(self, archivoImagen, archivoCoordenadas, numImagenes, velocidadCarrera, velocidadSalto, retardoAnimacion)
         self.inventario = None
 
-
     def mover(self, teclasPulsadas, arriba, abajo, izquierda, derecha):
         # Indicamos la acción a realizar segun la tecla pulsada para el jugador
         if teclasPulsadas[arriba]:
@@ -25,7 +24,6 @@ class Jugador(Personaje):
             Personaje.mover(self,ABAJO)            
         else:
             Personaje.mover(self,QUIETO)
-
 
 class Alchemist(Jugador):
     "Personaje Alchemist"

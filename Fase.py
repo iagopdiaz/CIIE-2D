@@ -1,11 +1,12 @@
 import pygame, sys, os
 from pygame.locals import *
 from gestor_recursos import *
+from gestor_sonido import GestorSonido
 from jugador import *
 from escena import *
 from partitura import *
 
-class Fase:
+class Fase(Escena):
     def __init__(self, director):
         Escena.__init__(self, director)
 
@@ -177,6 +178,9 @@ class Fase:
         
         # No se sale del programa
         return False
+
+    def encender_musica(self):
+        GestorSonido.musica_nivel_1()
 
 class Plataforma(MiSprite):
     def __init__(self,rectangulo):
