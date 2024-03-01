@@ -59,3 +59,22 @@ class GestorRecursos(object):
                 datos = pfile.readlines()
             cls.recursos[nombre] = datos
             return datos    
+        
+
+
+    @classmethod
+    def CargarArchivoCoordenadasPartituras(cls, nombre):
+        # Si el nombre de archivo está entre los recursos ya cargados
+        if nombre in cls.recursos:
+            # Se devuelve ese recurso
+            return cls.recursos[nombre]
+        # Si no ha sido cargado anteriormente
+        else:
+            # Se carga el recurso indicando el nombre de su carpeta
+            fullname = os.path.join('imagenes', nombre)
+            with open(fullname, 'r') as pfile:
+                datos = pfile.read().splitlines()  # Divide los datos por las líneas
+            # Se almacena
+            cls.recursos[nombre] = datos
+            # Se devuelve
+            return datos

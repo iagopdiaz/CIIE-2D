@@ -3,6 +3,7 @@ from pygame.locals import *
 from gestor_recursos import *
 from jugador import *
 from escena import *
+from partitura import *
 
 class Fase:
     def __init__(self, director):
@@ -31,6 +32,22 @@ class Fase:
         self.jugador3 = Merchant()
         self.grupoJugadores = pygame.sprite.Group(self.jugador1, self.jugador2, self.jugador3)
 
+        # Cargamos las coordenadas donde se encuentran las partituras
+        datosPartituras = GestorRecursos.CargarArchivoCoordenadasPartituras('coordPartituras.txt')
+
+        # Creamos los sprites de las partituras
+        self.grupoPartituras = pygame.sprite.Group()
+
+        # Grupo con los nombres
+        nombres_partituras = ["Melodía de la Vida", "Arpegio de la Aurora", "Sinfonía del Silencio", "Rapsodia del Resplandor", "Concierto de los Cóndores", "Preludio de la Perdición", "Sonata del Susurro", "Interludio de la Ilusión", "Nocturno de la Niebla", "Fantasía de la Frontera"]
+
+        # Creamos cada partitura individualmente con su respectiva coordenada
+        for i, coords in enumerate(datosPartituras, start=1):
+            x, y = map(int, coords.split())
+            partitura = Partitura(i, f"partitura{i}.png", nombres_partituras[i-1]) #AQUI TIENEN QUE SER DIFERENTES IMAGENES - CORREGIR
+            partitura.establecerPosicion((x, y))
+            self.grupoPartituras.add(partitura)
+
         # Ponemos a los jugadores en sus posiciones iniciales
         self.jugador1.establecerPosicion((255, 530))
 
@@ -47,11 +64,11 @@ class Fase:
 
         # Inicializa los grupos de sprites como antes
         self.grupoSpritesDinamicos = pygame.sprite.Group(self.jugador_activo)  # Asumiendo que solo hay un jugador por simplicidad
-        self.grupoSprites = pygame.sprite.Group(self.jugador_activo, self.grupoPlataformas)                  
+        self.grupoSprites = pygame.sprite.Group(self.jugador_activo, self.grupoPlataformas, self.grupoPartituras)
     
     def update(self, tiempo):
 
-        self.grupoSpritesDinamicos.update(self.grupoPlataformas, tiempo)
+        self.grupoSpritesDinamicos.update(self.grupoPlataformas, self.grupoPartituras, tiempo)
         self.actualizarScroll()
 
         return False

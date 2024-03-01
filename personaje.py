@@ -93,8 +93,43 @@ class Personaje(MiSprite):
             elif self.mirando == ABAJO:
                 self.image = self.hoja.subsurface(self.coordenadasHoja[self.numPostura][self.numImagenPostura])
 
+    
+    def recoger_partitura(self, partitura):
+        if self.inventario:  # Si ya tiene una partitura en el inventario
+            self.soltar_partitura()  
+        posicion_fuera_pantalla = [-1000, -1000]  # Posición fuera de la pantalla
+        partitura.establecerPosicion(posicion_fuera_pantalla) # La partitura desaparece del mapa
+        self.inventario = partitura  # Recoge la nueva partitura
+        
+
+    def soltar_partitura(self):
+        # Define las posibles posiciones donde soltar la partitura
+        posibles_posiciones = [
+            (self.posicion[0] + 50, self.posicion[1]),      # Derecha
+            (self.posicion[0] - 50, self.posicion[1]),      # Izquierda
+            (self.posicion[0], self.posicion[1] - 50),      # Arriba
+            (self.posicion[0], self.posicion[1] + 50)       # Abajo
+        ]
+
+        for posicion in posibles_posiciones:
+            # Crea un rectángulo en la posible posición
+            futuro_rect = pygame.Rect(posicion[0], posicion[1], self.rect.width, self.rect.height)
+
+            # Comprueba si el rectángulo colisiona con alguna plataforma
+            if not any(futuro_rect.colliderect(plataforma.rect) for plataforma in self.grupoPlataformas):
+                # Si no colisiona, establece la posición de la partitura y la suelta
+                self.inventario.establecerPosicion(posicion)
+                self.inventario = None
+                return  # Devuelve la partitura soltada para que se pueda añadir al mapa
+
+        # Si todas las posibles posiciones están bloqueadas, no suelta la partitura
+        print("No se puede soltar la partitura, todas las posiciones están bloqueadas.") # Caso improbable por como tenemos las paredes colocadas
+
+
     # Metodo para actualizar el estado del personaje
-    def update(self, grupoPlataformas, tiempo):
+    def update(self, grupoPlataformas, grupoPartituras, tiempo):
+        self.grupoPlataformas = grupoPlataformas
+        
         velocidadx, velocidady = 0, 0
 
         # Segun el movimiento que este realizando, actualizamos su velocidad
@@ -124,12 +159,18 @@ class Personaje(MiSprite):
         # Y creamos un rectangulo con ella
         futuro_rect = pygame.Rect(futura_posicion_x, futura_posicion_y - self.rect.height, self.rect.width, self.rect.height)
 
-        #Imprimir la posicion del pixel izquierdo superior del rectangulo
-        print(f'x: {futura_posicion_x}, y: {futura_posicion_y}')
 
         # Comprobamos si al moverse se va a chocar con alguna plataforma
         if any(futuro_rect.colliderect(plataforma.rect) for plataforma in grupoPlataformas):
             velocidadx, velocidady = 0, 0
+
+        # Comprobamos si toca con alguna partitura
+        for partitura in grupoPartituras:
+            if futuro_rect.colliderect(partitura.rect):
+                if partitura != self.inventario:
+                    self.recoger_partitura(partitura)
+                    print("Partitura recogida")
+
 
         # Si no, actualizamos su posicion
         self.actualizarPostura()

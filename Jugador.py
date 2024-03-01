@@ -10,6 +10,7 @@ class Jugador(Personaje):
     def __init__(self, archivoImagen, archivoCoordenadas, numImagenes, velocidadCarrera, velocidadSalto, retardoAnimacion):
         # Invocamos al constructor de la clase padre con la configuracion de este personaje concreto
         Personaje.__init__(self, archivoImagen, archivoCoordenadas, numImagenes, velocidadCarrera, velocidadSalto, retardoAnimacion)
+        self.inventario = None
 
 
     def mover(self, teclasPulsadas, arriba, abajo, izquierda, derecha):
@@ -24,6 +25,7 @@ class Jugador(Personaje):
             Personaje.mover(self,ABAJO)            
         else:
             Personaje.mover(self,QUIETO)
+
 
 class Alchemist(Jugador):
     "Personaje Alchemist"

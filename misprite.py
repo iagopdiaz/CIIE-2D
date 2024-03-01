@@ -26,6 +26,7 @@ class MiSprite(pygame.sprite.Sprite):
         incrementoy = self.velocidad[1]*tiempo
         self.incrementarPosicion((incrementox, incrementoy))
 
+
     def establecerPosicionPantalla(self, scrollDecorado):
         self.scroll = scrollDecorado
         (scrollx, scrolly) = self.scroll
