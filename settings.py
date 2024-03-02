@@ -31,3 +31,5 @@ COS_45 = 0.707
 ANCHO_PANTALLA = 800
 ALTO_PANTALLA = 600
 TITULO = "El Laberinto de las Armonías"
+FUENTE1 = "fuentes/Perfect DOS VGA 437.ttf"
+TAMAÑO_FUENTE1 = 20

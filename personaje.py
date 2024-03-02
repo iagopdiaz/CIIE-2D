@@ -4,7 +4,6 @@ from gestor_recursos import *
 from settings import *
 from misprite import *
 
-
 class Personaje(MiSprite):
     "Cualquier personaje del juego"
 
@@ -19,7 +18,6 @@ class Personaje(MiSprite):
 
         # Primero invocamos al constructor de la clase padre
         MiSprite.__init__(self)
-
         # Se carga la hoja
         self.hoja = GestorRecursos.CargarImagen(archivoImagen, -1)
 
@@ -99,9 +97,9 @@ class Personaje(MiSprite):
             self.soltar_partitura()  
         posicion_fuera_pantalla = [-1000, -1000]  # Posición fuera de la pantalla
         partitura.establecerPosicion(posicion_fuera_pantalla) # La partitura desaparece del mapa
-        self.inventario = partitura  # Recoge la nueva partitura
+        self.inventario = partitura  # Recoge la nueva partitura 
+        #self.notify("partirura", self.inventario)
         
-
     def soltar_partitura(self):
         # Define las posibles posiciones donde soltar la partitura
         posibles_posiciones = [

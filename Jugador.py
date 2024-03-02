@@ -4,6 +4,7 @@ from gestor_recursos import *
 from settings import *
 from misprite import *
 from personaje import *
+#from observable import Observable
 
 class Jugador(Personaje):
     "Cualquier personaje del juego"
@@ -11,6 +12,7 @@ class Jugador(Personaje):
         # Invocamos al constructor de la clase padre con la configuracion de este personaje concreto
         Personaje.__init__(self, archivoImagen, archivoCoordenadas, numImagenes, velocidadCarrera, velocidadSalto, retardoAnimacion)
         self.inventario = None
+        #self.notify("Inventario", self.inventario)
 
     def mover(self, teclasPulsadas, arriba, abajo, izquierda, derecha):
         # Indicamos la acción a realizar segun la tecla pulsada para el jugador
@@ -25,20 +27,24 @@ class Jugador(Personaje):
         else:
             Personaje.mover(self,QUIETO)
 
-class Alchemist(Jugador):
+class Alchemist(Jugador):#and Observable
     "Personaje Alchemist"
-    def __init__(self):
+    def __init__(self):#and Observers
         # Invocamos al constructor de la clase padre con la configuracion de este personaje concreto
         Jugador.__init__(self,'Alchemist.png','coordJugador1.txt', [4, 4, 4, 4, 4, 4, 4, 4], VELOCIDAD_JUGADOR, VELOCIDAD_JUGADOR, RETARDO_ANIMACION_JUGADOR)
+        ##Observable.__init__(self, observers)
+        
 
-class Bartender(Jugador):
+class Bartender(Jugador):#and Observable
     "Personaje Alchemist"
-    def __init__(self):
+    def __init__(self):#and Observers
         # Invocamos al constructor de la clase padre con la configuracion de este personaje concreto
         Jugador.__init__(self,'Bartender.png','coordJugador2.txt', [4, 4, 4, 4, 4, 4, 4, 4], VELOCIDAD_JUGADOR, VELOCIDAD_JUGADOR, RETARDO_ANIMACION_JUGADOR)
+        #Observable.__init__(self, observers)
 
-class Merchant(Jugador):
+class Merchant(Jugador):#and Observable
     "Personaje Alchemist"
-    def __init__(self):
+    def __init__(self):#and Observers
         # Invocamos al constructor de la clase padre con la configuracion de este personaje concreto
         Jugador.__init__(self,'Merchant.png','coordJugador3.txt', [4, 4, 4, 4, 4, 4, 4, 4], VELOCIDAD_JUGADOR, VELOCIDAD_JUGADOR, RETARDO_ANIMACION_JUGADOR)
+        #Observable.__init__(self, observers)

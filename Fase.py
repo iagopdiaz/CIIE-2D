@@ -5,11 +5,12 @@ from gestor_sonido import GestorSonido
 from jugador import *
 from escena import *
 from partitura import *
+from interfaz_usuario import InterfazUsuario
 
 class Fase(Escena):
     def __init__(self, director):
         Escena.__init__(self, director)
-
+        #self.nivel = 1
         # Habria que pasarle como parámetro el número de fase, a partir del cual se cargue
         #  un fichero donde este la configuracion de esa fase en concreto, con cosas como
         #   - Nombre del archivo con el decorado
@@ -27,10 +28,13 @@ class Fase(Escena):
         #  Si ademas lo hubiese vertical, seria self.scroll = (0, 0)
         self.decorado = Decorado()
         self.muros = Muros()
+        self.interfazUsuario = InterfazUsuario()
         # Creamos los sprites de los jugadores
         self.jugador1 = Alchemist()
         self.jugador2 = Bartender()
         self.jugador3 = Merchant()
+        #Definir los 3 jugadores con sus observadores 
+        
         self.grupoJugadores = pygame.sprite.Group(self.jugador1, self.jugador2, self.jugador3)
 
         # Cargamos las coordenadas donde se encuentran las partituras
@@ -116,6 +120,7 @@ class Fase(Escena):
         self.decorado.dibujar(pantalla)
         self.muros.dibujar(pantalla)
         self.grupoSprites.draw(pantalla)
+        self.interfazUsuario.dibujar(pantalla)
 
     def cambiar_jugador(self):
         

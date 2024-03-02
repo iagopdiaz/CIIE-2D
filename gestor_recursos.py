@@ -3,7 +3,8 @@ from pygame.locals import *
 
 # Clase GestorRecursos
 # Deberia ser singleton
-class GestorRecursos(object):
+class GestorRecursos:
+    
     recursos = {}
             
     @classmethod
@@ -77,3 +78,14 @@ class GestorRecursos(object):
             cls.recursos[nombre] = datos
             # Se devuelve
             return datos    
+        
+    def CargarFuente(self,fuente,tamano):
+        #Cargar fuente y tamaño. Habria que comprobar si ya ha sido cargada
+        try:
+            fuente = pygame.font.Font(fuente,tamano)
+        except (pygame.error):
+            print('Cannot load font: ', fuente)
+            raise SystemExit
+        
+        return fuente
+        
