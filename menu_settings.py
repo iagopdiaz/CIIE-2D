@@ -11,8 +11,12 @@ class GUIInicial(GUI):
     def __init__(self, menu):
         GUI.__init__(self, menu, "menu/wallpaper.jpg")
         botonPantallaCompleta = BotonPantallaCompleta(self)
+        botonVolumenMusica = BotonVolumenMusica(self)
+        botonVolumenEfectos= BotonVolumenEfectos(self)
         botonAtras = BotonAtras(self)
         self.GUIelementos.append(botonPantallaCompleta)
+        self.GUIelementos.append(botonVolumenMusica)
+        self.GUIelementos.append(botonVolumenEfectos)
         self.GUIelementos.append(botonAtras)
         
 class MenuAjustes(Escena):
@@ -53,7 +57,12 @@ class MenuAjustes(Escena):
     def ejecutarPantallaCompleta(self):
         self.director.pantallaCompleta()
 
+    def ejecutarvolumenMusica(self):
+        self.director.volumenMusica()
     
+    def ejecutarVolumenEfectos(self):
+        self.director.volumenEfectos()    
+        
     def ejecutarAtras(self):
         self.director.salirEscena()
     

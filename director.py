@@ -107,4 +107,10 @@ class Director:
         self.salir_escena = True
         #Ponemos la escena en la cima de la pila sin eliminar la anterior
         self.pila.append(escena)
+        
+    def volumenMusica(self):
+        pass
+    
+    def volumenEfectos(self):
+        pass    
 
