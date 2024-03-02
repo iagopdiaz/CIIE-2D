@@ -1,6 +1,8 @@
-import pygame
+import pygame, sys
 from settings import *
 from gestor_usuario import *
+from escena import *
+
 class Director:
     """Representa el objeto principal del juego.
     
@@ -15,10 +17,10 @@ class Director:
     
     """
  
-    def __init__(self):
+    def __init__(self):          
+        pygame.init()
         self.screen = pygame.display.set_mode((ANCHO_PANTALLA, ALTO_PANTALLA))
         pygame.display.set_caption(TITULO)
-        
         #Configuracion Pantalla Completa
         self.pC = False
         try: 
@@ -27,7 +29,7 @@ class Director:
             pass       
         if self.pC:
             pygame.display.toggle_fullscreen()
-            
+             
         self.pila = []
         self.salir_escena = False
         self.musica = True
@@ -39,16 +41,18 @@ class Director:
         #Eliminamos todos los eventos producidos antes de entrar en el bucle
         pygame.event.clear()
         while not self.salir_escena:
-            #Si se produce un evento de salir del juego, salimos ------------> ESTO NO VA AQUI HAY QUE CAMBIARLO
+            #Si se produce un evento de salir del juego, salimos
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     self.salirPrograma()
             #Sincronizar el juego a 60 fps
             tiempo_pasado = self.reloj.tick(60)
-            #Pasamos los eventos a la escena
-            escena.eventos(pygame.event.get())
-            #Actualiza la escena 
-            escena.update(tiempo_pasado)
+            if (escena.eventos(pygame.event.get())):
+                self.salirPrograma()
+            # Actualiza la escena
+            # Devuelve si se debe parar o no el juego
+            if (escena.update(tiempo_pasado)):
+                self.salirPrograma()
             #Se dibuja en pantalla
             escena.dibujar(self.screen)
             pygame.display.flip()
@@ -63,14 +67,18 @@ class Director:
     
     def ejecutar(self):
         #Mientras haya escenas en la pila, ejecutamos la de arriba
+            
         while (len(self.pila) > 0):
             #Se coge la escena a ejecutar como la que este en la cima de la pila
             escena = self.pila[len(self.pila) - 1]
             if self.musica:
                 escena.encender_musica()
                 escena.musica = False
-            #Ejecutamos el bucle de eventos hasta que termine la escena
+                
             self.loop(escena)
+
+        pygame.quit()
+        sys.exit()
 
     def salirEscena(self, actualizarMusica = True):
         #Indicamos en el flag que se quiere salir de la escena

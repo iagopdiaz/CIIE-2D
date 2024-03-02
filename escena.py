@@ -1,3 +1,5 @@
+import pygame
+
 ANCHO_PANTALLA = 800
 ALTO_PANTALLA = 600
 
@@ -27,3 +29,12 @@ class Escena:
     def encender_musica(self):
         "Se llama cuando se quiere encender la música."
         raise NotImplemented("Tiene que implementar el método encender_musica.")
+    
+class EscenaPygame(Escena):
+
+    def __init__(self, director):
+        Escena.__init__(self, director)
+        # Inicializamos la libreria de pygame (si no esta inicializada ya)
+        pygame.init()
+        # Creamos la pantalla (si no esta creada ya)
+        self.screen = pygame.display.set_mode((ANCHO_PANTALLA, ALTO_PANTALLA))

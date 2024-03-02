@@ -6,9 +6,7 @@ from gestor_usuario import GestorUsuario
 from gestor_sonido import GestorSonido
 
 if __name__ == '__main__':
-    
-    pygame.init()
-    
+ 
     GestorUsuario.init()
     GestorSonido.init()
 
@@ -17,5 +15,3 @@ if __name__ == '__main__':
     director.apilarEscena(menu)
     
     director.ejecutar()
-    
-    pygame.quit()
