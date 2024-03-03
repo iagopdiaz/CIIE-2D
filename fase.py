@@ -160,7 +160,7 @@ class Fase(Escena):
                     self.cambiar_jugador()
                     # No necesitas continuar el bucle después de cambiar de jugador
                     continue
-            """
+
             elif evento.type == pygame.MOUSEBUTTONDOWN:
                 if evento.button == 1:  # Botón izquierdo del ratón
                 # Ajustar las posiciones iniciales con el desplazamiento actual
@@ -176,7 +176,7 @@ class Fase(Escena):
                     alto = abs(self.start_pos[1] - self.end_pos[1])
                     print(f'x: {x}, y: {y}, ancho: {ancho}, alto: {alto}')
                     with open('./imagenes/mapa/coordPlataformas.txt', 'a') as archivo:
-                        archivo.write(f'{int(x)} {int(y)} {int(ancho)} {int(alto)}\n')"""
+                        archivo.write(f'{int(x)} {int(y)} {int(ancho)} {int(alto)}\n')
 
         # Indicamos la acción a realizar segun la tecla pulsada para cada jugador
         teclasPulsadas = pygame.key.get_pressed()

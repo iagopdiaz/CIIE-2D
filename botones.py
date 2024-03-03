@@ -11,7 +11,6 @@ class Boton(GUIElemento):
     def __init__(self, pantalla, nombreImagen, posicion):
         #Se carga la imagen del boton
         self.imagen = GestorRecursos.CargarImagen(nombreImagen, -1)
-        self.imagen = pygame.transform.scale(self.imagen, (160, 32))
         self.rect = self.imagen.get_rect()
 
         #Se llama al metodo de la clase padre con el rectangulo que ocupa el boton
@@ -57,7 +56,7 @@ class BotonSalir(Boton):
 
 class BotonPantallaCompleta(Boton):
     def __init__(self, pantalla):
-        Boton.__init__(self, pantalla, "menu/boton/salir.png", (100, 150))
+        Boton.__init__(self, pantalla, "menu/boton/pantalla_completa.png", (100, 150))
     
     def accion(self):
         self.pantalla.menu.ejecutarPantallaCompleta()
