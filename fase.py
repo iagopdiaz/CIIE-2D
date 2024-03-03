@@ -222,21 +222,5 @@ class Decorado:
         # Asegúrate de que scrolly no sea menor que 0 ni mayor que la altura de la imagen menos la altura de la pantalla
         self.rectSubimagen.top = max(0, min(scrolly, self.imagen.get_height() - ALTO_PANTALLA))
 
-        keys = pygame.key.get_pressed()
-        # Pausar pulsando P (y quitar la pausa pulsando Esc)
-        if keys[pygame.K_p]:
-            self.pausar()
-
-    def pausar(self):
-        pausado = True
-        while pausado:
-            for event in pygame.event.get():
-                if event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_ESCAPE:
-                        pausado = False
-                if event.type == pygame.QUIT:
-                    pausado = False
-                    pygame.quit()
-
     def dibujar(self, pantalla):
         pantalla.blit(self.imagen, self.rect, self.rectSubimagen)
