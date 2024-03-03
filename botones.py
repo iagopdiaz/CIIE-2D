@@ -6,6 +6,7 @@ from fase import *
 from menu_nivel import *
 from GUIElemento import GUIElemento
 
+
 class Boton(GUIElemento):
     def __init__(self, pantalla, nombreImagen, posicion):
         #Se carga la imagen del boton
@@ -24,60 +25,47 @@ class Boton(GUIElemento):
 
 class BotonJugar(Boton):
     def __init__(self, pantalla):
-        Boton.__init__(self, pantalla, "menu/boton/jugar.png", (ANCHO_PANTALLA/8, (ALTO_PANTALLA/5) ))
+        Boton.__init__(self, pantalla, "menu/boton/jugar.png", (100, 120))
     
     def accion(self):
         self.pantalla.menu.ejecutarJugar()
 
-        
+
 class BotonNivel(Boton):
     def __init__(self, pantalla):
-        Boton.__init__(self, pantalla, "menu/boton/nivel.png", (ANCHO_PANTALLA/8, (ALTO_PANTALLA/5) + (ALTO_PANTALLA/5)*1))
+        Boton.__init__(self, pantalla, "menu/boton/nivel.png", (100, 240))
     
     def accion(self):
         self.pantalla.menu.ejecutarNivel()
-        
+
 
 class BotonAjuste(Boton):
     def __init__(self, pantalla):
-        Boton.__init__(self, pantalla, "menu/boton/ajustes.png", (ANCHO_PANTALLA/8, (ALTO_PANTALLA/5) + (ALTO_PANTALLA/5)*2))
+        Boton.__init__(self, pantalla, "menu/boton/ajustes.png", (100, 360))
     
     def accion(self):
         self.pantalla.menu.ejecutarAjustes()
-        
+
+
 class BotonSalir(Boton):
     def __init__(self, pantalla):
-        Boton.__init__(self, pantalla, "menu/boton/salir.png", (ANCHO_PANTALLA/8, (ALTO_PANTALLA/5) + (ALTO_PANTALLA/5)*3))
+        Boton.__init__(self, pantalla, "menu/boton/salir.png", (100, 480))
     
     def accion(self):
         self.pantalla.menu.ejecutarSalir()
 
+
 class BotonPantallaCompleta(Boton):
     def __init__(self, pantalla):
-        Boton.__init__(self, pantalla, "menu/boton/pantalla_completa.png", (ANCHO_PANTALLA/8, (ALTO_PANTALLA/5)))
+        Boton.__init__(self, pantalla, "menu/boton/salir.png", (100, 150))
     
     def accion(self):
         self.pantalla.menu.ejecutarPantallaCompleta()
 
-class BotonVolumenMusica(Boton):
-    def __init__(self, pantalla):
-        Boton.__init__(self, pantalla, "menu/boton/volumen_musica.png", (ANCHO_PANTALLA/8, (ALTO_PANTALLA/5) + (ALTO_PANTALLA/5)*1))
-    
-    def accion(self):
-        self.pantalla.menu.ejecutarvolumenMusica()        
-        
-class BotonVolumenEfectos(Boton):
-    def __init__(self, pantalla):
-        Boton.__init__(self, pantalla, "menu/boton/volumen_efectos.png", (ANCHO_PANTALLA/8, (ALTO_PANTALLA/5) + (ALTO_PANTALLA/5)*2))
-    
-    def accion(self):
-        self.pantalla.menu.ejecutarVolumenEfectos()        
 
 class BotonAtras(Boton):
     def __init__(self, pantalla):
-        Boton.__init__(self, pantalla, "menu/boton/atras.png", (ANCHO_PANTALLA/8, (ALTO_PANTALLA/5) + (ALTO_PANTALLA/5)*3))
+        Boton.__init__(self, pantalla, "menu/boton/atras.png", (100, 480))
     
     def accion(self):
         self.pantalla.menu.ejecutarAtras()
-
-

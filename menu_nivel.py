@@ -7,6 +7,7 @@ from fase import *
 from GUIElemento import *
 from botones import GUI, Boton
 
+
 class GUIInicial(GUI):
     def __init__(self, menu):
         GUI.__init__(self, menu, "menu/wallpaper.jpg")
@@ -18,6 +19,7 @@ class GUIInicial(GUI):
         self.GUIelementos.append(botonFase2)
         self.GUIelementos.append(botonFase3)
         self.GUIelementos.append(botonAtras)
+
 
 class BotonNivel1(Boton):
     def __init__(self, pantalla):
@@ -49,6 +51,7 @@ class BotonAtras(Boton):
     
     def accion(self):
         self.pantalla.menu.ejecutarAtras()
+
 
 class MenuNivel(Escena):
     def __init__(self, director):
@@ -103,4 +106,5 @@ class MenuNivel(Escena):
         self.pantallaActual = 0
         
     def encender_musica(self):
-        GestorSonido.musica_nivel_1()    
+        GestorSonido.musica_nivel_1()
+

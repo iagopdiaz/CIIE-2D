@@ -5,6 +5,7 @@ from gestor_recursos import *
 from fase import *
 from menu_nivel import *
 
+
 class GUIElemento:
     def __init__(self, pantalla, rectangulo):
         self.pantalla = pantalla
@@ -27,7 +28,6 @@ class GUIElemento:
     
     def accion(self):
         raise NotImplemented("Metodo accion no implementado.")
-
 
 
 class GUI:
@@ -57,5 +57,3 @@ class GUI:
         for elemento in self.GUIelementos:
             elemento.dibujar(pantalla)
             
-            
-
