@@ -72,4 +72,4 @@ class Menu(Escena):
         self.pantallaActual = 0
     
     def encender_musica(self):
-        GestorSonido.musica_menus()      
+        GestorSonido.musica_menu_principal()      

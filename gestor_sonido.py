@@ -35,6 +35,12 @@ class GestorSonido:
         pygame.mixer.music.play(-1)
     
     @classmethod
+    def musica_menu_principal(self):
+        pygame.mixer.music.load(MUSICA_MENU_PRINCIPAL)
+        self.poner_volumen_musica(self,self.sonido_musica)
+        pygame.mixer.music.play(-1)
+    
+    @classmethod
     def musica_menus(self):
         pygame.mixer.music.load(MUSICA_MENUS)
         self.poner_volumen_musica(self,self.sonido_musica)
