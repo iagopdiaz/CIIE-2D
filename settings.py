@@ -24,7 +24,10 @@ RETARDO_ANIMACION_JUGADOR = 15 # updates que durará cada imagen del personaje
                               
 CONFIGURACION_USUARIO = 'configuracion_user.json'                              
 
-MUSICA_NIVEL_1 = 'Musica/nivel1.ogg' 
+MUSICA_NIVEL_1 = 'Musica/nivel1.ogg'
+MUSICA_NIVEL_2 = 'Musica/nivel2.ogg'
+MUSICA_NIVEL_3 = 'Musica/nivel3.ogg'
+MUSICA_MENUS = 'Musica/menus.ogg'
 
 GRAVEDAD = 0.0003 # Píxeles / ms2
 COS_45 = 0.707 
