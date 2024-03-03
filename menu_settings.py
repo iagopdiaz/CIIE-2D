@@ -54,7 +54,6 @@ class MenuAjustes(Escena):
 
     def ejecutarPantallaCompleta(self):
         self.director.pantallaCompleta()
-
     
     def ejecutarAtras(self):
         self.director.salirEscena()

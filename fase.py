@@ -30,9 +30,9 @@ class Fase(Escena):
         self.muros = Muros()
         self.interfazUsuario = InterfazUsuario()
         # Creamos los sprites de los jugadores
-        self.jugador1 = Alchemist()
-        self.jugador2 = Bartender()
-        self.jugador3 = Merchant()
+        self.jugador1 = PrimerPersonaje()
+        self.jugador2 = SegundoPersonaje()
+        self.jugador3 = TercerPersonaje()
         #Definir los 3 jugadores con sus observadores 
         
         self.grupoJugadores = pygame.sprite.Group(self.jugador1, self.jugador2, self.jugador3)
