@@ -27,7 +27,6 @@ class Fase(Escena):
         #  En ese caso solo hay scroll horizontal
         #  Si ademas lo hubiese vertical, seria self.scroll = (0, 0)
         self.decorado = Decorado()
-        self.muros = Muros()
         self.interfazUsuario = InterfazUsuario()
         # Creamos los sprites de los jugadores
         self.jugador1 = PrimerPersonaje()
@@ -111,14 +110,12 @@ class Fase(Escena):
 
         # Además, actualizamos el decorado para que se muestre una parte distinta
         self.decorado.update(self.scrollx, self.scrolly)
-        self.muros.update(self.scrollx, self.scrolly)
 
 
 
     def dibujar(self, pantalla):
         # Luego los Sprites
         self.decorado.dibujar(pantalla)
-        self.muros.dibujar(pantalla)
         self.grupoSprites.draw(pantalla)
         self.interfazUsuario.dibujar(pantalla)
 
@@ -198,17 +195,6 @@ class Plataforma(MiSprite):
         self.establecerPosicion((self.rect.left, self.rect.bottom))
         # En el caso particular de este juego, las plataformas no se van a ver, asi que no se carga ninguna imagen
         self.image = pygame.Surface((0, 0))
-
-class Muros:
-    def __init__(self):
-        self.imagen = GestorRecursos.CargarImagen('mapa/mapa1paredes.png', -1)
-       
-        self.rect = self.imagen.get_rect()
-        
-        # La subimagen que estamos viendo
-        self.rectSubimagen = pygame.Rect(0, 0, ANCHO_PANTALLA, ALTO_PANTALLA)
-        self.rectSubimagen.left = 0 # El scroll horizontal empieza en la posicion 0 por defecto
-        self.rectSubimagen.top = 0
 
     def update(self, scrollx, scrolly):
         # Asegúrate de que scrollx no sea menor que 0 ni mayor que la anchura de la imagen menos la anchura de la pantalla
