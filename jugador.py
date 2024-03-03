@@ -31,15 +31,15 @@ class PrimerPersonaje(Jugador):#and Observable
     "Personaje Bartender"
     def __init__(self):#and Observers
         # Invocamos al constructor de la clase padre con la configuracion de este personaje concreto
-        Jugador.__init__(self,'Bartender.png','coordJugador1.txt', [4, 4, 4, 4, 4, 4, 4, 4], VELOCIDAD_JUGADOR, VELOCIDAD_JUGADOR, RETARDO_ANIMACION_JUGADOR)
+        Jugador.__init__(self,'Alchemist.png','coordJugador1.txt', [4, 4, 4, 4, 4, 4, 4, 4], VELOCIDAD_JUGADOR, VELOCIDAD_JUGADOR, RETARDO_ANIMACION_JUGADOR)
         ##Observable.__init__(self, observers)
         
 
 class SegundoPersonaje(Jugador):#and Observable
-    "Personaje Bartender2"
+    "Personaje Bartender"
     def __init__(self):#and Observers
         # Invocamos al constructor de la clase padre con la configuracion de este personaje concreto
-        Jugador.__init__(self,'Bartender2.png','coordJugador2.txt', [4, 4, 4, 4, 4, 4, 4, 4], VELOCIDAD_JUGADOR, VELOCIDAD_JUGADOR, RETARDO_ANIMACION_JUGADOR)
+        Jugador.__init__(self,'Bartender.png','coordJugador2.txt', [4, 4, 4, 4, 4, 4, 4, 4], VELOCIDAD_JUGADOR, VELOCIDAD_JUGADOR, RETARDO_ANIMACION_JUGADOR)
         #Observable.__init__(self, observers)
 
 class TercerPersonaje(Jugador):#and Observable
