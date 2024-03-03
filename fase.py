@@ -38,7 +38,7 @@ class Fase(Escena):
         self.grupoJugadores = pygame.sprite.Group(self.jugador1, self.jugador2, self.jugador3)
 
         # Cargamos las coordenadas donde se encuentran las partituras
-        datosPartituras = GestorRecursos.CargarArchivoCoordenadasPartituras('coordPartituras.txt')
+        datosPartituras = GestorRecursos.CargarArchivoCoordenadasPartituras('mapa/coordPartituras.txt')
 
         # Creamos los sprites de las partituras
         self.grupoPartituras = pygame.sprite.Group()
@@ -175,7 +175,7 @@ class Fase(Escena):
                     ancho = abs(self.start_pos[0] - self.end_pos[0])
                     alto = abs(self.start_pos[1] - self.end_pos[1])
                     print(f'x: {x}, y: {y}, ancho: {ancho}, alto: {alto}')
-                    with open('./imagenes/coordPlataformas.txt', 'a') as archivo:
+                    with open('./imagenes/mapa/coordPlataformas.txt', 'a') as archivo:
                         archivo.write(f'{int(x)} {int(y)} {int(ancho)} {int(alto)}\n')"""
 
         # Indicamos la acción a realizar segun la tecla pulsada para cada jugador
@@ -201,7 +201,7 @@ class Plataforma(MiSprite):
 
 class Muros:
     def __init__(self):
-        self.imagen = GestorRecursos.CargarImagen('mapa1paredes.png', -1)
+        self.imagen = GestorRecursos.CargarImagen('mapa/mapa1paredes.png', -1)
        
         self.rect = self.imagen.get_rect()
         
@@ -221,7 +221,7 @@ class Muros:
 
 class Decorado:
     def __init__(self):
-        self.imagen = GestorRecursos.CargarImagen('mapa1decorado.png')
+        self.imagen = GestorRecursos.CargarImagen('mapa/mapa1decorado.png')
 
         self.rect = self.imagen.get_rect()
         

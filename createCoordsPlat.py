@@ -11,7 +11,7 @@ pygame.display.set_caption("Herramienta de Selección de Plataformas")
 color_fondo = (173, 216, 230)  # Azul claro (Light Blue)
 
 # Cargar la imagen de fondo
-fondo = pygame.image.load('./imagenes/mapa1paredes.png')  # Asegúrate de que el camino a la imagen es correcto
+fondo = pygame.image.load('./imagenes/mapa/mapa1paredes.png')  # Asegúrate de que el camino a la imagen es correcto
 rect = fondo.get_rect()
 # La subimagen que estamos viendo
 rectSubimagen = pygame.Rect(0, 0, 1600, 1024)

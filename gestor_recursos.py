@@ -41,7 +41,7 @@ class GestorRecursos:
         # Si no ha sido cargado anteriormente
         else:
             # Se carga el recurso indicando el nombre de su carpeta
-            fullname = os.path.join('imagenes', nombre)
+            fullname = os.path.join('imagenes/mapa', nombre)
             pfile=open(fullname,'r')
             datos=pfile.read()
             pfile.close()
@@ -55,7 +55,7 @@ class GestorRecursos:
         if nombre in cls.recursos:
             return cls.recursos[nombre]
         else:
-            fullname = os.path.join('imagenes', nombre)  # Asegúrate de que el archivo esté en la carpeta correcta
+            fullname = os.path.join('imagenes/mapa', nombre)  # Asegúrate de que el archivo esté en la carpeta correcta
             with open(fullname, 'r') as pfile:
                 datos = pfile.readlines()
             cls.recursos[nombre] = datos
