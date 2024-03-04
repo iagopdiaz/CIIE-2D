@@ -99,30 +99,49 @@ class Personaje(MiSprite):
         partitura.establecerPosicion(posicion_fuera_pantalla) # La partitura desaparece del mapa
         self.inventario = partitura  # Recoge la nueva partitura 
         #self.notify("partirura", self.inventario)
-        
+
     def soltar_partitura(self):
-        # Define las posibles posiciones donde soltar la partitura
-        posibles_posiciones = [
-            (self.posicion[0] + 50, self.posicion[1]),      # Derecha
-            (self.posicion[0] - 50, self.posicion[1]),      # Izquierda
-            (self.posicion[0], self.posicion[1] - 50),      # Arriba
-            (self.posicion[0], self.posicion[1] + 50)       # Abajo
-        ]
+        # Definición de las posiciones en función de la dirección
+        posiciones_por_direccion = {
+            IZQUIERDA : (50, 0),    # Si está mirando a la derecha, mueve 50 unidades en el eje x
+            DERECHA : (-50, 0),   # Si está mirando a la izquierda, mueve -50 unidades en el eje x
+            ARRIBA : (0, 50),      # Si está mirando arriba, mueve -50 unidades en el eje y
+            ABAJO : (0, -50)       # Si está mirando abajo, mueve 50 unidades en el eje y
+        }
 
-        for posicion in posibles_posiciones:
-            # Crea un rectángulo en la posible posición
-            futuro_rect = pygame.Rect(posicion[0], posicion[1], self.rect.width, self.rect.height)
+        # Obtén las coordenadas según la dirección actual
+        dx, dy = posiciones_por_direccion.get(self.mirando, (0, 0))
+        nueva_posicion = (self.posicion[0] + dx, self.posicion[1] + dy)
 
-            # Comprueba si el rectángulo colisiona con alguna plataforma
-            if not any(futuro_rect.colliderect(plataforma.rect) for plataforma in self.grupoPlataformas):
-                # Si no colisiona, establece la posición de la partitura y la suelta
-                self.inventario.establecerPosicion(posicion)
-                self.inventario = None
-                return  # Devuelve la partitura soltada para que se pueda añadir al mapa
+        # Prueba en la dirección actual
+        print("PRIMERA" + f"{dx}" + f"{dy}")
+        if self._puede_soltar_partitura(nueva_posicion):
+            return
+
+        # Prueba en las otras direcciones
+        for direccion in posiciones_por_direccion:
+            if direccion != self.mirando:
+                dx, dy = posiciones_por_direccion[direccion]
+                nueva_posicion = (self.posicion[0] + dx, self.posicion[1] + dy)
+                print(nueva_posicion)
+                if self._puede_soltar_partitura(nueva_posicion):
+                    return
 
         # Si todas las posibles posiciones están bloqueadas, no suelta la partitura
-        print("No se puede soltar la partitura, todas las posiciones están bloqueadas.") # Caso improbable por como tenemos las paredes colocadas
+        print("No se puede soltar la partitura, todas las posiciones están bloqueadas.")  # Caso improbable por cómo tenemos las paredes colocadas
 
+    def _puede_soltar_partitura(self, posicion):
+        # Crea un rectángulo en la posible posición
+        futuro_rect = pygame.Rect(posicion[0], posicion[1], self.rect.width, self.rect.height)
+
+        # Comprueba si el rectángulo colisiona con alguna plataforma
+        if not any(futuro_rect.colliderect(plataforma.rect) for plataforma in self.grupoPlataformas):
+            # Si no colisiona, establece la posición de la partitura y la suelta
+            self.inventario.establecerPosicion(posicion)
+            self.inventario = None
+            return True  # Devuelve True si pudo soltar la partitura
+
+        return False
 
     # Metodo para actualizar el estado del personaje
     def update(self, grupoPlataformas, grupoPartituras, tiempo):
