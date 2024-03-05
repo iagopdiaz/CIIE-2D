@@ -48,8 +48,8 @@ class Puerta(MiSprite):
         self.contador_retardo = 0
 
 
-    def update(self, grupoPlataformas, grupoPartituras, grupoPuertas, tiempo):
-        # Si la puerta está abierta
+    def update(self, grupoPlataformas, grupoPartituras, grupoPuertas, tiempo):#CORREGIR -> No se si la animacion va aqui creo que no
+        # Si la puerta está abierta no hacemos nada                           #CORREGIR: abierto=True cuando acaba la animacion
         if self.abierta:
             # Disminuimos el frame actual para abrir la puerta
             self.contador_retardo += 1

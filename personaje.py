@@ -14,7 +14,7 @@ class Personaje(MiSprite):
     #  Velocidad de caminar y de salto
     #  Retardo para mostrar la animacion del personaje
     
-    def __init__(self, archivoImagen, archivoCoordenadas, numImagenes, velocidadCarrera, velocidadSalto, retardoAnimacion):
+    def __init__(self, archivoImagen, archivoCoordenadas, numImagenes, velocidadX, velocidadY, retardoAnimacion):
 
         # Primero invocamos al constructor de la clase padre
         MiSprite.__init__(self)
@@ -51,8 +51,8 @@ class Personaje(MiSprite):
         self.rect = pygame.Rect(100,100,self.coordenadasHoja[self.numPostura][self.numImagenPostura][2],self.coordenadasHoja[self.numPostura][self.numImagenPostura][3])
 
         # Las velocidades de caminar y salto
-        self.velocidadCarrera = velocidadCarrera
-        self.velocidadSalto = velocidadSalto
+        self.velocidadX = velocidadX
+        self.velocidadY = velocidadY
 
         # El retardo en la animacion del personaje (podria y deberia ser distinto para cada postura)
         self.retardoAnimacion = retardoAnimacion
@@ -147,7 +147,7 @@ class Personaje(MiSprite):
                     return
 
         # Si todas las posibles posiciones están bloqueadas, no suelta la partitura
-        print("No se puede soltar la partitura, todas las posiciones están bloqueadas.")  # Caso improbable por cómo tenemos las paredes colocadas
+        print("No se puede soltar la partitura, todas las posiciones están bloqueadas.")  # CORREGIR -------> improbable por cómo tenemos las paredes colocadas
 
     def _puede_soltar_partitura(self, posicion):
         # Ajusta las coordenadas de la partitura en función del desplazamiento de la pantalla
@@ -178,16 +178,16 @@ class Personaje(MiSprite):
 
             if self.movimiento == IZQUIERDA:
                 self.numPostura = SPRITE_ANDANDO_IZQ
-                velocidadx = -self.velocidadCarrera
+                velocidadx = -self.velocidadX
             elif self.movimiento == DERECHA:
                 self.numPostura = SPRITE_ANDANDO_DER
-                velocidadx = self.velocidadCarrera
+                velocidadx = self.velocidadX
             elif self.movimiento == ARRIBA:
                 self.numPostura = SPRITE_ARRIBA
-                velocidady = -self.velocidadSalto
+                velocidady = -self.velocidadY
             elif self.movimiento == ABAJO:
                 self.numPostura = SPRITE_ABAJO
-                velocidady = self.velocidadSalto
+                velocidady = self.velocidadY
 
         elif self.movimiento == QUIETO:
             self.numPostura = SPRITE_QUIETO if self.mirando == SPRITE_ABAJO else self.mirando
