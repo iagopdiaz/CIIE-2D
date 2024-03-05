@@ -63,7 +63,7 @@ class GestorRecursos:
     
     
     @classmethod
-    def CargarArchivoCoordenadasPartituras(cls, nombre):
+    def CargarPartituras(cls, nombre):
         # Si el nombre de archivo está entre los recursos ya cargados
         if nombre in cls.recursos:
             # Se devuelve ese recurso
@@ -71,13 +71,38 @@ class GestorRecursos:
         # Si no ha sido cargado anteriormente
         else:
             # Se carga el recurso indicando el nombre de su carpeta
-            fullname = os.path.join('imagenes', nombre)
+            fullname = os.path.join('imagenes/mapa', nombre)
             with open(fullname, 'r') as pfile:
-                datos = pfile.read().splitlines()  # Divide los datos por las líneas
+                # Divide los datos por las líneas
+                lineas = pfile.read().splitlines()
+                # Crea una lista de diccionarios con los datos de las partituras
+                datos = [{'nombre': lineas[i], 'coords': lineas[i+1]} for i in range(0, len(lineas), 2)]
             # Se almacena
             cls.recursos[nombre] = datos
             # Se devuelve
-            return datos    
+            return datos
+        
+    @classmethod
+    def CargarPuertas(cls, nombre):
+        # Si el nombre de archivo está entre los recursos ya cargados
+        if nombre in cls.recursos:
+            # Se devuelve ese recurso
+            return cls.recursos[nombre]
+        # Si no ha sido cargado anteriormente
+        else:
+            # Se carga el recurso indicando el nombre de su carpeta
+            fullname = os.path.join('imagenes/mapa', nombre)
+            with open(fullname, 'r') as pfile:
+                # Divide los datos por las líneas
+                lineas = pfile.read().splitlines()
+                # Crea una lista de diccionarios con los datos de las puertas
+                datos = [{'nombre': lineas[i], 'coords_foto': lineas[i+1], 'coords_area': lineas[i+2]} for i in range(0, len(lineas), 3)]
+            # Se almacena
+            cls.recursos[nombre] = datos
+            # Se devuelve
+            return datos
+
+
         
     def CargarFuente(self,fuente,tamano):
         #Cargar fuente y tamaño. Habria que comprobar si ya ha sido cargada

@@ -13,8 +13,7 @@ class GUIElemento:
     
     def establecerPosicion(self, posicion):
         (posicionx, posiciony) = posicion
-        self.rect.left = posicionx
-        self.rect.bottom = posiciony
+        self.rect.topleft = posicionx, posiciony
     
     def posicionEnElemento(self, posicion):
         (posicionx, posiciony) = posicion

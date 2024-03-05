@@ -13,8 +13,7 @@ class MiSprite(pygame.sprite.Sprite):
 
     def establecerPosicion(self, posicion):
         self.posicion = posicion
-        self.rect.left = self.posicion[0] - self.scroll[0]
-        self.rect.bottom = self.posicion[1] - self.scroll[1]
+        self.rect.topleft = self.posicion[0] - self.scroll[0], self.posicion[1] - self.scroll[1]
 
     def incrementarPosicion(self, incremento):
         (posx, posy) = self.posicion
@@ -30,5 +29,4 @@ class MiSprite(pygame.sprite.Sprite):
         self.scroll = scrollDecorado
         (scrollx, scrolly) = self.scroll
         (posx, posy) = self.posicion
-        self.rect.left = posx - scrollx
-        self.rect.bottom = posy - scrolly
+        self.rect.topleft = posx - scrollx, posy - scrolly

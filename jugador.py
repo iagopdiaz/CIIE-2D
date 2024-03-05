@@ -27,6 +27,9 @@ class Jugador(Personaje):
         else:
             Personaje.mover(self,QUIETO)
 
+    def tocar(self, grupoPuertas):
+        Personaje.tocar(self, grupoPuertas)
+
 class PrimerPersonaje(Jugador):#and Observable
     "Personaje Bartender"
     def __init__(self):#and Observers

@@ -6,6 +6,7 @@ from jugador import *
 from escena import *
 from partitura import *
 from interfaz_usuario import InterfazUsuario
+from puerta import *
 
 class Fase(Escena):
     def __init__(self, director):
@@ -36,43 +37,59 @@ class Fase(Escena):
         
         self.grupoJugadores = pygame.sprite.Group(self.jugador1, self.jugador2, self.jugador3)
 
-        # Cargamos las coordenadas donde se encuentran las partituras
-        datosPartituras = GestorRecursos.CargarArchivoCoordenadasPartituras('mapa/coordPartituras.txt')
-
-        # Creamos los sprites de las partituras
-        self.grupoPartituras = pygame.sprite.Group()
-
-        # Grupo con los nombres
-        nombres_partituras = ["Melodía de la Vida", "Arpegio de la Aurora", "Sinfonía del Silencio", "Rapsodia del Resplandor", "Concierto de los Cóndores", "Preludio de la Perdición", "Sonata del Susurro", "Interludio de la Ilusión", "Nocturno de la Niebla", "Fantasía de la Frontera"]
-
-        # Creamos cada partitura individualmente con su respectiva coordenada
-        for i, coords in enumerate(datosPartituras, start=1):
-            x, y = map(int, coords.split())
-            partitura = Partitura(i, f"partitura{i}.png", nombres_partituras[i-1]) #AQUI TIENEN QUE SER DIFERENTES IMAGENES - CORREGIR
-            partitura.establecerPosicion((x, y))
-            self.grupoPartituras.add(partitura)
 
         # Ponemos a los jugadores en sus posiciones iniciales
         self.jugador1.establecerPosicion((255, 530))
 
+        # Establecemos el jugador activo como el jugador1
         self.jugador_activo = self.jugador1
 
+
+        # Creamos las plataformas del decorado basándonos en las coordenadas cargadas
         datosPlataformas = GestorRecursos.CargarCoordenadasPlataformas('coordPlataformas.txt')
         
-        # Creamos las plataformas del decorado basándonos en las coordenadas cargadas
         self.grupoPlataformas = pygame.sprite.Group()
         for linea in datosPlataformas:
             x, y, ancho, alto = map(int, linea.split())
             plataforma = Plataforma(pygame.Rect(x, y, ancho, alto))
             self.grupoPlataformas.add(plataforma)
 
+
+
+        # Creamos las partituras del decorado basándonos en las coordenadas cargadas
+        datosPartituras = GestorRecursos.CargarPartituras('coordPartituras.txt')
+
+        self.grupoPartituras = pygame.sprite.Group()
+        for i, datos in enumerate(datosPartituras, start=1):
+            x, y = map(int, datos['coords'].split())
+            partitura = Partitura(i, f"partitura{i}.png", datos['nombre'])
+            partitura.establecerPosicion((x, y))
+            self.grupoPartituras.add(partitura)
+
+
+
+        # Creamos las puertas del decorado basándonos en las coordenadas cargadas
+        datosPuertas = GestorRecursos.CargarPuertas('coordPuertas.txt')
+
+        self.grupoPuertas = pygame.sprite.Group()
+
+        for i, datos in enumerate(datosPuertas, start=1):
+            # Obtenemos las coordenadas de la foto de la puerta
+            x_foto, y_foto = map(int, datos['coords_foto'].split())
+            # Obtenemos las coordenadas y dimensiones del área de activación de la puerta
+            x_area, y_area, ancho, alto = map(int, datos['coords_area'].split())
+            # Creamos la puerta y establecemos su posición y área de activación
+            puerta = Puerta(datos['nombre'], f"BossDoor.png", pygame.Rect(x_area, y_area, ancho, alto))
+            puerta.establecerPosicion((x_foto, y_foto))
+            self.grupoPuertas.add(puerta)
+
         # Inicializa los grupos de sprites como antes
-        self.grupoSpritesDinamicos = pygame.sprite.Group(self.jugador_activo)  # Asumiendo que solo hay un jugador por simplicidad
-        self.grupoSprites = pygame.sprite.Group(self.jugador_activo, self.grupoPlataformas, self.grupoPartituras)
+        self.grupoSpritesDinamicos = pygame.sprite.Group(self.jugador_activo, self.grupoPuertas)  # Asumiendo que solo hay un jugador por simplicidad
+        self.grupoSprites = pygame.sprite.Group(self.jugador_activo, self.grupoPlataformas, self.grupoPartituras, self.grupoPuertas)
     
     def update(self, tiempo):
 
-        self.grupoSpritesDinamicos.update(self.grupoPlataformas, self.grupoPartituras, tiempo)
+        self.grupoSpritesDinamicos.update(self.grupoPlataformas, self.grupoPartituras, self.grupoPuertas, tiempo)
         self.actualizarScroll()
 
         return False
@@ -157,6 +174,10 @@ class Fase(Escena):
                     self.cambiar_jugador()
                     # No necesitas continuar el bucle después de cambiar de jugador
                     continue
+                elif evento.key == pygame.K_t:
+                    self.jugador_activo.tocar(self.grupoPuertas)
+                elif evento.key == pygame.K_p:
+                    print(self.jugador_activo.posicion)
 
             elif evento.type == pygame.MOUSEBUTTONDOWN:
                 if evento.button == 1:  # Botón izquierdo del ratón
@@ -192,7 +213,7 @@ class Plataforma(MiSprite):
         # Rectangulo con las coordenadas en pantalla que ocupara
         self.rect = rectangulo
         # Y lo situamos de forma global en esas coordenadas
-        self.establecerPosicion((self.rect.left, self.rect.bottom))
+        self.establecerPosicion((self.rect.left, self.rect.top))
         # En el caso particular de este juego, las plataformas no se van a ver, asi que no se carga ninguna imagen
         self.image = pygame.Surface((0, 0))
 
