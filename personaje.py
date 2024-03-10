@@ -3,8 +3,9 @@ from pygame.locals import *
 from gestor_recursos import *
 from settings import *
 from misprite import *
+from observable import Observable
 
-class Personaje(MiSprite):
+class Personaje(MiSprite, Observable):
     "Cualquier personaje del juego"
 
     # Parametros pasados al constructor de esta clase:
@@ -127,6 +128,8 @@ class Personaje(MiSprite):
                 self.soltar_partitura()  
             partitura.desaparecer() # La partitura desaparece del mapa
             self.inventario = partitura  # Recoge la nueva partitura
+        imagen = partitura.archivoImagen
+        self.notificar_observers("partitura", imagen)  # Notifica a la interfaz que ha recogido una partitura
 
     def soltar_partitura(self):
         if self.inventario:
