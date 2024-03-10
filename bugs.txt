@@ -1,2 +1,4 @@
-Partitura que sale del mapa
-Personajes se atascan en los muros
+Scroll al cambiar de Personajes
+si cambias de personaje pegado a una pared, se queda pillado
+
+Solucion -> hacer los personakes del mismo tamñao

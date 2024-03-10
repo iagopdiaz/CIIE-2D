@@ -14,7 +14,7 @@ class Personaje(MiSprite):
     #  Velocidad de caminar y de salto
     #  Retardo para mostrar la animacion del personaje
     
-    def __init__(self, archivoImagen, archivoCoordenadas, numImagenes, velocidadX, velocidadY, retardoAnimacion):
+    def __init__(self, archivoImagen, archivoCoordenadas, numImagenes, velocidadX, velocidadY, retardoAnimacion, id):
 
         # Primero invocamos al constructor de la clase padre
         MiSprite.__init__(self)
@@ -26,6 +26,9 @@ class Personaje(MiSprite):
         self.movimiento = QUIETO
         # Lado hacia el que esta mirando
         self.mirando = IZQUIERDA
+
+        # El id del personaje para saber que personaje es
+        self.id = id
 
         # Leemos las coordenadas de un archivo de texto
         datos = GestorRecursos.CargarArchivoCoordenadas(archivoCoordenadas)
@@ -72,11 +75,9 @@ class Personaje(MiSprite):
                 # Crea un rectángulo para el área de activación del personaje
                 area_activacion_personaje = pygame.Rect(self.posicion[0], self.posicion[1], self.rect.width, self.rect.height)
 
-                if (puerta.area.colliderect(area_activacion_personaje)):
-                    if (puerta.nombre == self.inventario.nombre):
-                        puerta.abierta = True
-                        print("Puerta abierta")
-                        self.soltar_partitura()
+                if (puerta.area.colliderect(area_activacion_personaje)):                    
+                    if (puerta.añadir_partitura(self.inventario)):
+                        self.inventario = None
                         return
                     else:
                         print("La partitura no abre esta puerta")
@@ -84,6 +85,11 @@ class Personaje(MiSprite):
                     print("No hay puerta en el area de activacion")
         else:
             print("No hay partitura en el inventario")
+    
+    def escuchar(self, grupoPuertas):
+        for puerta in grupoPuertas:
+            if puerta.area.colliderect(self.rect):
+                print("Escuchando: " + str(puerta.nombre))
 
 
     def actualizarPostura(self):
@@ -112,42 +118,42 @@ class Personaje(MiSprite):
             elif self.mirando == ABAJO:
                 self.image = self.hoja.subsurface(self.coordenadasHoja[self.numPostura][self.numImagenPostura])
 
+
     
     def recoger_partitura(self, partitura):
-        if self.inventario:  # Si ya tiene una partitura en el inventario
-            self.soltar_partitura()  
-        posicion_fuera_pantalla = [-1000, -1000]  # Posición fuera de la pantalla     ---------------------   CORREGIR ESTO NO CREO QUE SEA ASI
-        partitura.establecerPosicion(posicion_fuera_pantalla) # La partitura desaparece del mapa
-        self.inventario = partitura  # Recoge la nueva partitura
-        #self.notify("partirura", self.inventario)
+        if self.id == partitura.jugador:
+            if self.inventario:  # Si ya tiene una partitura en el inventario
+                self.soltar_partitura()  
+            partitura.desaparecer() # La partitura desaparece del mapa
+            self.inventario = partitura  # Recoge la nueva partitura
 
     def soltar_partitura(self):
-        # Definición de las posiciones en función de la dirección
-        posiciones_por_direccion = {
-            IZQUIERDA : (50, 0),    # Si está mirando a la derecha, mueve 50 unidades en el eje x
-            DERECHA : (-50, 0),   # Si está mirando a la izquierda, mueve -50 unidades en el eje x
-            ARRIBA : (0, 50),      # Si está mirando arriba, mueve -50 unidades en el eje y
-            ABAJO : (0, -50)       # Si está mirando abajo, mueve 50 unidades en el eje y
-        }
+        if self.inventario:
+            # Definición de las posiciones en función de la dirección
+            posiciones_por_direccion = {
+                IZQUIERDA : (50, 0),    # Si está mirando a la derecha, mueve 50 unidades en el eje x
+                DERECHA : (-50, 0),   # Si está mirando a la izquierda, mueve -50 unidades en el eje x
+                ARRIBA : (0, 50),      # Si está mirando arriba, mueve -50 unidades en el eje y
+                ABAJO : (0, -50)       # Si está mirando abajo, mueve 50 unidades en el eje y
+            }
 
-        # Obtén las coordenadas según la dirección actual
-        dx, dy = posiciones_por_direccion.get(self.mirando, (0, 0))
-        nueva_posicion = (self.posicion[0] + dx, self.posicion[1] + dy)
+            # Obtén las coordenadas según la dirección actual
+            dx, dy = posiciones_por_direccion.get(self.mirando, (0, 0))
+            nueva_posicion = (self.posicion[0] + dx, self.posicion[1] + dy)
 
-        # Prueba en la dirección actual
-        if self._puede_soltar_partitura(nueva_posicion):
-            return
+            # Prueba en la dirección actual
+            if self._puede_soltar_partitura(nueva_posicion):
+                return
 
-        # Prueba en las otras direcciones
-        for direccion in posiciones_por_direccion:
-            if direccion != self.mirando:
-                dx, dy = posiciones_por_direccion[direccion]
-                nueva_posicion = (self.posicion[0] + dx, self.posicion[1] + dy)
-                if self._puede_soltar_partitura(nueva_posicion):
-                    return
-
-        # Si todas las posibles posiciones están bloqueadas, no suelta la partitura
-        print("No se puede soltar la partitura, todas las posiciones están bloqueadas.")  # CORREGIR -------> improbable por cómo tenemos las paredes colocadas
+            # Prueba en las otras direcciones
+            for direccion in posiciones_por_direccion:
+                if direccion != self.mirando:
+                    dx, dy = posiciones_por_direccion[direccion]
+                    nueva_posicion = (self.posicion[0] + dx, self.posicion[1] + dy)
+                    if self._puede_soltar_partitura(nueva_posicion):
+                        return
+        else:
+            print("No hay partitura en el inventario")
 
     def _puede_soltar_partitura(self, posicion):
         # Ajusta las coordenadas de la partitura en función del desplazamiento de la pantalla

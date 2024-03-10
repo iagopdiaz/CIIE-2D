@@ -62,7 +62,7 @@ class Fase(Escena):
         self.grupoPartituras = pygame.sprite.Group()
         for i, datos in enumerate(datosPartituras, start=1):
             x, y = map(int, datos['coords'].split())
-            partitura = Partitura(i, f"partitura{i}.png", datos['nombre'])
+            partitura = Partitura(f"partitura{i}.png", datos['nombre'], datos['jugador'])
             partitura.establecerPosicion((x, y))
             self.grupoPartituras.add(partitura)
 
@@ -146,7 +146,7 @@ class Fase(Escena):
 
         elif (self.jugador_activo == self.jugador3):
             nuevo_jugador_activo = self.jugador1
-
+        
         # Establece la posición del nuevo jugador activo a la posición del actual antes de cambiar
         nuevo_jugador_activo.establecerPosicion(self.jugador_activo.posicion)
 
@@ -178,6 +178,10 @@ class Fase(Escena):
                     self.jugador_activo.tocar(self.grupoPuertas)
                 elif evento.key == pygame.K_p:
                     print(self.jugador_activo.posicion)
+                elif evento.key == pygame.K_e:
+                    self.jugador_activo.escuchar(self.grupoPuertas)
+                elif evento.key == pygame.K_s:
+                    self.jugador_activo.soltar_partitura()
 
             elif evento.type == pygame.MOUSEBUTTONDOWN:
                 if evento.button == 1:  # Botón izquierdo del ratón

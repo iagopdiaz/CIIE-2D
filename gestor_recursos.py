@@ -73,10 +73,13 @@ class GestorRecursos:
             # Se carga el recurso indicando el nombre de su carpeta
             fullname = os.path.join('imagenes/mapa', nombre)
             with open(fullname, 'r') as pfile:
-                # Divide los datos por las líneas
                 lineas = pfile.read().splitlines()
-                # Crea una lista de diccionarios con los datos de las partituras
-                datos = [{'nombre': lineas[i], 'coords': lineas[i+1]} for i in range(0, len(lineas), 2)]
+                datos = []
+                for i in range(0, len(lineas), 2):
+                    # Split the name and player field
+                    nombre, jugador = lineas[i].split(' - ')
+                    coords = lineas[i+1]
+                    datos.append({'nombre': nombre, 'coords': coords, 'jugador': int(jugador)})
             # Se almacena
             cls.recursos[nombre] = datos
             # Se devuelve
@@ -93,10 +96,14 @@ class GestorRecursos:
             # Se carga el recurso indicando el nombre de su carpeta
             fullname = os.path.join('imagenes/mapa', nombre)
             with open(fullname, 'r') as pfile:
-                # Divide los datos por las líneas
                 lineas = pfile.read().splitlines()
-                # Crea una lista de diccionarios con los datos de las puertas
-                datos = [{'nombre': lineas[i], 'coords_foto': lineas[i+1], 'coords_area': lineas[i+2]} for i in range(0, len(lineas), 3)]
+                datos = []
+                for i in range(0, len(lineas), 3):
+                    # Extract the names from the brackets and split by '][' to get a list of names
+                    nombres = lineas[i].strip('[]').split('][')
+                    coords_foto = lineas[i+1]
+                    coords_area = lineas[i+2]
+                    datos.append({'nombre': nombres, 'coords_foto': coords_foto, 'coords_area': coords_area})
             # Se almacena
             cls.recursos[nombre] = datos
             # Se devuelve
