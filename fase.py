@@ -99,32 +99,37 @@ class Fase(Escena):
         LIMITE_SCROLL_X = ANCHO_PANTALLA * 3 / 4
         LIMITE_SCROLL_Y = ALTO_PANTALLA * 3 / 4
 
+        ##COMO NO TIENEN TODOS LOS SPRITES EL MISMO TAMAÑO, VAMOS A COGER SIEMPRE LA MISMA MEDIDA
+        #Esta puesto 25 como ejemplo de la media de tamaño de los personajes hacia el centro
+        posicion_x = self.jugador_activo.rect.left+25
+        posicion_y = self.jugador_activo.rect.top+25
 
-        # Si el jugador se encuentra más allá del límite de la pantalla en el eje X
-        if self.jugador_activo.rect.right > LIMITE_SCROLL_X:
+        if posicion_x > LIMITE_SCROLL_X:
             # Calculamos cuántos píxeles está fuera del límite
-            desplazamiento_x = self.jugador_activo.rect.right - LIMITE_SCROLL_X
+            desplazamiento_x = posicion_x - LIMITE_SCROLL_X
             # Actualizamos el scroll en el eje X
             self.scrollx = min(self.scrollx + desplazamiento_x, self.decorado.imagen.get_width() - ANCHO_PANTALLA)
-        elif self.jugador_activo.rect.left < ANCHO_PANTALLA - LIMITE_SCROLL_X:
-            desplazamiento_x = ANCHO_PANTALLA - LIMITE_SCROLL_X - self.jugador_activo.rect.left
+        elif posicion_x < ANCHO_PANTALLA - LIMITE_SCROLL_X:
+            desplazamiento_x = ANCHO_PANTALLA - LIMITE_SCROLL_X - posicion_x
             self.scrollx = max(0, self.scrollx - desplazamiento_x)
 
         # Si el jugador se encuentra más allá del límite de la pantalla en el eje Y
-        if self.jugador_activo.rect.bottom > LIMITE_SCROLL_Y:
+        if posicion_y > LIMITE_SCROLL_Y:
             # Calculamos cuántos píxeles está fuera del límite
-            desplazamiento_y = self.jugador_activo.rect.bottom - LIMITE_SCROLL_Y
+            desplazamiento_y = posicion_y - LIMITE_SCROLL_Y
             # Actualizamos el scroll en el eje Y
             self.scrolly = min(self.scrolly + desplazamiento_y, self.decorado.imagen.get_height() - ALTO_PANTALLA)
-        elif self.jugador_activo.rect.top < ALTO_PANTALLA - LIMITE_SCROLL_Y:
-            desplazamiento_y = ALTO_PANTALLA - LIMITE_SCROLL_Y - self.jugador_activo.rect.top
+        elif posicion_y < ALTO_PANTALLA - LIMITE_SCROLL_Y:
+            desplazamiento_y = ALTO_PANTALLA - LIMITE_SCROLL_Y - posicion_y
             self.scrolly = max(0, self.scrolly - desplazamiento_y)
+            
 
 
         # Actualizamos la posición en pantalla de todos los Sprites según el scroll actual
         for sprite in iter(self.grupoSprites):
             sprite.establecerPosicionPantalla((self.scrollx, self.scrolly))
 
+        #print(f'scrollx: {self.scrollx}, scrolly: {self.scrolly}, posicion_x: {posicion_x}, posicion_y: {posicion_y}')
         # Además, actualizamos el decorado para que se muestre una parte distinta
         self.decorado.update(self.scrollx, self.scrolly)
 
@@ -146,21 +151,28 @@ class Fase(Escena):
 
         elif (self.jugador_activo == self.jugador3):
             nuevo_jugador_activo = self.jugador1
-        
+    
         # Establece la posición del nuevo jugador activo a la posición del actual antes de cambiar
         nuevo_jugador_activo.establecerPosicion(self.jugador_activo.posicion)
 
-        # Actualiza el grupo de sprites para que contenga al nuevo jugador activo
-        # Primero, elimina el jugador activo actual de los grupos relevantes
-        self.grupoSpritesDinamicos.remove(self.jugador_activo)
-        self.grupoSprites.remove(self.jugador_activo)
+        #Creamos un rectangulo con la futura posicion del jugador
+        futuro_rect = pygame.Rect(nuevo_jugador_activo.posicion[0]-self.scrollx, nuevo_jugador_activo.posicion[1]-self.scrolly, nuevo_jugador_activo.rect.width, nuevo_jugador_activo.rect.height)
 
-        # Luego, agrega el nuevo jugador activo a los grupos
-        self.grupoSpritesDinamicos.add(nuevo_jugador_activo)
-        self.grupoSprites.add(nuevo_jugador_activo)
+        #Calcular posicion futura del jugador activo, solo permitir el cambio si no hay colision con pared o puerta
+        if nuevo_jugador_activo.puede_moverse(futuro_rect, self.grupoPlataformas, self.grupoPuertas):
+            # Actualiza el grupo de sprites para que contenga al nuevo jugador activo
+            # Primero, elimina el jugador activo actual de los grupos relevantes
+            self.grupoSpritesDinamicos.remove(self.jugador_activo)
+            self.grupoSprites.remove(self.jugador_activo)
 
-        # Finalmente, actualiza la referencia de jugador_activo al nuevo jugador
-        self.jugador_activo = nuevo_jugador_activo
+            # Luego, agrega el nuevo jugador activo a los grupos
+            self.grupoSpritesDinamicos.add(nuevo_jugador_activo)
+            self.grupoSprites.add(nuevo_jugador_activo)
+
+            # Finalmente, actualiza la referencia de jugador_activo al nuevo jugador
+            self.jugador_activo = nuevo_jugador_activo
+        else:
+            print("No se puede cambiar de jugador en esta posicion")
 
     def eventos(self, lista_eventos):
         # Miramos a ver si hay algun evento de salir del programa
@@ -175,11 +187,11 @@ class Fase(Escena):
                     # No necesitas continuar el bucle después de cambiar de jugador
                     continue
                 elif evento.key == pygame.K_t:
-                    self.jugador_activo.tocar(self.grupoPuertas)
+                    self.jugador_activo.tocar()
                 elif evento.key == pygame.K_p:
                     print(self.jugador_activo.posicion)
                 elif evento.key == pygame.K_e:
-                    self.jugador_activo.escuchar(self.grupoPuertas)
+                    self.jugador_activo.escuchar()
                 elif evento.key == pygame.K_s:
                     self.jugador_activo.soltar_partitura()
 

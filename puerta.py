@@ -61,11 +61,8 @@ class Puerta(MiSprite):
         return False
     
     def abrir_puerta(self):
-        print("Puerta abierta")
         self.abierta = True
-
         self.contador_retardo += 1
-
         if self.contador_retardo == self.retardo_animacion:
             self.frame_actual -= 1
             self.contador_retardo = 0

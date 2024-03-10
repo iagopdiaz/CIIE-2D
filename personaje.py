@@ -68,10 +68,10 @@ class Personaje(MiSprite):
     def mover(self, movimiento):
         self.movimiento = movimiento
 
-    def tocar(self, grupoPuertas):
+    def tocar(self):
         if self.inventario != None:
             print("Tocando: " + str(self.inventario.nombre))
-            for puerta in grupoPuertas:
+            for puerta in self.grupoPuertas:
                 # Crea un rectángulo para el área de activación del personaje
                 area_activacion_personaje = pygame.Rect(self.posicion[0], self.posicion[1], self.rect.width, self.rect.height)
 
@@ -86,10 +86,11 @@ class Personaje(MiSprite):
         else:
             print("No hay partitura en el inventario")
     
-    def escuchar(self, grupoPuertas):
-        for puerta in grupoPuertas:
-            if puerta.area.colliderect(self.rect):
-                print("Escuchando: " + str(puerta.nombre))
+    def escuchar(self):
+        for puerta in self.grupoPuertas:
+                area_activacion_personaje = pygame.Rect(self.posicion[0], self.posicion[1], self.rect.width, self.rect.height)
+                if (puerta.area.colliderect(area_activacion_personaje)):
+                    print("Escuchando: " + str(puerta.nombres))
 
 
     def actualizarPostura(self):
@@ -142,7 +143,9 @@ class Personaje(MiSprite):
             nueva_posicion = (self.posicion[0] + dx, self.posicion[1] + dy)
 
             # Prueba en la dirección actual
-            if self._puede_soltar_partitura(nueva_posicion):
+            if self.puede_soltar_partitura(nueva_posicion):
+                self.soltando = False
+                print("Partitura soltada")
                 return
 
             # Prueba en las otras direcciones
@@ -150,33 +153,57 @@ class Personaje(MiSprite):
                 if direccion != self.mirando:
                     dx, dy = posiciones_por_direccion[direccion]
                     nueva_posicion = (self.posicion[0] + dx, self.posicion[1] + dy)
-                    if self._puede_soltar_partitura(nueva_posicion):
+                    if self.puede_soltar_partitura(nueva_posicion):
+                        self.soltando = False
                         return
+
+            print("No se puede soltar la partitura aqui")
+            self.soltando = True
         else:
             print("No hay partitura en el inventario")
 
-    def _puede_soltar_partitura(self, posicion):
+    def puede_soltar_partitura(self, posicion):
         # Ajusta las coordenadas de la partitura en función del desplazamiento de la pantalla
         posicion_ajustada = (posicion[0] - self.scroll[0], posicion[1] - self.scroll[1])
 
         # Crea un rectángulo en la posible posición
         futuro_rect = pygame.Rect(posicion_ajustada[0], posicion_ajustada[1], self.rect.width, self.rect.height)
 
-        # Comprueba si el rectángulo colisiona con alguna plataforma
-        if not any(futuro_rect.colliderect(plataforma.rect) for plataforma in self.grupoPlataformas):
+        # Comprueba si el rectángulo colisiona con alguna plataforma o puerta
+        if not any(futuro_rect.colliderect(plataforma.rect) for plataforma in self.grupoPlataformas) and not any(futuro_rect.colliderect(puerta.rect) for puerta in self.grupoPuertas):
             # Si no colisiona, establece la posición de la partitura y la suelta
             self.inventario.establecerPosicion(posicion)
             self.inventario = None
+            print("Partitura soltada")
             return True  # Devuelve True si pudo soltar la partitura
-
+        
         return False
+    
+    #A esta se le pasan como argumentos plataformas y puertas ya que se le llama antes de actualizar los personajes cuando se cambian
+    def puede_moverse(self, futuro_rect, grupoPlataformas, grupoPuertas):
+        # Comprueba si el rectángulo colisiona con alguna plataforma
+        if any(futuro_rect.colliderect(plataforma.rect) for plataforma in grupoPlataformas):
+            return False
+
+        # Compueba si el rectángulo colisiona con alguna puerta cerrada
+        for puerta in grupoPuertas:
+            if futuro_rect.colliderect(puerta.rect) and not puerta.abierta:
+                return False
+
+        return True
 
 
     # Metodo para actualizar el estado del personaje
     def update(self, grupoPlataformas, grupoPartituras, grupoPuertas, tiempo):
         self.grupoPlataformas = grupoPlataformas
+        self.grupoPuertas = grupoPuertas
         
         velocidadx, velocidady = 0, 0
+
+        #Comprobamos si el personaje quiere soltar una partitura
+        if self.soltando:
+            self.soltar_partitura()
+            return
 
         # Segun el movimiento que este realizando, actualizamos su velocidad
         if self.movimiento in [IZQUIERDA, DERECHA, ARRIBA, ABAJO]:
@@ -201,26 +228,19 @@ class Personaje(MiSprite):
         # Calculamos la futura posicion del Sprite
         futura_posicion_x = self.posicion[0] + velocidadx * tiempo - self.scroll[0]
         futura_posicion_y = self.posicion[1] + velocidady * tiempo - self.scroll[1]
-
+    
         # Y creamos un rectangulo con ella
         futuro_rect = pygame.Rect(futura_posicion_x, futura_posicion_y, self.rect.width, self.rect.height)
 
-
-        # Comprobamos si al moverse se va a chocar con algun borde del mapa
-        if any(futuro_rect.colliderect(plataforma.rect) for plataforma in grupoPlataformas):
+        # Comprobamos si puede moverse a esa posicion
+        if not self.puede_moverse(futuro_rect, grupoPlataformas, grupoPuertas):
             velocidadx, velocidady = 0, 0
-
-        # Comprobamos si al moverse se va a chocar con una puerta activa
-        for puerta in grupoPuertas:
-            if futuro_rect.colliderect(puerta.rect):
-                if not puerta.abierta:
-                    velocidadx, velocidady = 0, 0
-
-        # Comprobamos si toca con alguna partitura
+        
+        # Comprobamos si puede recoger una partitura
         for partitura in grupoPartituras:
             if futuro_rect.colliderect(partitura.rect):
                 self.recoger_partitura(partitura)
-
+        
 
         # Actualizamos su posicion
         self.actualizarPostura()

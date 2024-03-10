@@ -12,8 +12,8 @@ class Jugador(Personaje):
         # Invocamos al constructor de la clase padre con la configuracion de este personaje concreto
         Personaje.__init__(self, archivoImagen, archivoCoordenadas, numImagenes, velocidadX, velocidadY, retardoAnimacion, idJugador)
         self.inventario = None
-        #self.notify("Inventario", self.inventario)
-
+        self.soltando = False
+        
     def mover(self, teclasPulsadas, arriba, abajo, izquierda, derecha):
         # Indicamos la acción a realizar segun la tecla pulsada para el jugador
         if teclasPulsadas[arriba]:
