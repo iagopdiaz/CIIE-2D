@@ -7,7 +7,7 @@ from escena import *
 from partitura import *
 from interfaz_usuario import InterfazUsuario
 from puerta import *
-from fase4_final import *
+from fase_final import *
 
 class Fase3(Escena):
     def __init__(self, director):

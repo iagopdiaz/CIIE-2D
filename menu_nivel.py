@@ -6,7 +6,7 @@ from gestor_sonido import GestorSonido
 from fase1 import *
 from fase2 import *
 from fase3 import *
-from fase4_final import *
+from fase_final import *
 from GUIElemento import *
 from botones import GUI, Boton
 
