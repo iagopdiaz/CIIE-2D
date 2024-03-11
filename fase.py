@@ -46,7 +46,7 @@ class Fase(Escena):
 
 
         # Creamos las plataformas del decorado basándonos en las coordenadas cargadas
-        datosPlataformas = GestorRecursos.CargarCoordenadasPlataformas('coordPlataformas.txt')
+        datosPlataformas = GestorRecursos.CargarCoordenadasPlataformas('coordParedes1.txt')
         
         self.grupoPlataformas = pygame.sprite.Group()
         for linea in datosPlataformas:
@@ -209,7 +209,7 @@ class Fase(Escena):
                     ancho = abs(self.start_pos[0] - self.end_pos[0])
                     alto = abs(self.start_pos[1] - self.end_pos[1])
                     print(f'x: {x}, y: {y}, ancho: {ancho}, alto: {alto}')
-                    with open('./imagenes/mapa/coordPlataformas.txt', 'a') as archivo:
+                    with open('./imagenes/mapa/coordParedes1.txt', 'a') as archivo:
                         archivo.write(f'{int(x)} {int(y)} {int(ancho)} {int(alto)}\n')
 
         # Indicamos la acción a realizar segun la tecla pulsada para cada jugador
