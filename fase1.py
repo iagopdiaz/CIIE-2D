@@ -7,8 +7,9 @@ from escena import *
 from partitura import *
 from interfaz_usuario import InterfazUsuario
 from puerta import *
+from fase2 import *
 
-class Fase(Escena):
+class Fase1(Escena):
     def __init__(self, director):
         Escena.__init__(self, director)
         #self.nivel = 1
