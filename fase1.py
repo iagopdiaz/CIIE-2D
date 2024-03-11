@@ -7,6 +7,7 @@ from escena import *
 from partitura import *
 from interfaz_usuario import InterfazUsuario
 from puerta import *
+from meta_fase import *
 from fase2 import *
 
 class Fase1(Escena):
@@ -67,7 +68,7 @@ class Fase1(Escena):
             partitura.establecerPosicion((x, y))
             self.grupoPartituras.add(partitura)
 
-
+        meta = MetaFase(5115, 188, 'metaHorizontal.png')
 
         # Creamos las puertas del decorado basándonos en las coordenadas cargadas
         datosPuertas = GestorRecursos.CargarPuertas('coordPuertas.txt')
@@ -86,12 +87,17 @@ class Fase1(Escena):
 
         # Inicializa los grupos de sprites como antes
         self.grupoSpritesDinamicos = pygame.sprite.Group(self.jugador_activo, self.grupoPuertas)  # Asumiendo que solo hay un jugador por simplicidad
-        self.grupoSprites = pygame.sprite.Group(self.jugador_activo, self.grupoPlataformas, self.grupoPartituras, self.grupoPuertas)
-    
+        self.grupoSprites = pygame.sprite.Group(self.jugador_activo, self.grupoPlataformas, self.grupoPartituras, self.grupoPuertas, meta)
+        self.metaSprites = pygame.sprite.Group(meta)
+
     def update(self, tiempo):
 
         self.grupoSpritesDinamicos.update(self.grupoPlataformas, self.grupoPartituras, self.grupoPuertas, tiempo)
         self.actualizarScroll()
+
+        # Comprueba si el jugador ha llegado a la meta
+        if pygame.sprite.groupcollide(self.grupoJugadores, self.metaSprites, False, False) != {}:
+            self.director.cambiarEscena(Fase2(self.director))
 
         return False
 

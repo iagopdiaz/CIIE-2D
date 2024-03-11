@@ -7,7 +7,9 @@ from escena import *
 from partitura import *
 from interfaz_usuario import InterfazUsuario
 from puerta import *
-from fase_final import *
+from game_over import *
+
+# MODIFICAR NIVEL (AHORA MISMO ES IGUAL AL PRIMERO)
 
 class Fase3(Escena):
     def __init__(self, director):

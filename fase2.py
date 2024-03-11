@@ -9,6 +9,8 @@ from interfaz_usuario import InterfazUsuario
 from puerta import *
 from fase3 import *
 
+# MODIFICAR NIVEL (AHORA MISMO ES IGUAL AL PRIMERO)
+
 class Fase2(Escena):
     def __init__(self, director):
         Escena.__init__(self, director)
