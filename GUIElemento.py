@@ -2,7 +2,7 @@ import pygame
 from pygame.locals import *
 from escena import *
 from gestor_recursos import *
-from fase import *
+from fase1 import *
 from menu_nivel import *
 
 

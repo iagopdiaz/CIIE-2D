@@ -2,7 +2,7 @@ from misprite import *
 from gestor_recursos import *
 
 class Puerta(MiSprite):
-    def __init__(self, nombre, imagen_puerta, area_activacion):
+    def __init__(self, nombres, imagen_puerta, area_activacion):
         # Llamamos al constructor de la clase padre
         MiSprite.__init__(self)
 
@@ -34,8 +34,13 @@ class Puerta(MiSprite):
         #Obtenemos el rectangulo del sprite
         self.rect = self.image.get_rect()
 
-        #Establecemos el nombre de la puerta (para saber que partitura la desbloquea)
-        self.nombre = nombre
+        if isinstance(nombres, str):
+            self.nombres = [nombres]
+        else:
+            self.nombres = nombres
+
+        #Creamos un inventario para la puerta
+        self.inventario = []
 
         #Establecemos el area de activacion de la puerta
         self.area = area_activacion
@@ -47,19 +52,29 @@ class Puerta(MiSprite):
         self.retardo_animacion = 7
         self.contador_retardo = 0
 
+    def añadir_partitura(self, partitura):
+        if partitura.nombre in self.nombres:
+            print("Partitura añadida a la puerta, falta:", len(self.nombres)-len(self.inventario)-1, "partituras")
+            self.inventario.append(partitura.nombre)
+            partitura.desaparecer()
+            return True
+        return False
+    
+    def abrir_puerta(self):
+        self.abierta = True
+        self.contador_retardo += 1
+        if self.contador_retardo == self.retardo_animacion:
+            self.frame_actual -= 1
+            self.contador_retardo = 0
+            self.frame_actual = max(0, self.frame_actual)
+
+            self.image = self.frames_puerta[self.frame_actual]
+
+
 
     def update(self, tiempo):#CORREGIR -> No se si la animacion va aqui creo que no
         # Si la puerta está abierta no hacemos nada                           #CORREGIR: abierto=True cuando acaba la animacion
-        if self.abierta:
-            # Disminuimos el frame actual para abrir la puerta
-            self.contador_retardo += 1
-            
-            if self.contador_retardo == self.retardo_animacion:
-                self.frame_actual -= 1
-                self.contador_retardo = 0
-                # Nos aseguramos de que el frame actual no sea menor que 0
-                self.frame_actual = max(0, self.frame_actual)
-                
-                # Actualizamos la imagen de la puerta con el frame actual de la animación
-                self.image = self.frames_puerta[self.frame_actual]
-
+        #Abrir la puerta cuando todos los nombres esten en el inventario
+        if all([nombre in self.inventario for nombre in self.nombres]):
+            self.abrir_puerta()
+            return

@@ -3,8 +3,9 @@ from pygame.locals import *
 from gestor_recursos import *
 from settings import *
 from misprite import *
+from observable import Observable
 
-class Personaje(MiSprite):
+class Personaje(MiSprite, Observable):
     "Cualquier personaje del juego"
 
     # Parametros pasados al constructor de esta clase:
@@ -14,7 +15,7 @@ class Personaje(MiSprite):
     #  Velocidad de caminar y de salto
     #  Retardo para mostrar la animacion del personaje
     
-    def __init__(self, archivoImagen, archivoCoordenadas, numImagenes, velocidadX, velocidadY, retardoAnimacion):
+    def __init__(self, archivoImagen, archivoCoordenadas, numImagenes, velocidadX, velocidadY, retardoAnimacion, id):
 
         # Primero invocamos al constructor de la clase padre
         MiSprite.__init__(self)
@@ -26,6 +27,9 @@ class Personaje(MiSprite):
         self.movimiento = QUIETO
         # Lado hacia el que esta mirando
         self.mirando = IZQUIERDA
+
+        # El id del personaje para saber que personaje es
+        self.id = id
 
         # Leemos las coordenadas de un archivo de texto
         datos = GestorRecursos.CargarArchivoCoordenadas(archivoCoordenadas)
@@ -65,26 +69,18 @@ class Personaje(MiSprite):
     def mover(self, movimiento):
         self.movimiento = movimiento
 
-    def tocar(self, grupoPuertas):
-        if self.inventario != None:
-            print("Tocando: " + str(self.inventario.nombre))
-            for puerta in grupoPuertas:
-                # Crea un rectángulo para el área de activación del personaje
-                area_activacion_personaje = pygame.Rect(self.posicion[0], self.posicion[1], self.rect.width, self.rect.height)
+    #A esta se le pasan como argumentos plataformas y puertas ya que se le llama antes de actualizar los personajes cuando se cambian
+    def puede_moverse(self, futuro_rect, grupoPlataformas, grupoPuertas, grupoCubos_grises):
+        # Comprueba si el rectángulo colisiona con alguna plataforma
+        if any(futuro_rect.colliderect(plataforma.rect) for plataforma in grupoPlataformas) or (any(futuro_rect.colliderect(cubo.rect) for cubo in grupoCubos_grises)):
+            return False
 
-                if (puerta.area.colliderect(area_activacion_personaje)):
-                    if (puerta.nombre == self.inventario.nombre):
-                        puerta.abierta = True
-                        print("Puerta abierta")
-                        self.soltar_partitura()
-                        return
-                    else:
-                        print("La partitura no abre esta puerta")
-                else:
-                    print("No hay puerta en el area de activacion")
-        else:
-            print("No hay partitura en el inventario")
+        # Compueba si el rectángulo colisiona con alguna puerta cerrada
+        for puerta in grupoPuertas:
+            if futuro_rect.colliderect(puerta.rect) and not puerta.abierta:
+                return False
 
+        return True
 
     def actualizarPostura(self):
         self.retardoMovimiento -= 1
@@ -112,113 +108,9 @@ class Personaje(MiSprite):
             elif self.mirando == ABAJO:
                 self.image = self.hoja.subsurface(self.coordenadasHoja[self.numPostura][self.numImagenPostura])
 
-    
-    def recoger_partitura(self, partitura):
-        if self.inventario:  # Si ya tiene una partitura en el inventario
-            self.soltar_partitura()  
-        posicion_fuera_pantalla = [-1000, -1000]  # Posición fuera de la pantalla     ---------------------   CORREGIR ESTO NO CREO QUE SEA ASI
-        partitura.establecerPosicion(posicion_fuera_pantalla) # La partitura desaparece del mapa
-        self.inventario = partitura  # Recoge la nueva partitura
-        #self.notify("partirura", self.inventario)
-
-    def soltar_partitura(self):
-        # Definición de las posiciones en función de la dirección
-        posiciones_por_direccion = {
-            IZQUIERDA : (50, 0),    # Si está mirando a la derecha, mueve 50 unidades en el eje x
-            DERECHA : (-50, 0),   # Si está mirando a la izquierda, mueve -50 unidades en el eje x
-            ARRIBA : (0, 50),      # Si está mirando arriba, mueve -50 unidades en el eje y
-            ABAJO : (0, -50)       # Si está mirando abajo, mueve 50 unidades en el eje y
-        }
-
-        # Obtén las coordenadas según la dirección actual
-        dx, dy = posiciones_por_direccion.get(self.mirando, (0, 0))
-        nueva_posicion = (self.posicion[0] + dx, self.posicion[1] + dy)
-
-        # Prueba en la dirección actual
-        if self._puede_soltar_partitura(nueva_posicion):
-            return
-
-        # Prueba en las otras direcciones
-        for direccion in posiciones_por_direccion:
-            if direccion != self.mirando:
-                dx, dy = posiciones_por_direccion[direccion]
-                nueva_posicion = (self.posicion[0] + dx, self.posicion[1] + dy)
-                if self._puede_soltar_partitura(nueva_posicion):
-                    return
-
-        # Si todas las posibles posiciones están bloqueadas, no suelta la partitura
-        print("No se puede soltar la partitura, todas las posiciones están bloqueadas.")  # CORREGIR -------> improbable por cómo tenemos las paredes colocadas
-
-    def _puede_soltar_partitura(self, posicion):
-        # Ajusta las coordenadas de la partitura en función del desplazamiento de la pantalla
-        posicion_ajustada = (posicion[0] - self.scroll[0], posicion[1] - self.scroll[1])
-
-        # Crea un rectángulo en la posible posición
-        futuro_rect = pygame.Rect(posicion_ajustada[0], posicion_ajustada[1], self.rect.width, self.rect.height)
-
-        # Comprueba si el rectángulo colisiona con alguna plataforma
-        if not any(futuro_rect.colliderect(plataforma.rect) for plataforma in self.grupoPlataformas):
-            # Si no colisiona, establece la posición de la partitura y la suelta
-            self.inventario.establecerPosicion(posicion)
-            self.inventario = None
-            return True  # Devuelve True si pudo soltar la partitura
-
-        return False
-
-
-    # Metodo para actualizar el estado del personaje
-    def update(self, grupoPlataformas, grupoPartituras, grupoPuertas, grupoCubos_negros, grupoCubos_grises, tiempo):
-        self.grupoPlataformas = grupoPlataformas
-        
+    def update(self, tiempo):
         velocidadx, velocidady = 0, 0
-
-        # Segun el movimiento que este realizando, actualizamos su velocidad
-        if self.movimiento in [IZQUIERDA, DERECHA, ARRIBA, ABAJO]:
-            self.mirando = self.movimiento
-
-            if self.movimiento == IZQUIERDA:
-                self.numPostura = SPRITE_ANDANDO_IZQ
-                velocidadx = -self.velocidadX
-            elif self.movimiento == DERECHA:
-                self.numPostura = SPRITE_ANDANDO_DER
-                velocidadx = self.velocidadX
-            elif self.movimiento == ARRIBA:
-                self.numPostura = SPRITE_ARRIBA
-                velocidady = -self.velocidadY
-            elif self.movimiento == ABAJO:
-                self.numPostura = SPRITE_ABAJO
-                velocidady = self.velocidadY
-
-        elif self.movimiento == QUIETO:
-            self.numPostura = SPRITE_QUIETO if self.mirando == SPRITE_ABAJO else self.mirando
-
-        if any(self.rect.colliderect(cubo.rect) for cubo in grupoCubos_negros):
-            velocidadx, velocidady = 0, 0
-        # Calculamos la futura posicion del Sprite
-        futura_posicion_x = self.posicion[0] + velocidadx * tiempo - self.scroll[0]
-        futura_posicion_y = self.posicion[1] + velocidady * tiempo - self.scroll[1]
-
-        # Y creamos un rectangulo con ella
-        futuro_rect = pygame.Rect(futura_posicion_x, futura_posicion_y, self.rect.width, self.rect.height)
-
-
-        # Comprobamos si al moverse se va a chocar con algun borde del mapa
-        if any(futuro_rect.colliderect(plataforma.rect) for plataforma in grupoPlataformas) or (any(futuro_rect.colliderect(cubo.rect) for cubo in grupoCubos_grises)):
-            velocidadx, velocidady = 0, 0
-
-        # Comprobamos si al moverse se va a chocar con una puerta activa
-        for puerta in grupoPuertas:
-            if futuro_rect.colliderect(puerta.rect):
-                if not puerta.abierta:
-                    velocidadx, velocidady = 0, 0
-
-        # Comprobamos si toca con alguna partitura
-        for partitura in grupoPartituras:
-            if futuro_rect.colliderect(partitura.rect):
-                self.recoger_partitura(partitura)
-
-
-        # Actualizamos su posicion
         self.actualizarPostura()
         self.velocidad = (velocidadx, velocidady)
         MiSprite.update(self, tiempo)
+    

@@ -1,5 +1,5 @@
 #Patron Observador
 
 class Observer:
-    def update(self, observable):
+    def actualizar_observer(self, tipo, imagen):
         raise NotImplementedError("Metodo no implementado")

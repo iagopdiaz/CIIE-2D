@@ -6,7 +6,7 @@ from misprite import *
 class Ataque(MiSprite):
     "Ataque"
 
-    def __init__(self, archivoImagen, archivoCoordenadas, numImagenes, retardoAnimacion, centerx, centery):
+    def __init__(self, archivoImagen, archivoCoordenadas, numImagenes, retardoAnimacion, left, top):
 
         # Primero invocamos al constructor de la clase padre
         MiSprite.__init__(self)
@@ -36,10 +36,10 @@ class Ataque(MiSprite):
         self.retardoMovimiento = 0
 
         # El rectangulo del Sprite
-        self.rect = pygame.Rect(30,73,self.coordenadasHoja[self.numPostura][self.numImagenPostura][2],self.coordenadasHoja[self.numPostura][self.numImagenPostura][3])
+        self.rect = pygame.Rect(left, top, self.coordenadasHoja[self.numPostura][self.numImagenPostura][2], self.coordenadasHoja[self.numPostura][self.numImagenPostura][3])
 
         self.retardoAnimacion = retardoAnimacion
-        self.establecerPosicion((centerx,centery))
+        self.establecerPosicion((left, top))
 
     def actualizarPostura(self):
         self.retardoMovimiento -= 1
@@ -55,25 +55,21 @@ class Ataque(MiSprite):
 
             self.image = self.hoja.subsurface(self.coordenadasHoja[self.numPostura][self.numImagenPostura])
             self.count += 1
+            
 
-    def update(self, jugador_activo, tiempo):
-        if self.count < self.img_num:
-            self.establecerPosicion((jugador_activo.rect.centerx - 50,jugador_activo.rect.centery - 50))
-            self.actualizarPostura()
-            MiSprite.update(self, tiempo)
-        else:
-            self.kill()
+
 
 class Onda1(Ataque):
     "Ataque con forma de onda de jugador 1"
 
-    def __init__(self, centerx, centery):
-        Ataque.__init__(self, 'Onda.png', 'coordOnda.txt', [6], RETARDO_ANIMACION_ONDA, centerx, centery)
+    def __init__(self, left, top):
+        Ataque.__init__(self, 'Onda.png', 'coordOnda.txt', [6], RETARDO_ANIMACION_ONDA, left, top)
 
     def update(self, jugador_activo, tiempo):
+        summ = 0
         if self.count < self.img_num:
             summ = 10 * self.count
-            self.establecerPosicion((jugador_activo.rect.left - summ, jugador_activo.rect.top - summ))
+            self.rect = pygame.Rect(jugador_activo.rect.left - summ, jugador_activo.rect.top- summ , self.coordenadasHoja[self.numPostura][self.numImagenPostura][2], self.coordenadasHoja[self.numPostura][self.numImagenPostura][3])
             self.actualizarPostura()
             MiSprite.update(self, tiempo)
         else:
@@ -82,13 +78,14 @@ class Onda1(Ataque):
 class Onda2(Ataque):
     "Ataque con forma de onda de jugador 2"
 
-    def __init__(self, centerx, centery):
-        Ataque.__init__(self, 'Onda.png', 'coordOnda.txt', [6], RETARDO_ANIMACION_ONDA, centerx, centery)
+    def __init__(self, left, top):
+        Ataque.__init__(self, 'Onda.png', 'coordOnda.txt', [6], RETARDO_ANIMACION_ONDA, left, top)
 
     def update(self, jugador_activo, tiempo):
+        summ = 0
         if self.count < self.img_num:
             summ = 10 * self.count
-            self.establecerPosicion((jugador_activo.rect.left - summ, jugador_activo.rect.top - summ))
+            self.rect = pygame.Rect(jugador_activo.rect.left - summ, jugador_activo.rect.top- summ , self.coordenadasHoja[self.numPostura][self.numImagenPostura][2], self.coordenadasHoja[self.numPostura][self.numImagenPostura][3])
             self.actualizarPostura()
             MiSprite.update(self, tiempo)
         else:
@@ -97,13 +94,14 @@ class Onda2(Ataque):
 class Onda3(Ataque):
     "Ataque con forma de onda de jugador 3"
 
-    def __init__(self, centerx, centery):
-        Ataque.__init__(self, 'Onda.png', 'coordOnda.txt', [6], RETARDO_ANIMACION_ONDA, centerx, centery)
+    def __init__(self, left, top):
+        Ataque.__init__(self, 'Onda.png', 'coordOnda.txt', [6], RETARDO_ANIMACION_ONDA, left, top)
 
     def update(self, jugador_activo, tiempo):
+        summ = 0
         if self.count < self.img_num:
             summ = 10 * self.count
-            self.establecerPosicion((jugador_activo.rect.left - summ, jugador_activo.rect.top - summ))
+            self.rect = pygame.Rect(jugador_activo.rect.left - summ, jugador_activo.rect.top- summ , self.coordenadasHoja[self.numPostura][self.numImagenPostura][2], self.coordenadasHoja[self.numPostura][self.numImagenPostura][3])     
             self.actualizarPostura()
             MiSprite.update(self, tiempo)
         else:
