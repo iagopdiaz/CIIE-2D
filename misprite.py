@@ -30,3 +30,4 @@ class MiSprite(pygame.sprite.Sprite):
         (scrollx, scrolly) = self.scroll
         (posx, posy) = self.posicion
         self.rect.topleft = posx - scrollx, posy - scrolly
+

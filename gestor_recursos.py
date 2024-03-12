@@ -102,7 +102,16 @@ class GestorRecursos:
             # Se devuelve
             return datos
 
-
+    @classmethod
+    def CargarCubos(cls, nombre):
+        if nombre in cls.recursos:
+            return cls.recursos[nombre]
+        else:
+            fullname = os.path.join('imagenes/mapa', nombre)  # Asegúrate de que el archivo esté en la carpeta correcta
+            with open(fullname, 'r') as pfile:
+                datos = pfile.readlines()
+            cls.recursos[nombre] = datos
+            return datos   
         
     def CargarFuente(self,fuente,tamano):
         #Cargar fuente y tamaño. Habria que comprobar si ya ha sido cargada

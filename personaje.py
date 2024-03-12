@@ -167,7 +167,7 @@ class Personaje(MiSprite):
 
 
     # Metodo para actualizar el estado del personaje
-    def update(self, grupoPlataformas, grupoPartituras, grupoPuertas, tiempo):
+    def update(self, grupoPlataformas, grupoPartituras, grupoPuertas, grupoCubos_negros, grupoCubos_grises, tiempo):
         self.grupoPlataformas = grupoPlataformas
         
         velocidadx, velocidady = 0, 0
@@ -192,6 +192,8 @@ class Personaje(MiSprite):
         elif self.movimiento == QUIETO:
             self.numPostura = SPRITE_QUIETO if self.mirando == SPRITE_ABAJO else self.mirando
 
+        if any(self.rect.colliderect(cubo.rect) for cubo in grupoCubos_negros):
+            velocidadx, velocidady = 0, 0
         # Calculamos la futura posicion del Sprite
         futura_posicion_x = self.posicion[0] + velocidadx * tiempo - self.scroll[0]
         futura_posicion_y = self.posicion[1] + velocidady * tiempo - self.scroll[1]
@@ -201,7 +203,7 @@ class Personaje(MiSprite):
 
 
         # Comprobamos si al moverse se va a chocar con algun borde del mapa
-        if any(futuro_rect.colliderect(plataforma.rect) for plataforma in grupoPlataformas):
+        if any(futuro_rect.colliderect(plataforma.rect) for plataforma in grupoPlataformas) or (any(futuro_rect.colliderect(cubo.rect) for cubo in grupoCubos_grises)):
             velocidadx, velocidady = 0, 0
 
         # Comprobamos si al moverse se va a chocar con una puerta activa
@@ -220,4 +222,3 @@ class Personaje(MiSprite):
         self.actualizarPostura()
         self.velocidad = (velocidadx, velocidady)
         MiSprite.update(self, tiempo)
-

@@ -21,7 +21,8 @@ VELOCIDAD_JUGADORY = 0.2 # Pixeles por milisegundo
 RETARDO_ANIMACION_JUGADOR = 15 # updates que durará cada imagen del personaje
                               # debería de ser un valor distinto para cada postura
                               
-                              
+RETARDO_ANIMACION_ONDA = 10
+
 CONFIGURACION_USUARIO = 'configuracion_user.json'                              
 
 MUSICA_NIVEL_1 = 'Musica/nivel1.ogg'

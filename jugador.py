@@ -4,6 +4,7 @@ from gestor_recursos import *
 from settings import *
 from misprite import *
 from personaje import *
+from onda import *
 #from observable import Observable
 
 class Jugador(Personaje):
@@ -12,6 +13,9 @@ class Jugador(Personaje):
         # Invocamos al constructor de la clase padre con la configuracion de este personaje concreto
         Personaje.__init__(self, archivoImagen, archivoCoordenadas, numImagenes, velocidadX, velocidadY, retardoAnimacion)
         self.inventario = None
+        
+        self.cadencia = 750
+        self.ultimo_disparo = pygame.time.get_ticks()
         #self.notify("Inventario", self.inventario)
 
     def mover(self, teclasPulsadas, arriba, abajo, izquierda, derecha):
@@ -27,13 +31,20 @@ class Jugador(Personaje):
         else:
             Personaje.mover(self,QUIETO)
 
+    def habilidad1():
+        raise NotImplemented("jugador sin habilidad1")
+
 class PrimerPersonaje(Jugador):#and Observable
-    "Personaje Bartender"
+    "Personaje Alchemist"
     def __init__(self):#and Observers
         # Invocamos al constructor de la clase padre con la configuracion de este personaje concreto
         Jugador.__init__(self,'Alchemist.png','coordJugador1.txt', [4, 4, 4, 4, 4, 4, 4, 4], VELOCIDAD_JUGADORX, VELOCIDAD_JUGADORY, RETARDO_ANIMACION_JUGADOR)
         ##Observable.__init__(self, observers)
         
+
+    def habilidad1(self, ataques):
+        ataque = Onda1(self.rect.centerx, self.rect.centery)
+        ataques.add(ataque)
 
 class SegundoPersonaje(Jugador):#and Observable
     "Personaje Bartender"
@@ -42,9 +53,18 @@ class SegundoPersonaje(Jugador):#and Observable
         Jugador.__init__(self,'Bartender.png','coordJugador2.txt', [4, 4, 4, 4, 4, 4, 4, 4], VELOCIDAD_JUGADORX, VELOCIDAD_JUGADORY, RETARDO_ANIMACION_JUGADOR)
         #Observable.__init__(self, observers)
 
+    def habilidad1(self, ataques):
+        ataque = Onda2(self.rect.left, self.rect.top)
+        ataques.add(ataque)
+
 class TercerPersonaje(Jugador):#and Observable
     "Personaje Merchant"
     def __init__(self):#and Observers
         # Invocamos al constructor de la clase padre con la configuracion de este personaje concreto
         Jugador.__init__(self,'Merchant.png','coordJugador3.txt', [4, 4, 4, 4, 4, 4, 4, 4], VELOCIDAD_JUGADORX, VELOCIDAD_JUGADORY, RETARDO_ANIMACION_JUGADOR)
         #Observable.__init__(self, observers)
+        
+
+    def habilidad1(self, ataques):
+        ataque = Onda3(self.rect.centerx, self.rect.centery)
+        ataques.add(ataque)

@@ -7,6 +7,8 @@ from escena import *
 from partitura import *
 from interfaz_usuario import InterfazUsuario
 from puerta import *
+from puzzle_cubo import *
+from onda import *
 
 class Fase(Escena):
     def __init__(self, director):
@@ -37,13 +39,14 @@ class Fase(Escena):
         
         self.grupoJugadores = pygame.sprite.Group(self.jugador1, self.jugador2, self.jugador3)
 
-
         # Ponemos a los jugadores en sus posiciones iniciales
         self.jugador1.establecerPosicion((255, 530))
 
         # Establecemos el jugador activo como el jugador1
         self.jugador_activo = self.jugador1
+        self.grupoJugadorActivo = pygame.sprite.Group(self.jugador_activo)
 
+        self.grupoSprites = pygame.sprite.Group(self.jugador1, self.jugador2, self.jugador3)
 
         # Creamos las plataformas del decorado basándonos en las coordenadas cargadas
         datosPlataformas = GestorRecursos.CargarCoordenadasPlataformas('coordPlataformas.txt')
@@ -53,8 +56,7 @@ class Fase(Escena):
             x, y, ancho, alto = map(int, linea.split())
             plataforma = Plataforma(pygame.Rect(x, y, ancho, alto))
             self.grupoPlataformas.add(plataforma)
-
-
+            self.grupoSprites.add(plataforma)
 
         # Creamos las partituras del decorado basándonos en las coordenadas cargadas
         datosPartituras = GestorRecursos.CargarPartituras('coordPartituras.txt')
@@ -65,8 +67,8 @@ class Fase(Escena):
             partitura = Partitura(i, f"partitura{i}.png", datos['nombre'])
             partitura.establecerPosicion((x, y))
             self.grupoPartituras.add(partitura)
-
-
+            self.grupoSprites.add(partitura)
+            
 
         # Creamos las puertas del decorado basándonos en las coordenadas cargadas
         datosPuertas = GestorRecursos.CargarPuertas('coordPuertas.txt')
@@ -82,14 +84,42 @@ class Fase(Escena):
             puerta = Puerta(datos['nombre'], f"BossDoor.png", pygame.Rect(x_area, y_area, ancho, alto))
             puerta.establecerPosicion((x_foto, y_foto))
             self.grupoPuertas.add(puerta)
+            self.grupoSprites.add(puerta)
+
+        #Cubos
+        datosCuboSombra = GestorRecursos.CargarCubos('coordMapaCuboSombra.txt')
+        self.grupoCubosSombra = pygame.sprite.Group()
+        for linea in datosCuboSombra:
+            x, y = map(int, linea.split())
+            cubo = Cubo_Sombra()
+            cubo.establecerPosicion((x, y))
+            self.grupoCubosSombra.add(cubo)
+            self.grupoSprites.add(cubo)
+        
+        datosCuboGris = GestorRecursos.CargarCubos('coordMapaCuboGris.txt')
+        self.grupoCubosGrises = pygame.sprite.Group()
+        for linea in datosCuboGris:
+            x, y = map(int, linea.split())
+            cubo = Cubo_Gris()
+            cubo.establecerPosicion((x, y))
+            self.grupoCubosGrises.add(cubo)
+            self.grupoSprites.add(cubo)
+
+        self.grupoCubosNegros = pygame.sprite.Group()
+
+        #Grupo ataques, inicialmente vacio        
+        self.grupoAtaques = pygame.sprite.Group()
 
         # Inicializa los grupos de sprites como antes
-        self.grupoSpritesDinamicos = pygame.sprite.Group(self.jugador_activo, self.grupoPuertas)  # Asumiendo que solo hay un jugador por simplicidad
-        self.grupoSprites = pygame.sprite.Group(self.jugador_activo, self.grupoPlataformas, self.grupoPartituras, self.grupoPuertas)
-    
+        
     def update(self, tiempo):
 
-        self.grupoSpritesDinamicos.update(self.grupoPlataformas, self.grupoPartituras, self.grupoPuertas, tiempo)
+        self.grupoJugadores.update(self.grupoPlataformas, self.grupoPartituras, self.grupoPuertas, self.grupoCubosNegros, self.grupoCubosGrises, tiempo)
+        self.grupoPuertas.update(tiempo)
+        self.grupoCubosSombra.update(self.grupoAtaques, self.grupoCubosNegros)
+        self.grupoAtaques.update(self.jugador_activo, tiempo)
+        self.grupoCubosNegros.update(self.jugador_activo, self.grupoPlataformas, self.grupoPuertas, self.grupoCubosGrises, tiempo)
+
         self.actualizarScroll()
 
         return False
@@ -125,15 +155,23 @@ class Fase(Escena):
         for sprite in iter(self.grupoSprites):
             sprite.establecerPosicionPantalla((self.scrollx, self.scrolly))
 
+        for sprite in iter(self.grupoCubosNegros):
+            sprite.establecerPosicionPantalla((self.scrollx, self.scrolly))
+              
         # Además, actualizamos el decorado para que se muestre una parte distinta
         self.decorado.update(self.scrollx, self.scrolly)
-
-
 
     def dibujar(self, pantalla):
         # Luego los Sprites
         self.decorado.dibujar(pantalla)
-        self.grupoSprites.draw(pantalla)
+        self.grupoPlataformas.draw(pantalla)
+        self.grupoPartituras.draw(pantalla)
+        self.grupoCubosGrises.draw(pantalla)
+        self.grupoCubosSombra.draw(pantalla)
+        self.grupoJugadorActivo.draw(pantalla)
+        self.grupoPuertas.draw(pantalla)
+        self.grupoCubosNegros.draw(pantalla)
+        self.grupoAtaques.draw(pantalla)
         self.interfazUsuario.dibujar(pantalla)
 
     def cambiar_jugador(self):
@@ -152,12 +190,11 @@ class Fase(Escena):
 
         # Actualiza el grupo de sprites para que contenga al nuevo jugador activo
         # Primero, elimina el jugador activo actual de los grupos relevantes
-        self.grupoSpritesDinamicos.remove(self.jugador_activo)
-        self.grupoSprites.remove(self.jugador_activo)
+
+        self.grupoJugadorActivo.remove(self.jugador_activo)
 
         # Luego, agrega el nuevo jugador activo a los grupos
-        self.grupoSpritesDinamicos.add(nuevo_jugador_activo)
-        self.grupoSprites.add(nuevo_jugador_activo)
+        self.grupoJugadorActivo.add(nuevo_jugador_activo)
 
         # Finalmente, actualiza la referencia de jugador_activo al nuevo jugador
         self.jugador_activo = nuevo_jugador_activo
@@ -169,15 +206,18 @@ class Fase(Escena):
             if evento.type == pygame.QUIT:
                 return True
             elif evento.type == pygame.KEYDOWN:
-                # Si la tecla presionada es TAB
                 if evento.key == pygame.K_TAB:
                     self.cambiar_jugador()
-                    # No necesitas continuar el bucle después de cambiar de jugador
+                    continue
+                elif evento.key == pygame.K_1:
+                    self.jugador_activo.habilidad1(self.grupoAtaques)
                     continue
                 elif evento.key == pygame.K_t:
                     self.jugador_activo.tocar(self.grupoPuertas)
                 elif evento.key == pygame.K_p:
                     print(self.jugador_activo.posicion)
+                elif evento.key == pygame.K_4:
+                    print(f"{self.grupoCubosNegros}")
 
             elif evento.type == pygame.MOUSEBUTTONDOWN:
                 if evento.button == 1:  # Botón izquierdo del ratón
@@ -223,7 +263,7 @@ class Plataforma(MiSprite):
         # Asegúrate de que scrolly no sea menor que 0 ni mayor que la altura de la imagen menos la altura de la pantalla
         self.rectSubimagen.top = max(0, min(scrolly, self.imagen.get_height() - ALTO_PANTALLA))
 
-    def dibujar(self, pantalla):
+    def draw(self, pantalla):
         pantalla.blit(self.imagen, self.rect, self.rectSubimagen)
 
 class Decorado:
