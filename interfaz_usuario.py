@@ -31,10 +31,7 @@ class InterfazUsuario(Observer):
             self.inventario_surface = nueva_surface
             self.inventario_rect = self.inventario_surface.get_rect()
             self.inventario_rect.topleft = (10, ALTO_PANTALLA - 50)
-
-
    
-            
     def cargar_barra_vida(self):
         font = GestorRecursos.CargarFuente(self,FUENTE1, 30)  
         self.renderizado_barra_vida = font.render("BarraVida", True, (255,255,255)) #Añadir tmb nombre de partitura
