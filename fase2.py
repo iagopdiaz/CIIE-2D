@@ -56,11 +56,11 @@ class Fase2(Escena):
         self.grupoPartituras = pygame.sprite.Group()
         for i, datos in enumerate(datosPartituras, start=1):
             x, y = map(int, datos['coords'].split())
-            partitura = Partitura(f"partitura{i}.png", datos['nombre'], datos['jugador'])
+            partitura = Partitura(f"partituras/partitura{i}.png", datos['nombre'], datos['jugador'])
             partitura.establecerPosicion((x, y))
             self.grupoPartituras.add(partitura)
 
-        meta = MetaFase(4761, 349, 'metaVertical.png')
+        meta = MetaFase(4761, 349, 'metas/metaVertical.png')
 
         # Creamos las puertas del decorado basándonos en las coordenadas cargadas
         datosPuertas = GestorRecursos.CargarPuertas('coordPuertas.txt')
@@ -73,7 +73,7 @@ class Fase2(Escena):
             # Obtenemos las coordenadas y dimensiones del área de activación de la puerta
             x_area, y_area, ancho, alto = map(int, datos['coords_area'].split())
             # Creamos la puerta y establecemos su posición y área de activación
-            puerta = Puerta(datos['nombre'], f"BossDoor.png", pygame.Rect(x_area, y_area, ancho, alto))
+            puerta = Puerta(datos['nombre'], f"puertas/puerta.png", pygame.Rect(x_area, y_area, ancho, alto))
             puerta.establecerPosicion((x_foto, y_foto))
             self.grupoPuertas.add(puerta)
 
@@ -193,6 +193,8 @@ class Fase2(Escena):
                     self.jugador_activo.escuchar()
                 elif evento.key == pygame.K_s:
                     self.jugador_activo.soltar_partitura()
+                #elif evento.key == pygame.K_ESCAPE:
+                    # TODO pausa
 
             elif evento.type == pygame.MOUSEBUTTONDOWN:
                 if evento.button == 1:  # Botón izquierdo del ratón

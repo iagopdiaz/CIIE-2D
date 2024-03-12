@@ -10,7 +10,7 @@ from botones import *
 
 class GUIInicial(GUI):
     def __init__(self, menu):
-        GUI.__init__(self, menu, "menu/wallpaper.jpg")
+        GUI.__init__(self, menu, "interfaces/wallpaper.jpg")
         botonPantallaCompleta = BotonPantallaCompleta(self)
         botonAtras = BotonAtras(self)
         self.GUIelementos.append(botonPantallaCompleta)

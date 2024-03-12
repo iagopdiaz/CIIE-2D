@@ -10,7 +10,7 @@ class InterfazUsuario(Observer):
         #elementos musicales
         #inventario
         #imagen inventario
-        self.cargar_inventario("partitura", "partitura1.png") #Deberia ser una imagan de "no hay partitura"
+        self.cargar_inventario("partitura", "partituras/partitura1.png") #Deberia ser una imagan de "no hay partitura"
         self.cargar_barra_vida()
         self.cargar_inventario_resto()
         

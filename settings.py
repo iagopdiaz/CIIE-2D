@@ -25,11 +25,11 @@ RETARDO_ANIMACION_ONDA = 10
 
 CONFIGURACION_USUARIO = 'configuracion_user.json'                              
 
-MUSICA_NIVEL_1 = 'Musica/nivel1.ogg'
-MUSICA_NIVEL_2 = 'Musica/nivel2.ogg'
-MUSICA_NIVEL_3 = 'Musica/nivel3.ogg'
-MUSICA_MENU_PRINCIPAL = 'Musica/menu_principal.ogg'
-MUSICA_MENUS = 'Musica/menus.ogg'
+MUSICA_NIVEL_1 = 'musica/nivel1.ogg'
+MUSICA_NIVEL_2 = 'musica/nivel2.ogg'
+MUSICA_NIVEL_3 = 'musica/nivel3.ogg'
+MUSICA_MENU_PRINCIPAL = 'musica/menu_principal.ogg'
+MUSICA_MENUS = 'musica/menus.ogg'
 
 GRAVEDAD = 0.0003 # Píxeles / ms2
 COS_45 = 0.707 

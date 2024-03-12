@@ -24,7 +24,7 @@ class Boton(GUIElemento):
 
 class BotonJugar(Boton):
     def __init__(self, pantalla):
-        Boton.__init__(self, pantalla, "menu/boton/jugar.png", (100, 120))
+        Boton.__init__(self, pantalla, "interfaces/botones/jugar.png", (100, 120))
     
     def accion(self):
         self.pantalla.menu.ejecutarJugar()
@@ -32,7 +32,7 @@ class BotonJugar(Boton):
 
 class BotonNivel(Boton):
     def __init__(self, pantalla):
-        Boton.__init__(self, pantalla, "menu/boton/nivel.png", (100, 240))
+        Boton.__init__(self, pantalla, "interfaces/botones/nivel.png", (100, 240))
     
     def accion(self):
         self.pantalla.menu.ejecutarNivel()
@@ -40,7 +40,7 @@ class BotonNivel(Boton):
 
 class BotonAjuste(Boton):
     def __init__(self, pantalla):
-        Boton.__init__(self, pantalla, "menu/boton/ajustes.png", (100, 360))
+        Boton.__init__(self, pantalla, "interfaces/botones/ajustes.png", (100, 360))
     
     def accion(self):
         self.pantalla.menu.ejecutarAjustes()
@@ -48,7 +48,7 @@ class BotonAjuste(Boton):
 
 class BotonSalir(Boton):
     def __init__(self, pantalla):
-        Boton.__init__(self, pantalla, "menu/boton/salir.png", (100, 480))
+        Boton.__init__(self, pantalla, "interfaces/botones/salir.png", (100, 480))
     
     def accion(self):
         self.pantalla.menu.ejecutarSalir()
@@ -56,7 +56,7 @@ class BotonSalir(Boton):
 
 class BotonPantallaCompleta(Boton):
     def __init__(self, pantalla):
-        Boton.__init__(self, pantalla, "menu/boton/pantalla_completa.png", (100, 150))
+        Boton.__init__(self, pantalla, "interfaces/botones/pantalla_completa.png", (100, 150))
     
     def accion(self):
         self.pantalla.menu.ejecutarPantallaCompleta()
@@ -64,7 +64,7 @@ class BotonPantallaCompleta(Boton):
 
 class BotonAtras(Boton):
     def __init__(self, pantalla):
-        Boton.__init__(self, pantalla, "menu/boton/atras.png", (100, 480))
+        Boton.__init__(self, pantalla, "interfaces/botones/atras.png", (100, 480))
     
     def accion(self):
         self.pantalla.menu.ejecutarAtras()

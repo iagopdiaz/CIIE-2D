@@ -66,13 +66,13 @@ class Fase1(Escena):
         self.grupoPartituras = pygame.sprite.Group()
         for i, datos in enumerate(datosPartituras, start=1):
             x, y = map(int, datos['coords'].split())
-            partitura = Partitura(f"partitura{i}.png", datos['nombre'], datos['jugador'])
+            partitura = Partitura(f"partituras/partitura{i}.png", datos['nombre'], datos['jugador'])
             partitura.establecerPosicion((x, y))
             self.grupoPartituras.add(partitura)
             self.grupoSprites.add(partitura)
 
         #Meta
-        meta = MetaFase(5115, 188, 'metaHorizontal.png')
+        meta = MetaFase(5115, 188, 'metas/metaHorizontal.png')
         self.grupoMeta = pygame.sprite.Group(meta)
         self.grupoSprites.add(self.grupoMeta)
 
@@ -87,7 +87,7 @@ class Fase1(Escena):
             # Obtenemos las coordenadas y dimensiones del área de activación de la puerta
             x_area, y_area, ancho, alto = map(int, datos['coords_area'].split())
             # Creamos la puerta y establecemos su posición y área de activación
-            puerta = Puerta(datos['nombre'], f"BossDoor.png", pygame.Rect(x_area, y_area, ancho, alto))
+            puerta = Puerta(datos['nombre'], f"puertas/puerta.png", pygame.Rect(x_area, y_area, ancho, alto))
             puerta.establecerPosicion((x_foto, y_foto))
             self.grupoPuertas.add(puerta)
             self.grupoSprites.add(puerta)
@@ -238,6 +238,8 @@ class Fase1(Escena):
                     self.jugador_activo.escuchar()
                 elif evento.key == pygame.K_s:
                     self.jugador_activo.soltar_partitura()
+                #elif evento.key == pygame.K_ESCAPE:
+                    # TODO pausa
                 elif evento.key == pygame.K_1:
                     self.jugador_activo.habilidad1(self.grupoAtaques)
                     continue

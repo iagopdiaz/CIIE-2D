@@ -172,10 +172,9 @@ class Jugador(Personaje, Observable):
         raise NotImplemented("jugador sin habilidad1")
 
 class PrimerPersonaje(Jugador):#and Observable
-    "Personaje Alchemist"
     def __init__(self):#and Observers
         # Invocamos al constructor de la clase padre con la configuracion de este personaje concreto
-        Jugador.__init__(self,'Alchemist.png','coordJugador1.txt', [4, 4, 4, 4, 4, 4, 4, 4], VELOCIDAD_JUGADORX, VELOCIDAD_JUGADORY, RETARDO_ANIMACION_JUGADOR, 0)
+        Jugador.__init__(self,'personajes/jugador1.png','personajes/coordJugador1.txt', [4, 4, 4, 4, 4, 4, 4, 4], VELOCIDAD_JUGADORX, VELOCIDAD_JUGADORY, RETARDO_ANIMACION_JUGADOR, 0)
         Observable.__init__(self)
         observers = []
         
@@ -194,10 +193,9 @@ class PrimerPersonaje(Jugador):#and Observable
         ataques.add(ataque)
 
 class SegundoPersonaje(Jugador,Observable):
-    "Personaje Bartender"
     def __init__(self):
         # Invocamos al constructor de la clase padre con la configuracion de este personaje concreto
-        Jugador.__init__(self,'Bartender.png','coordJugador2.txt', [4, 4, 4, 4, 4, 4, 4, 4], VELOCIDAD_JUGADORX, VELOCIDAD_JUGADORY, RETARDO_ANIMACION_JUGADOR, 1)
+        Jugador.__init__(self,'personajes/jugador2.png','personajes/coordJugador2.txt', [4, 4, 4, 4, 4, 4, 4, 4], VELOCIDAD_JUGADORX, VELOCIDAD_JUGADORY, RETARDO_ANIMACION_JUGADOR, 1)
         Observable.__init__(self)
         observers = []
         
@@ -216,10 +214,9 @@ class SegundoPersonaje(Jugador,Observable):
         ataques.add(ataque)
 
 class TercerPersonaje(Jugador,Observable):
-    "Personaje Merchant"
     def __init__(self):#and Observers
         # Invocamos al constructor de la clase padre con la configuracion de este personaje concreto
-        Jugador.__init__(self,'Merchant.png','coordJugador3.txt', [4, 4, 4, 4, 4, 4, 4, 4], VELOCIDAD_JUGADORX, VELOCIDAD_JUGADORY, RETARDO_ANIMACION_JUGADOR, 2)
+        Jugador.__init__(self,'personajes/jugador3.png','personajes/coordJugador3.txt', [4, 4, 4, 4, 4, 4, 4, 4], VELOCIDAD_JUGADORX, VELOCIDAD_JUGADORY, RETARDO_ANIMACION_JUGADOR, 2)
         Observable.__init__(self)
         observers = []
         

@@ -64,6 +64,9 @@ class Personaje(MiSprite, Observable):
         # Y actualizamos la postura del Sprite inicial, llamando al metodo correspondiente
         self.actualizarPostura()
 
+        # Vida del personaje
+        self.vida = 3
+
 
     # Metodo base para realizar el movimiento: simplemente se le indica cual va a hacer, y lo almacena
     def mover(self, movimiento):
@@ -107,6 +110,16 @@ class Personaje(MiSprite, Observable):
 
             elif self.mirando == ABAJO:
                 self.image = self.hoja.subsurface(self.coordenadasHoja[self.numPostura][self.numImagenPostura])
+
+    def perder_vida(self):
+        self.vida -= 1
+        if self.vida == 0:
+            print("Game over")
+            self.notificar(self.id)
+
+    def ganar_vida(self):
+        if self.vida < 3:
+            self.vida += 1
 
     def update(self, tiempo):
         velocidadx, velocidady = 0, 0
