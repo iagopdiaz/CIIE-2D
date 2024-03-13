@@ -192,7 +192,7 @@ class PrimerPersonaje(Jugador):#and Observable
         self.observers.remove(observador) 
         
     def habilidad1(self, ataques):
-        ataque = Onda1(self.rect.left - 20, self.rect.top - 20)
+        ataque = Onda1(self.rect.center[0], self.rect.center[1])
         ataques.add(ataque)
 
 class SegundoPersonaje(Jugador,Observable):
@@ -213,7 +213,7 @@ class SegundoPersonaje(Jugador,Observable):
         self.observers.remove(observador)
 
     def habilidad1(self, ataques):
-        ataque = Onda2(self.rect.left - 20, self.rect.top - 20)
+        ataque = Onda2(self.rect.center[0], self.rect.center[1])
         ataques.add(ataque)
 
 class TercerPersonaje(Jugador,Observable):
@@ -234,5 +234,5 @@ class TercerPersonaje(Jugador,Observable):
         self.observers.remove(observador)
         
     def habilidad1(self, ataques):
-        ataque = Onda3(self.rect.left - 20, self.rect.top - 20)
+        ataque = Onda3(self.rect.center[0], self.rect.center[1])
         ataques.add(ataque)

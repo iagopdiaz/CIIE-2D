@@ -11,6 +11,8 @@ from puerta import *
 from meta_fase import *
 from puzzle_cubo import *
 from onda import *
+from penumbra import *
+
 
 class Fase(Escena):
     def __init__(self, director, nivel):
@@ -111,8 +113,17 @@ class Fase(Escena):
 
         self.grupoCubosNegros = pygame.sprite.Group()
 
+
+
+
+        #Penumbra
+        self.penumbra = Penumbra()
+
         #Grupo ataques, inicialmente vacio        
         self.grupoAtaques = pygame.sprite.Group()
+
+
+
 
     def update(self, tiempo):
 
@@ -121,8 +132,9 @@ class Fase(Escena):
         self.grupoCubosSombra.update(self.grupoAtaques, self.grupoCubosNegros)
         self.grupoAtaques.update(self.jugador_activo, tiempo)
         self.grupoCubosNegros.update(self.jugador_activo, self.grupoPlataformas, self.grupoPuertas, self.grupoCubosGrises, tiempo)
-        self.actualizarScroll()
+        self.penumbra.update(self.jugador_activo, self.nivel)
 
+        #ESTO NO HABRIA QUE COLOCARLO DENTRO DE PERSONAJE Y A ESTE PASARLE EL SELF.DIRECTOR?????
         # Comprueba si el jugador ha llegado a la meta
         if pygame.sprite.groupcollide(self.grupoJugadores, self.grupoMeta, False, False) != {}:
             if self.nivel == 1 or self.nivel == 2:
@@ -131,6 +143,7 @@ class Fase(Escena):
                 self.director.cambiarEscena(Fase(self.director, 1)) # TODO CAMBIAR A GAME OVER
         
         # TODO Quitar vidas
+        self.actualizarScroll()
 
         return False
 
@@ -141,8 +154,8 @@ class Fase(Escena):
 
         ##COMO NO TIENEN TODOS LOS SPRITES EL MISMO TAMAÑO, VAMOS A COGER SIEMPRE LA MISMA MEDIDA
         #Esta puesto 25 como ejemplo de la media de tamaño de los personajes hacia el centro
-        posicion_x = self.jugador_activo.rect.left+25
-        posicion_y = self.jugador_activo.rect.top+25
+        posicion_x = self.jugador_activo.rect.center[0]
+        posicion_y = self.jugador_activo.rect.center[1]
 
         if posicion_x > LIMITE_SCROLL_X:
             # Calculamos cuántos píxeles está fuera del límite
@@ -188,6 +201,7 @@ class Fase(Escena):
         self.grupoMeta.draw(pantalla)
         self.grupoCubosNegros.draw(pantalla)
         self.grupoAtaques.draw(pantalla)
+        self.penumbra.dibujar(pantalla)
         self.interfazUsuario.dibujar(pantalla)
 
     def cambiar_jugador(self):

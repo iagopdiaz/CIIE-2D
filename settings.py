@@ -25,14 +25,12 @@ RETARDO_ANIMACION_ONDA = 10
 
 CONFIGURACION_USUARIO = 'configuracion_user.json'                              
 
-MUSICA_NIVEL_1 = 'musica/nivel1.ogg'
-MUSICA_NIVEL_2 = 'musica/nivel2.ogg'
-MUSICA_NIVEL_3 = 'musica/nivel3.ogg'
-MUSICA_MENU_PRINCIPAL = 'musica/menu_principal.ogg'
-MUSICA_MENUS = 'musica/menus.ogg'
+MUSICA_NIVEL_1 = 'musica/niveles/nivel1.ogg'
+MUSICA_NIVEL_2 = 'musica/niveles/nivel2.ogg'
+MUSICA_NIVEL_3 = 'musica/niveles/nivel3.ogg'
+MUSICA_MENU_PRINCIPAL = 'musica/menus/menu_principal.ogg'
+MUSICA_MENUS = 'musica/menus/menus.ogg'
 
-GRAVEDAD = 0.0003 # Píxeles / ms2
-COS_45 = 0.707 
 ANCHO_PANTALLA = 800
 ALTO_PANTALLA = 600
 TITULO = "El Laberinto de las Armonías"
