@@ -8,7 +8,7 @@ class Partitura(MiSprite):
 
         #Cargamos la imagen de la partitura
         self.image = GestorRecursos.CargarImagen(imagen_partitura, -1)
-        self.image = pygame.transform.scale(self.image, (18, 30))  # Escala la imagen
+        self.image = pygame.transform.scale(self.image, (40, 40))  # Escala la imagen
         self.archivoImagen = imagen_partitura
         #Obtenemos el rectangulo del sprite
         self.rect = self.image.get_rect()
