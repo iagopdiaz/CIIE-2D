@@ -3,14 +3,15 @@ from settings import *
 from gestor_recursos import GestorRecursos
 from observer import Observer
 from partitura import Partitura
+from fase import *
 
 class InterfazUsuario(Observer):    
-    def __init__(self, personaje):
+    def __init__(self, fase):
         #health
         #elementos musicales
         #inventario
         #imagen inventario
-        self.personaje = personaje
+        self.fase = fase
         self.cargar_inventario("partitura", "partituras/partitura1.png") #Deberia ser una imagan de "no hay partitura"
         self.cargar_marco()
         self.cargar_vida()
@@ -44,11 +45,11 @@ class InterfazUsuario(Observer):
         self.marco3_rect.topleft = (50, 150)
     
     def cargar_vida(self):
-        if self.personaje.vida == 3:
+        if self.fase.vida_jugador == 3:
             self.vida = GestorRecursos.CargarImagen("interfaces/vida/vida1llena.png", -1)
-        elif self.personaje.vida == 2:
+        elif self.fase.vida_jugador == 2:
             self.vida = GestorRecursos.CargarImagen("interfaces/vida/vida2media.png", -1)
-        elif self.personaje.vida == 1:
+        elif self.fase.vida_jugador == 1:
             self.vida = GestorRecursos.CargarImagen("interfaces/vida/vida3baja.png", -1)
         self.vida_rect = self.vida.get_rect()
         self.vida_rect.center = (ANCHO_PANTALLA/2, 50)
@@ -60,7 +61,8 @@ class InterfazUsuario(Observer):
         pantalla.blit(self.marco1, self.marco1_rect)
         pantalla.blit(self.marco2, self.marco2_rect)
         pantalla.blit(self.marco3, self.marco3_rect)
-        pantalla.blit(self.vida, self.vida_rect)
+        if self.fase.vida_jugador > 0:
+            pantalla.blit(self.vida, self.vida_rect)
         
     def actualizar_observer(self, tipo, imagen):
         if tipo == "partitura":

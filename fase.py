@@ -3,9 +3,10 @@ from pygame.locals import *
 from gestor_recursos import *
 from gestor_sonido import GestorSonido
 from jugador import *
+from personaje import *
 from escena import *
 from partitura import *
-from interfaz_usuario import InterfazUsuario
+from interfaz_usuario import *
 from puerta import *
 from meta_fase import *
 from puzzle_cubo import *
@@ -16,15 +17,6 @@ class Fase(Escena):
         Escena.__init__(self, director)
         self.nivel = nivel
         print(nivel)
-        # Habria que pasarle como parámetro el número de fase, a partir del cual se cargue
-        #  un fichero donde este la configuracion de esa fase en concreto, con cosas como
-        #   - Nombre del archivo con el decorado
-        #   - Posiciones de las plataformas
-        #   - Posiciones de los enemigos
-        #   - Posiciones de inicio de los jugadores
-        #  etc.
-        # Y cargar esa configuracion del archivo en lugar de ponerla a mano, como aqui abajo
-        # De esta forma, se podrian tener muchas fases distintas con esta clase
 
         # Que parte del decorado estamos visualizando
         self.scrollx = 0
@@ -36,8 +28,7 @@ class Fase(Escena):
         self.jugador1 = PrimerPersonaje()
         self.jugador2 = SegundoPersonaje()
         self.jugador3 = TercerPersonaje()
-        #Definir los 3 jugadores con sus observadores 
-        
+        #Definir los 3 jugadores con sus observadores
         self.grupoJugadores = pygame.sprite.Group(self.jugador1, self.jugador2, self.jugador3)
 
         # Ponemos a los jugadores en sus posiciones iniciales
@@ -45,7 +36,8 @@ class Fase(Escena):
 
         # Establecemos el jugador activo como el jugador1
         self.jugador_activo = self.jugador1
-        self.interfazUsuario = InterfazUsuario(self.jugador_activo)
+        self.vida_jugador = 3
+        self.interfazUsuario = InterfazUsuario(self)
         self.grupoJugadorActivo = pygame.sprite.Group(self.jugador_activo)
 
         self.grupoSprites = pygame.sprite.Group(self.jugador1, self.jugador2, self.jugador3)
@@ -136,8 +128,9 @@ class Fase(Escena):
             if self.nivel == 1 or self.nivel == 2:
                 self.director.cambiarEscena(Fase(self.director, self.nivel + 1))
             else:
-                # TODO CAMBIAR A GAME OVER
-                self.director.cambiarEscena(Fase(self.director, 1))
+                self.director.cambiarEscena(Fase(self.director, 1)) # TODO CAMBIAR A GAME OVER
+        
+        # TODO Quitar vidas
 
         return False
 
