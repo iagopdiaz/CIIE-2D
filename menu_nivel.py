@@ -3,9 +3,7 @@ from pygame.locals import *
 from escena import *
 from gestor_recursos import *
 from gestor_sonido import GestorSonido
-from fase1 import *
-from fase2 import *
-from fase3 import *
+from fase import *
 from game_over import *
 from GUIElemento import *
 from botones import GUI, Boton
@@ -91,15 +89,15 @@ class MenuNivel(Escena):
         self.director.salirPrograma()
 
     def ejecutarNivel1(self):
-        fase1 = Fase1(self.director)
+        fase1 = Fase(self.director, 1)
         self.director.cambiarEscena(fase1)
     
     def ejecutarNivel2(self):
-        fase2 = Fase2(self.director)
+        fase2 = Fase(self.director, 2)
         self.director.cambiarEscena(fase2)
     
     def ejecutarNivel3(self):
-        fase3 = Fase3(self.director)
+        fase3 = Fase(self.director, 3)
         self.director.cambiarEscena(fase3)
     
     def ejecutarAtras(self):

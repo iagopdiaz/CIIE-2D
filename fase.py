@@ -4,25 +4,34 @@ from gestor_recursos import *
 from gestor_sonido import GestorSonido
 from jugador import *
 from escena import *
-from meta_fase import *
 from partitura import *
 from interfaz_usuario import InterfazUsuario
 from puerta import *
-from fase3 import *
+from meta_fase import *
+from puzzle_cubo import *
+from onda import *
 
-# MODIFICAR NIVEL (AHORA MISMO ES IGUAL AL PRIMERO)
-
-class Fase2(Escena):
-    def __init__(self, director):
+class Fase(Escena):
+    def __init__(self, director, nivel):
         Escena.__init__(self, director)
+        self.nivel = nivel
+        print(nivel)
+        # Habria que pasarle como parámetro el número de fase, a partir del cual se cargue
+        #  un fichero donde este la configuracion de esa fase en concreto, con cosas como
+        #   - Nombre del archivo con el decorado
+        #   - Posiciones de las plataformas
+        #   - Posiciones de los enemigos
+        #   - Posiciones de inicio de los jugadores
+        #  etc.
+        # Y cargar esa configuracion del archivo en lugar de ponerla a mano, como aqui abajo
+        # De esta forma, se podrian tener muchas fases distintas con esta clase
 
         # Que parte del decorado estamos visualizando
         self.scrollx = 0
         self.scrolly = 0
         #  En ese caso solo hay scroll horizontal
         #  Si ademas lo hubiese vertical, seria self.scroll = (0, 0)
-        self.decorado = Decorado()
-        self.interfazUsuario = InterfazUsuario()
+        self.decorado = Decorado(nivel)
         # Creamos los sprites de los jugadores
         self.jugador1 = PrimerPersonaje()
         self.jugador2 = SegundoPersonaje()
@@ -31,26 +40,28 @@ class Fase2(Escena):
         
         self.grupoJugadores = pygame.sprite.Group(self.jugador1, self.jugador2, self.jugador3)
 
-
         # Ponemos a los jugadores en sus posiciones iniciales
         self.jugador1.establecerPosicion((255, 530))
 
         # Establecemos el jugador activo como el jugador1
         self.jugador_activo = self.jugador1
+        self.interfazUsuario = InterfazUsuario(self.jugador_activo)
+        self.grupoJugadorActivo = pygame.sprite.Group(self.jugador_activo)
 
+        self.grupoSprites = pygame.sprite.Group(self.jugador1, self.jugador2, self.jugador3)
 
         # Creamos las plataformas del decorado basándonos en las coordenadas cargadas
-        datosPlataformas = GestorRecursos.CargarCoordenadasPlataformas('coordParedes2.txt')
+        datosPlataformas = GestorRecursos.CargarCoordenadasPlataformas(f'coordParedes{self.nivel}.txt')
         
         self.grupoPlataformas = pygame.sprite.Group()
         for linea in datosPlataformas:
             x, y, ancho, alto = map(int, linea.split())
             plataforma = Plataforma(pygame.Rect(x, y, ancho, alto))
             self.grupoPlataformas.add(plataforma)
-
-
+            self.grupoSprites.add(plataforma)
 
         # Creamos las partituras del decorado basándonos en las coordenadas cargadas
+        # TODO COLOCAR PARTITURAS EN EL MAPA - IF NIVEL 1, 2 O 3
         datosPartituras = GestorRecursos.CargarPartituras('coordPartituras.txt')
 
         self.grupoPartituras = pygame.sprite.Group()
@@ -59,10 +70,19 @@ class Fase2(Escena):
             partitura = Partitura(f"partituras/partitura{i}.png", datos['nombre'], datos['jugador'])
             partitura.establecerPosicion((x, y))
             self.grupoPartituras.add(partitura)
+            self.grupoSprites.add(partitura)
 
-        meta = MetaFase(4761, 349, 'metas/metaVertical.png')
+        # Meta
+        if self.nivel == 2:
+            meta = MetaFase(4761, 349, 'metas/metaVertical.png')
+        else:
+            # Misma meta para fases 1 y 3
+            meta = MetaFase(5115, 188, 'metas/metaHorizontal.png')
+        self.grupoMeta = pygame.sprite.Group(meta)
+        self.grupoSprites.add(self.grupoMeta)
 
         # Creamos las puertas del decorado basándonos en las coordenadas cargadas
+        # TODO COLOCAR PUERTAS EN EL MAPA - IF NIVEL 1, 2 O 3
         datosPuertas = GestorRecursos.CargarPuertas('coordPuertas.txt')
 
         self.grupoPuertas = pygame.sprite.Group()
@@ -76,20 +96,48 @@ class Fase2(Escena):
             puerta = Puerta(datos['nombre'], f"puertas/puerta.png", pygame.Rect(x_area, y_area, ancho, alto))
             puerta.establecerPosicion((x_foto, y_foto))
             self.grupoPuertas.add(puerta)
+            self.grupoSprites.add(puerta)
 
-        # Inicializa los grupos de sprites como antes
-        self.grupoSpritesDinamicos = pygame.sprite.Group(self.jugador_activo, self.grupoPuertas)  # Asumiendo que solo hay un jugador por simplicidad
-        self.grupoSprites = pygame.sprite.Group(self.jugador_activo, self.grupoPlataformas, self.grupoPartituras, self.grupoPuertas, meta)
-        self.metaSprites = pygame.sprite.Group(meta)
-    
+        #Cubos
+        datosCuboSombra = GestorRecursos.CargarCubos('coordMapaCuboSombra.txt')
+        self.grupoCubosSombra = pygame.sprite.Group()
+        for linea in datosCuboSombra:
+            x, y = map(int, linea.split())
+            cubo = Cubo_Sombra()
+            cubo.establecerPosicion((x, y))
+            self.grupoCubosSombra.add(cubo)
+            self.grupoSprites.add(cubo)
+        
+        datosCuboGris = GestorRecursos.CargarCubos('coordMapaCuboGris.txt')
+        self.grupoCubosGrises = pygame.sprite.Group()
+        for linea in datosCuboGris:
+            x, y = map(int, linea.split())
+            cubo = Cubo_Gris()
+            cubo.establecerPosicion((x, y))
+            self.grupoCubosGrises.add(cubo)
+            self.grupoSprites.add(cubo)
+
+        self.grupoCubosNegros = pygame.sprite.Group()
+
+        #Grupo ataques, inicialmente vacio        
+        self.grupoAtaques = pygame.sprite.Group()
+
     def update(self, tiempo):
 
-        self.grupoSpritesDinamicos.update(self.grupoPlataformas, self.grupoPartituras, self.grupoPuertas, tiempo)
+        self.grupoJugadores.update(self.grupoPlataformas, self.grupoPartituras, self.grupoPuertas, self.grupoCubosNegros, self.grupoCubosGrises, self.grupoMeta, tiempo)
+        self.grupoPuertas.update(tiempo)
+        self.grupoCubosSombra.update(self.grupoAtaques, self.grupoCubosNegros)
+        self.grupoAtaques.update(self.jugador_activo, tiempo)
+        self.grupoCubosNegros.update(self.jugador_activo, self.grupoPlataformas, self.grupoPuertas, self.grupoCubosGrises, tiempo)
         self.actualizarScroll()
 
         # Comprueba si el jugador ha llegado a la meta
-        if pygame.sprite.groupcollide(self.grupoJugadores, self.metaSprites, False, False) != {}:
-            self.director.cambiarEscena(Fase3(self.director))
+        if pygame.sprite.groupcollide(self.grupoJugadores, self.grupoMeta, False, False) != {}:
+            if self.nivel == 1 or self.nivel == 2:
+                self.director.cambiarEscena(Fase(self.director, self.nivel + 1))
+            else:
+                # TODO CAMBIAR A GAME OVER
+                self.director.cambiarEscena(Fase(self.director, 1))
 
         return False
 
@@ -122,10 +170,11 @@ class Fase2(Escena):
             desplazamiento_y = ALTO_PANTALLA - LIMITE_SCROLL_Y - posicion_y
             self.scrolly = max(0, self.scrolly - desplazamiento_y)
             
-
-
         # Actualizamos la posición en pantalla de todos los Sprites según el scroll actual
         for sprite in iter(self.grupoSprites):
+            sprite.establecerPosicionPantalla((self.scrollx, self.scrolly))
+
+        for sprite in iter(self.grupoCubosNegros):
             sprite.establecerPosicionPantalla((self.scrollx, self.scrolly))
 
         #print(f'scrollx: {self.scrollx}, scrolly: {self.scrolly}, posicion_x: {posicion_x}, posicion_y: {posicion_y}')
@@ -137,7 +186,15 @@ class Fase2(Escena):
     def dibujar(self, pantalla):
         # Luego los Sprites
         self.decorado.dibujar(pantalla)
-        self.grupoSprites.draw(pantalla)
+        self.grupoPlataformas.draw(pantalla)
+        self.grupoPartituras.draw(pantalla)
+        self.grupoCubosGrises.draw(pantalla)
+        self.grupoCubosSombra.draw(pantalla)
+        self.grupoJugadorActivo.draw(pantalla)
+        self.grupoPuertas.draw(pantalla)
+        self.grupoMeta.draw(pantalla)
+        self.grupoCubosNegros.draw(pantalla)
+        self.grupoAtaques.draw(pantalla)
         self.interfazUsuario.dibujar(pantalla)
 
     def cambiar_jugador(self):
@@ -158,15 +215,13 @@ class Fase2(Escena):
         futuro_rect = pygame.Rect(nuevo_jugador_activo.posicion[0]-self.scrollx, nuevo_jugador_activo.posicion[1]-self.scrolly, nuevo_jugador_activo.rect.width, nuevo_jugador_activo.rect.height)
 
         #Calcular posicion futura del jugador activo, solo permitir el cambio si no hay colision con pared o puerta
-        if nuevo_jugador_activo.puede_moverse(futuro_rect, self.grupoPlataformas, self.grupoPuertas):
+        if nuevo_jugador_activo.puede_moverse(futuro_rect, self.grupoPlataformas, self.grupoPuertas, self.grupoCubosNegros):
             # Actualiza el grupo de sprites para que contenga al nuevo jugador activo
             # Primero, elimina el jugador activo actual de los grupos relevantes
-            self.grupoSpritesDinamicos.remove(self.jugador_activo)
-            self.grupoSprites.remove(self.jugador_activo)
+            self.grupoJugadorActivo.remove(self.jugador_activo)
 
             # Luego, agrega el nuevo jugador activo a los grupos
-            self.grupoSpritesDinamicos.add(nuevo_jugador_activo)
-            self.grupoSprites.add(nuevo_jugador_activo)
+            self.grupoJugadorActivo.add(nuevo_jugador_activo)
 
             # Finalmente, actualiza la referencia de jugador_activo al nuevo jugador
             self.jugador_activo = nuevo_jugador_activo
@@ -195,6 +250,9 @@ class Fase2(Escena):
                     self.jugador_activo.soltar_partitura()
                 #elif evento.key == pygame.K_ESCAPE:
                     # TODO pausa
+                elif evento.key == pygame.K_1:
+                    self.jugador_activo.habilidad1(self.grupoAtaques)
+                    continue
 
             elif evento.type == pygame.MOUSEBUTTONDOWN:
                 if evento.button == 1:  # Botón izquierdo del ratón
@@ -210,7 +268,7 @@ class Fase2(Escena):
                     ancho = abs(self.start_pos[0] - self.end_pos[0])
                     alto = abs(self.start_pos[1] - self.end_pos[1])
                     print(f'x: {x}, y: {y}, ancho: {ancho}, alto: {alto}')
-                    with open('./imagenes/mapa/coordParedes2.txt', 'a') as archivo:
+                    with open(f'./imagenes/mapa/coordParedes{self.nivel}.txt', 'a') as archivo:
                         archivo.write(f'{int(x)} {int(y)} {int(ancho)} {int(alto)}\n')
 
         # Indicamos la acción a realizar segun la tecla pulsada para cada jugador
@@ -244,8 +302,9 @@ class Plataforma(MiSprite):
         pantalla.blit(self.imagen, self.rect, self.rectSubimagen)
 
 class Decorado:
-    def __init__(self):
-        self.imagen = GestorRecursos.CargarImagen('mapa/mapa2decorado.png')
+    def __init__(self, nivel):
+        self.nivel = nivel
+        self.imagen = GestorRecursos.CargarImagen(f'mapa/mapa{self.nivel}decorado.png')
 
         self.rect = self.imagen.get_rect()
         

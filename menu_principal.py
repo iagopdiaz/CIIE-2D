@@ -3,7 +3,7 @@ from pygame.locals import *
 from escena import *
 from gestor_recursos import *
 from gestor_sonido import GestorSonido
-from fase1 import *
+from fase import *
 from menu_nivel import *
 from menu_settings import * 
 from GUIElemento import *
@@ -54,7 +54,7 @@ class Menu(Escena):
         self.listaPantallas[self.pantallaActual].dibujar(pantalla)
 
     def ejecutarJugar(self):
-        fase = Fase1(self.director)
+        fase = Fase(self.director, 1)
         self.director.apilarEscena(fase)
         
     def ejecutarAjustes(self):

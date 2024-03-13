@@ -3,7 +3,7 @@ from pygame.locals import *
 from escena import *
 from gestor_recursos import *
 from gestor_sonido import GestorSonido
-from fase1 import *
+from fase import *
 from GUIElemento import *
 from botones import *
 
