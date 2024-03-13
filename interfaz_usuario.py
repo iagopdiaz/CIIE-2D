@@ -5,17 +5,17 @@ from observer import Observer
 from partitura import Partitura
 
 class InterfazUsuario(Observer):    
-    def __init__(self):
+    def __init__(self, personaje):
         #health
         #elementos musicales
         #inventario
         #imagen inventario
+        self.personaje = personaje
         self.cargar_inventario("partitura", "partituras/partitura1.png") #Deberia ser una imagan de "no hay partitura"
-        self.cargar_barra_vida()
-        self.cargar_inventario_resto()
+        self.cargar_marco()
+        self.cargar_vida()
         
     def cargar_inventario(self, tipo, imagen_partitura):
-
         if (tipo == "partitura"):
             font = GestorRecursos.CargarFuente(self, FUENTE1, 15)
             imagen_partitura = GestorRecursos.CargarImagen(imagen_partitura, -1)
@@ -31,25 +31,36 @@ class InterfazUsuario(Observer):
             self.inventario_surface = nueva_surface
             self.inventario_rect = self.inventario_surface.get_rect()
             self.inventario_rect.topleft = (10, ALTO_PANTALLA - 50)
-   
-    def cargar_barra_vida(self):
-        font = GestorRecursos.CargarFuente(self,FUENTE1, 30)  
-        self.renderizado_barra_vida = font.render("BarraVida", True, (255,255,255)) #Añadir tmb nombre de partitura
-        self.barra_vida_rect = self.renderizado_barra_vida.get_rect()
-        self.barra_vida_rect.center = (ANCHO_PANTALLA/9, ALTO_PANTALLA/9.5) 
-        
-    def cargar_inventario_resto(self):
-        font = GestorRecursos.CargarFuente(self,FUENTE1, 30)  
-        self.renderizado_inventario_resto = font.render("Inventario Resto", True, (255,255,255)) #Añadir tmb nombre de partitura
-        self.inventario_resto_rect = self.renderizado_inventario_resto.get_rect()
-        self.inventario_resto_rect.center = (ANCHO_PANTALLA/1.5, ALTO_PANTALLA - ALTO_PANTALLA/10)        
+    
+    def cargar_marco(self):
+        self.marco1 = GestorRecursos.CargarImagen("interfaces/inventario/inventarioPersonaje1.png", -1)
+        self.marco2 = GestorRecursos.CargarImagen("interfaces/inventario/inventarioPersonaje2.png", -1)
+        self.marco3 = GestorRecursos.CargarImagen("interfaces/inventario/inventarioPersonaje3.png", -1)
+        self.marco1_rect = self.marco1.get_rect()
+        self.marco2_rect = self.marco2.get_rect()
+        self.marco3_rect = self.marco3.get_rect()
+        self.marco1_rect.topleft = (50, 50)
+        self.marco2_rect.topleft = (50, 100)
+        self.marco3_rect.topleft = (50, 150)
+    
+    def cargar_vida(self):
+        if self.personaje.vida == 3:
+            self.vida = GestorRecursos.CargarImagen("interfaces/vida/vida1llena.png", -1)
+        elif self.personaje.vida == 2:
+            self.vida = GestorRecursos.CargarImagen("interfaces/vida/vida2media.png", -1)
+        elif self.personaje.vida == 1:
+            self.vida = GestorRecursos.CargarImagen("interfaces/vida/vida3baja.png", -1)
+        self.vida_rect = self.vida.get_rect()
+        self.vida_rect.center = (ANCHO_PANTALLA/2, 50)
     
     def dibujar(self, pantalla):
         pantalla.blit(self.inventario_surface, self.inventario_rect)
         #if (self.imagen_partitura != None and self.imagen_partitura_rect != None):
         #pantalla.blit(self.imagen_partitura, self.imagen_partitura_rect)
-        pantalla.blit(self.renderizado_barra_vida, self.barra_vida_rect)  
-        pantalla.blit(self.renderizado_inventario_resto, self.inventario_resto_rect)
+        pantalla.blit(self.marco1, self.marco1_rect)
+        pantalla.blit(self.marco2, self.marco2_rect)
+        pantalla.blit(self.marco3, self.marco3_rect)
+        pantalla.blit(self.vida, self.vida_rect)
         
     def actualizar_observer(self, tipo, imagen):
         if tipo == "partitura":

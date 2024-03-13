@@ -32,7 +32,6 @@ class Fase1(Escena):
         #  En ese caso solo hay scroll horizontal
         #  Si ademas lo hubiese vertical, seria self.scroll = (0, 0)
         self.decorado = Decorado()
-        self.interfazUsuario = InterfazUsuario()
         # Creamos los sprites de los jugadores
         self.jugador1 = PrimerPersonaje()
         self.jugador2 = SegundoPersonaje()
@@ -46,6 +45,7 @@ class Fase1(Escena):
 
         # Establecemos el jugador activo como el jugador1
         self.jugador_activo = self.jugador1
+        self.interfazUsuario = InterfazUsuario(self.jugador_activo)
         self.grupoJugadorActivo = pygame.sprite.Group(self.jugador_activo)
 
         self.grupoSprites = pygame.sprite.Group(self.jugador1, self.jugador2, self.jugador3)
