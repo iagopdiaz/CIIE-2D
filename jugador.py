@@ -6,6 +6,7 @@ from misprite import *
 from personaje import *
 from onda import *
 from observable import Observable
+from gestor_sonido import *
 
 class Jugador(Personaje, Observable):
     "Cualquier personaje del juego"
@@ -14,6 +15,7 @@ class Jugador(Personaje, Observable):
         Personaje.__init__(self, archivoImagen, archivoCoordenadas, numImagenes, velocidadX, velocidadY, retardoAnimacion, idJugador)
         self.inventario = None
         self.soltando = False
+        self.id = idJugador
         
     def mover(self, teclasPulsadas, arriba, abajo, izquierda, derecha):
         # Indicamos la acción a realizar segun la tecla pulsada para el jugador
@@ -31,6 +33,7 @@ class Jugador(Personaje, Observable):
     def tocar(self):
         if self.inventario != None:
             print("Tocando: " + str(self.inventario.nombre))
+            #GestorSonido.....
             for puerta in self.grupoPuertas:
                 # Crea un rectángulo para el área de activación del personaje
                 area_activacion_personaje = pygame.Rect(self.posicion[0], self.posicion[1], self.rect.width, self.rect.height)
@@ -160,7 +163,7 @@ class Jugador(Personaje, Observable):
         
         # Comprobamos si puede recoger una partitura
         for partitura in grupoPartituras:
-            if futuro_rect.colliderect(partitura.rect):
+            if futuro_rect.colliderect(partitura.rect) and self.id == partitura.jugador:
                 self.recoger_partitura(partitura)
 
         # Actualizamos su posicion

@@ -11,15 +11,30 @@ class Puerta(MiSprite):
 
         # Calculamos el ancho de cada frame de la animación
         ancho_frame = imagen_puerta.get_width() // 16
+        
     
         # Creamos una lista para almacenar cada frame de la animación
         self.frames_puerta = []
-    
+
+        # Cargamos las coordenadas de las puertas
+        datos = GestorRecursos.CargarArchivoCoordenadas("puertas/coordpuertas.txt")
+        datos = datos.split("\n")
+        acum = 0
+
         # Dividimos la imagen en 16 partes iguales
         for i in range(16):
+            # Obtenemos las coordenadas de cada frame
+            coord = datos[i].split(" ")
+
+            #Aumentamos el acumulador para saber donde empezar a recortar
+            acum += int(coord[0])
+
             # Creamos un rectángulo que representa la porción de la imagen que queremos
-            rectangulo_frame = pygame.Rect(i * ancho_frame, 0, ancho_frame, imagen_puerta.get_height())
+            rectangulo_frame = pygame.Rect(acum , 0, int(coord[1]), imagen_puerta.get_height())
         
+            # Aumentamos el acumulador para la siguiente iteración
+            acum += int(coord[1])
+
             # Obtenemos la imagen de ese frame
             frame = imagen_puerta.subsurface(rectangulo_frame)
             frame = pygame.transform.scale(frame, (50, 131))
