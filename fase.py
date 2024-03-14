@@ -12,6 +12,7 @@ from meta_fase import *
 from puzzle_cubo import *
 from onda import *
 from penumbra import *
+from interfaz_usuario import *
 
 
 class Fase(Escena):
@@ -93,11 +94,11 @@ class Fase(Escena):
             self.grupoSprites.add(puerta)
 
         #Cubos
-        datosCuboSombra = GestorRecursos.CargarCubos('coordMapaCuboSombra.txt')
+        datosCuboAlchemist = GestorRecursos.CargarCubos('coordMapaCuboSombra.txt')
         self.grupoCubosSombra = pygame.sprite.Group()
-        for linea in datosCuboSombra:
+        for linea in datosCuboAlchemist:
             x, y = map(int, linea.split())
-            cubo = Cubo_Sombra()
+            cubo = Cubo_Sombra2()
             cubo.establecerPosicion((x, y))
             self.grupoCubosSombra.add(cubo)
             self.grupoSprites.add(cubo)
@@ -113,16 +114,11 @@ class Fase(Escena):
 
         self.grupoCubosNegros = pygame.sprite.Group()
 
-
-
-
         #Penumbra
         self.penumbra = Penumbra()
 
         #Grupo ataques, inicialmente vacio        
         self.grupoAtaques = pygame.sprite.Group()
-
-
 
 
     def update(self, tiempo):

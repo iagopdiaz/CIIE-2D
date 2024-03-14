@@ -1,5 +1,6 @@
 from misprite import *
 from settings import *
+from onda import *
 
 class Cubo(MiSprite):
     "Cualquier personaje del juego"
@@ -21,7 +22,7 @@ class Cubo(MiSprite):
         
     
 class Cubo_Negro(Cubo):#and Observable
-    "Cubo Sombra"
+    "Cubo negro"
     def __init__(self):#and Observers
         # Invocamos al constructor de la clase padre con la configuracion de este personaje concreto
         Cubo.__init__(self,'cubo_negro.png')
@@ -68,7 +69,7 @@ class Cubo_Negro(Cubo):#and Observable
         self.kill()
 
 class Cubo_Gris(Cubo):#and Observable
-    "Posicion Objetivo"
+    "Cubo gris"
     def __init__(self):#and Observers
         # Invocamos al constructor de la clase padre con la configuracion de este personaje concreto
         Cubo.__init__(self,'cubo_gris.png')
@@ -77,16 +78,59 @@ class Cubo_Gris(Cubo):#and Observable
     def eliminar(self):
         self.kill()
 
-class Cubo_Sombra(Cubo):#and Observable
-    "Posicion Objetivo"
+class Cubo_Sombra1(Cubo):#and Observable
+    "Cubo para personaje 1"
     def __init__(self):#and Observers
         # Invocamos al constructor de la clase padre con la configuracion de este personaje concreto
-        Cubo.__init__(self,'cubo_sombra.png')
+        Cubo.__init__(self,'cubo_sombra1.png')
+        self.tipo = 1
         ##Observable.__init__(self, observers)
 
     def update(self, grupoAtaques, grupoCubosNegros):
         for ataque in grupoAtaques:
-            if (self.rect.colliderect(ataque.rect)):
+            if (self.rect.colliderect(ataque.rect)) and (ataque.tipo == self.tipo):
+                cuboNegro = Cubo_Negro()
+                cuboNegro.establecerPosicion((self.posicion[0], self.posicion[1]))
+
+                grupoCubosNegros.add(cuboNegro)
+
+                self.eliminar()
+
+    def eliminar(self):
+        self.kill()
+
+class Cubo_Sombra2(Cubo):#and Observable
+    "Cubo para personaje 2"
+    def __init__(self):#and Observers
+        # Invocamos al constructor de la clase padre con la configuracion de este personaje concreto
+        Cubo.__init__(self,'cubo_sombra2.png')
+        self.tipo = 2
+        ##Observable.__init__(self, observers)
+
+    def update(self, grupoAtaques, grupoCubosNegros):
+        for ataque in grupoAtaques:
+            if (self.rect.colliderect(ataque.rect)) and (ataque.tipo == self.tipo):
+                cuboNegro = Cubo_Negro()
+                cuboNegro.establecerPosicion((self.posicion[0], self.posicion[1]))
+
+                grupoCubosNegros.add(cuboNegro)
+
+                self.eliminar()
+
+    def eliminar(self):
+        self.kill()
+
+class Cubo_Sombra3(Cubo):#and Observable
+    "Cubo para personaje 3"
+    def __init__(self):#and Observers
+        # Invocamos al constructor de la clase padre con la configuracion de este personaje concreto
+        Cubo.__init__(self,'cubo_sombra3.png')
+        self.tipo = 3
+        ##Observable.__init__(self, observers)
+
+    def update(self, grupoAtaques, grupoCubosNegros):
+        for ataque in grupoAtaques:
+            if (self.rect.colliderect(ataque.rect)) and (ataque.tipo == self.tipo):
                 cuboNegro = Cubo_Negro()
                 cuboNegro.establecerPosicion((self.posicion[0], self.posicion[1]))
 

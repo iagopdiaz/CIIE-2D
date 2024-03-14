@@ -64,6 +64,7 @@ class Onda1(Ataque):
 
     def __init__(self, left, top):
         Ataque.__init__(self, 'Onda.png', 'coordOnda.txt', [6], RETARDO_ANIMACION_ONDA, left, top)
+        self.tipo = 1
 
     def update(self, jugador_activo, tiempo):
         summ = 0
@@ -80,6 +81,7 @@ class Onda2(Ataque):
 
     def __init__(self, left, top):
         Ataque.__init__(self, 'Onda.png', 'coordOnda.txt', [6], RETARDO_ANIMACION_ONDA, left, top)
+        self.tipo = 2
 
     def update(self, jugador_activo, tiempo):
         summ = 0
@@ -96,6 +98,7 @@ class Onda3(Ataque):
 
     def __init__(self, left, top):
         Ataque.__init__(self, 'Onda.png', 'coordOnda.txt', [6], RETARDO_ANIMACION_ONDA, left, top)
+        self.tipo = 3
 
     def update(self, jugador_activo, tiempo):
         summ = 0
