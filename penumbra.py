@@ -9,7 +9,7 @@ class Penumbra:
     def update(self, jugador, nivel):
         if nivel == 3:
             #Establecemos los valores 
-            (radio_luz, valor_max, valor_min) = (100, 150, 0) if jugador.id == 3 else (50, 180, 20)
+            (radio_luz, valor_max, valor_min) = (40, 200, 30) if jugador.id == 2 else (23, 240, 140)
 
             # Llenamos la penumbra con negro en general la escena
             self.penumbra.fill((0, 0, 0, valor_max)) 
