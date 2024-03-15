@@ -30,9 +30,23 @@ MUSICA_NIVEL_2 = 'musica/niveles/nivel2.ogg'
 MUSICA_NIVEL_3 = 'musica/niveles/nivel3.ogg'
 MUSICA_MENU_PRINCIPAL = 'musica/menus/menu_principal.ogg'
 MUSICA_MENUS = 'musica/menus/menus.ogg'
+CABECERA = "cabecera.txt"
+NIVEL0 = "nivel_0.txt"
+CAJA_DIALOGO = "interfaces\dialogo.png"
+TEXTO_ENTER = "Presiona ENTER_numerico para seguir"
+PARTITURA_SOLTADA = "Partirura soltada"
+PARTITURA_RECOGIDA = "Partitura recogida"
+ESCUCHANDO = "Escuchando"
 
 ANCHO_PANTALLA = 800
 ALTO_PANTALLA = 600
 TITULO = "El Laberinto de las Armonías"
 FUENTE1 = "fuentes/Perfect DOS VGA 437.ttf"
 TAMAÑO_FUENTE1 = 20
+TAMAÑO_FUENTE_NOMBRE = 14
+TAMAÑO_FUENTE_FRASE = 12
+TAMAÑO_FUENTE_ENTER = 10
+
+DARK_GRAY = ((50,50,50))
+MARROON = ((115,0,0))
+

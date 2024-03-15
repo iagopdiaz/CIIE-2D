@@ -15,15 +15,23 @@ from puzzle_cubo import *
 from onda import *
 from penumbra import *
 from pared import *
+from dialogos import Dialogos 
 
 class Fase(Escena):
-    def __init__(self, director, nivel):
+    def __init__(self, director, nivel, dialogos = True):
         # Llamamos al constructor de la clase padre
         Escena.__init__(self, director)
 
         # Nivel actual
         self.nivel = nivel
-
+        
+        #Definir dialogos
+        self.ultimo_dialogo = False
+        if(nivel == 4): 
+            self.ultimo_dialogo = True 
+        self.dialogos = Dialogos(nivel, not self.ultimo_dialogo)   
+         
+        
         # Iniciar el scroll
         self.scrollx = 0
         self.scrolly = 0
@@ -154,7 +162,10 @@ class Fase(Escena):
         self.grupoAtaques.update(self.jugador_activo, tiempo)
         self.grupoCubosNegros.update(self.jugador_activo, self.grupoParedes, self.grupoPuertas, self.grupoCubosGrises, tiempo)
         self.grupoPenumbra.update(self.jugador_activo, self.nivel)
-
+        if not self.ultimo_dialogo:
+            self.dialogos.actualizar_dialgo()
+        else :
+            self.dialogos.actualizar_accion(0)
         #ESTO NO HABRIA QUE COLOCARLO DENTRO DE PERSONAJE Y A ESTE PASARLE EL SELF.DIRECTOR?????
         # Comprueba si el jugador ha llegado a la meta
         if pygame.sprite.groupcollide(self.grupoJugadorActivo, self.grupoMeta, False, False) != {}:
@@ -169,7 +180,16 @@ class Fase(Escena):
     def actualizar_observer(self, tipo, imagen):
         if tipo == "muerte":
             self.director.cambiarEscena(GameOver(self.director, "muerte"))
-
+        elif tipo == "accion":
+            if(imagen == PARTITURA_SOLTADA):
+                self.dialogos.actualizar_accion(1)
+            elif( imagen == PARTITURA_RECOGIDA):
+                self.dialogos.actualizar_accion(2)
+            else:
+                pass         
+        elif tipo == "partitura1" or "partitura2" or "partitura3" or "DELpartitura1" or "DELpartitura2" or "DELpartitura3":
+            self.interfazUsuario.cargar_inventario(tipo,imagen)    
+        
     def actualizarScroll(self):
         # Definimos el límite para el scroll como los 3/4 de la pantalla
         LIMITE_SCROLL_X = ANCHO_PANTALLA * 3 / 4
@@ -220,6 +240,7 @@ class Fase(Escena):
         self.grupoAtaques.draw(pantalla)
         self.grupoPenumbra.draw(pantalla)
         self.interfazUsuario.dibujar(pantalla)
+        self.dialogos.dibujar(pantalla)
 
     def cambiar_jugador(self):
         if (self.jugador_activo == self.jugador1):
@@ -273,6 +294,8 @@ class Fase(Escena):
                     self.jugador_activo.escuchar()
                 elif evento.key == pygame.K_s:
                     self.jugador_activo.soltar_partitura()
+                elif evento.key == pygame.K_KP_ENTER:
+                    self.dialogos.siguiente_dialogo()     
                 #elif evento.key == pygame.K_ESCAPE:
                     # TODO pausa
                 elif evento.key == pygame.K_1:

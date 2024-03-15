@@ -6,6 +6,9 @@ from pygame.locals import *
 class GestorRecursos:
     
     recursos = {}
+
+    dialogo_0 = "\dialogos\nivel_0.txt"  
+    
             
     @classmethod
     def CargarImagen(cls, nombre, colorkey=None):
@@ -236,3 +239,25 @@ class GestorRecursos:
         
         return fuente
         
+    @classmethod
+    def CargarDialogo(cls, nombre):
+        # Si el nombre de archivo está entre los recursos ya cargados
+        if nombre in cls.recursos:
+            # Se devuelve ese recurso
+            return cls.recursos[nombre]
+        # Si no ha sido cargado anteriormente
+        else:
+            # Se carga el recurso indicando el nombre de su carpeta
+            fullname = os.path.join('dialogos', nombre)
+            with open(fullname, 'r') as pfile:
+                lineas = pfile.read().splitlines()
+                datos = []
+                for linea in lineas:
+                    # Divide la línea en nombre y frase
+                    nombre, frase = linea.split(' && ')
+                    datos.append((nombre, frase))
+            # Se almacena
+            cls.recursos[nombre] = datos
+            # Se devuelve
+            return datos
+    

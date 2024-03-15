@@ -1,0 +1,15 @@
+Melodio Maestro && Hola Jugador
+Melodio Maestro && Estamos perdidos en un mundo diferente. Se escuchan muchos intrumentos diferentes en aquella direccion
+Melodio Maestro && Ven, te contare el secreto de la musica eterna..
+Melodio Maestro && Listo para aprender los trucos de este mundo musical Aqui van:
+Melodio Maestro && TECLA TAB: Si quieres tener companhia, pulsa TAB y CAMBIARAS de PERSONAJE.
+Melodio Maestro && Pero hasta el nivel 2 no tendras companhia. 
+Melodio Maestro && TECLA T: Sinete el ritmo. Con la 'T' para activas la partitura para abrir las puertas.
+Melodio Maestro && TECLA E: Quieres escuchar lo que se cuece por aqui Dale a la 'E' y deja que el sonido te envuelva.
+Melodio Maestro && TECLA S: Si quieres soltar una partitura, solo presiona la S y dejala volar.
+Melodio Maestro && TECLA 1: Listo para sacar tu as bajo la manga Usa la 1 para activar la habilidad especial de tu personaje.
+Melodio Maestro && TECLA ESC: Si quieres echarte atras, toca la 'ESC' y volveras al ultimo punto.
+Melodio Maestro && TECLA X: Y cuando quieras dejar de jugar, simplemente cierra la ventana con la 'X'.
+Melodio Maestro && Bueno pues esto es todo, ya me voy...
+Melodio Maestro && ..................
+Melodio Maestro && AHHHH QUE CASI ME OLVIDO Para moverte, usa las teclas 'W', 'A', 'Ss' y 'D'. Ya sabes, A darle canha
