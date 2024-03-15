@@ -44,7 +44,7 @@ class Jugador(Personaje, Observable):
 
                 if (puerta.area.colliderect(area_activacion_personaje)):                    
                     if (puerta.añadir_partitura(self.inventario)):
-                        self.inventario = None
+                        self.grupoPartituras.remove(self.inventario)
                         return
                     else:
                         print("La partitura no abre esta puerta")
@@ -63,7 +63,8 @@ class Jugador(Personaje, Observable):
         if self.id == partitura.jugador:
             if self.inventario:  # Si ya tiene una partitura en el inventario
                 self.soltar_partitura()  
-            partitura.desaparecer() # La partitura desaparece del mapa
+            #partitura.desaparecer() # La partitura desaparece del mapa
+            self.grupoPartituras.remove(partitura)  # La partitura desaparece del grupo de partituras
             self.inventario = partitura  # Recoge la nueva partitura
         imagen = partitura.archivoImagen
         self.notificar_observers("partitura", imagen)  # Notifica a la interfaz que ha recogido una partitura
@@ -95,6 +96,7 @@ class Jugador(Personaje, Observable):
                     nueva_posicion = (self.posicion[0] + dx, self.posicion[1] + dy)
                     if self.puede_soltar_partitura(nueva_posicion):
                         self.soltando = False
+                        self.grupoPartituras.add(self)
                         return
 
             print("No se puede soltar la partitura aqui")
@@ -123,6 +125,7 @@ class Jugador(Personaje, Observable):
     def update(self, grupoParedes, grupoPinchos, grupoPartituras, grupoPuertas, grupoCubos_negros, grupoCubos_grises, grupoMeta, tiempo):
         self.grupoParedes = grupoParedes
         self.grupoPuertas = grupoPuertas
+        self.grupoPartituras = grupoPartituras
         
         velocidadx, velocidady = 0, 0
 
@@ -173,7 +176,7 @@ class Jugador(Personaje, Observable):
                     self.tiempo_ultimo_dano = tiempo_actual
 
         # Comprobamos si puede recoger una partitura
-        for partitura in grupoPartituras:
+        for partitura in self.grupoPartituras:
             if futuro_rect.colliderect(partitura.rect) and self.id == partitura.jugador:
                 self.recoger_partitura(partitura)
 

@@ -22,11 +22,4 @@ class Partitura(MiSprite):
         #Falta la musica de la partitura
         #self.musica = GestorRecursos.CargarMusica(musica_partitura)
 
-    #Esto ni de coña se hace asi
-    def desaparecer(self):
-        self.establecerPosicion((-10000, -10000))
-
-
-
-
         
