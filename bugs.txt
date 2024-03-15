@@ -1,2 +1,3 @@
 - Al hacer click en el menú principal, a veces se cierra el programa al darle al botón de jugar.
-- Algunas veces, la vida de los personajes 2 y 3 se inicia en 2, en vez de los 3 estándar. El error parece aleatorio y no puedo reproducirlo consistentemente.
+- Al cambiar entre personajes, hay como unos ms de desincronizacion que coge la posicion anterior del personaje que estas poniendo
+esto hace el salto del scroll, y que en la penumbra al camviar de personaje se vea un foco de luz durante algun ms en otra posicion

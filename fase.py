@@ -200,7 +200,7 @@ class Fase(Escena):
             self.scrolly = max(0, self.scrolly - desplazamiento_y)
             
         # Actualizamos la posición en pantalla de todos los Sprites según el scroll actual
-        for sprite in chain(self.grupoJugadorActivo, self.grupoParedes, self.grupoPinchos, self.grupoPartituras, self.grupoCubosGrises, self.grupoCubosSombra, self.grupoPuertas, self.grupoMeta, self.grupoCubosNegros, self.grupoAtaques, self.grupoPenumbra):
+        for sprite in chain(self.grupoJugadorActivo, self.grupoParedes, self.grupoPinchos, self.grupoPartituras, self.grupoCubosGrises, self.grupoCubosSombra, self.grupoPuertas, self.grupoMeta, self.grupoCubosNegros, self.grupoAtaques):
             sprite.establecerPosicionPantalla((self.scrollx, self.scrolly))
 
         # Además, actualizamos el decorado para que se muestre una parte distinta
