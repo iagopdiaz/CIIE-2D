@@ -16,6 +16,10 @@ class Jugador(Personaje, Observable):
         self.inventario = None
         self.soltando = False
         self.id = idJugador
+        self.vida = 3 # Inicializa la vida del jugador
+        self.tiempo_ultimo_dano = 0  # Inicializa el tiempo desde el último daño a 0
+        self.cooldown_dano = 1500  # Establece un cooldown de daño de 1500 milisegundos
+
         
     def mover(self, teclasPulsadas, arriba, abajo, izquierda, derecha):
         # Indicamos la acción a realizar segun la tecla pulsada para el jugador
@@ -105,8 +109,8 @@ class Jugador(Personaje, Observable):
         # Crea un rectángulo en la posible posición
         futuro_rect = pygame.Rect(posicion_ajustada[0], posicion_ajustada[1], self.rect.width, self.rect.height)
 
-        # Comprueba si el rectángulo colisiona con alguna plataforma o puerta
-        if not any(futuro_rect.colliderect(plataforma.rect) for plataforma in self.grupoPlataformas) and not any(futuro_rect.colliderect(puerta.rect) for puerta in self.grupoPuertas):
+        # Comprueba si el rectángulo colisiona con alguna pared o puerta
+        if not any(futuro_rect.colliderect(pared.rect) for pared in self.grupoParedes) and not any(futuro_rect.colliderect(puerta.rect) for puerta in self.grupoPuertas):
             # Si no colisiona, establece la posición de la partitura y la suelta
             self.inventario.establecerPosicion(posicion)
             self.inventario = None
@@ -116,8 +120,8 @@ class Jugador(Personaje, Observable):
         return False
 
     # Metodo para actualizar el estado del personaje
-    def update(self, grupoPlataformas, grupoPartituras, grupoPuertas, grupoCubos_negros, grupoCubos_grises, grupoMeta, tiempo):
-        self.grupoPlataformas = grupoPlataformas
+    def update(self, grupoParedes, grupoPartituras, grupoPuertas, grupoCubos_negros, grupoCubos_grises, grupoMeta, tiempo):
+        self.grupoParedes = grupoParedes
         self.grupoPuertas = grupoPuertas
         
         velocidadx, velocidady = 0, 0
@@ -158,8 +162,12 @@ class Jugador(Personaje, Observable):
         futuro_rect = pygame.Rect(futura_posicion_x, futura_posicion_y, self.rect.width, self.rect.height)
 
         # Comprobamos si puede moverse a esa posicion
-        if not self.puede_moverse(futuro_rect, grupoPlataformas, grupoPuertas, grupoCubos_grises):
+        if not self.puede_moverse(futuro_rect, grupoParedes, grupoPuertas, grupoCubos_grises):
             velocidadx, velocidady = 0, 0
+            tiempo_actual = pygame.time.get_ticks()
+            if tiempo_actual - self.tiempo_ultimo_dano > self.cooldown_dano:
+                self.vida -= 1  # Restamos un punto de vida
+                self.tiempo_ultimo_dano = tiempo_actual
         
         # Comprobamos si puede recoger una partitura
         for partitura in grupoPartituras:
@@ -170,6 +178,10 @@ class Jugador(Personaje, Observable):
         self.actualizarPostura()
         self.velocidad = (velocidadx, velocidady)
         MiSprite.update(self, tiempo)
+
+        # Muerte del personaje
+        if self.vida <= 0:
+            self.notificar_observers("muerte", "imagenes\interfaces\fondos\muerte.jpg")
 
     def habilidad1():
         raise NotImplemented("jugador sin habilidad1")

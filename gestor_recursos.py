@@ -51,7 +51,7 @@ class GestorRecursos:
             return datos
         
     @classmethod    
-    def CargarCoordenadasPlataformas(cls, nombre):
+    def CargarCoordenadasParedes(cls, nombre):
         if nombre in cls.recursos:
             return cls.recursos[nombre]
         else:
