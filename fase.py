@@ -1,5 +1,6 @@
 import pygame, sys, os
 from pygame.locals import *
+from game_over import GameOver
 from gestor_recursos import *
 from gestor_sonido import GestorSonido
 from jugador import *
@@ -35,7 +36,8 @@ class Fase(Escena):
         self.grupoJugadores = pygame.sprite.Group(self.jugador1, self.jugador2, self.jugador3)
 
         # Ponemos a los jugadores en sus posiciones iniciales
-        self.jugador1.establecerPosicion((255, 530))
+        #self.jugador1.establecerPosicion((255, 530))
+        self.jugador1.establecerPosicion((4255, 530)) # Posición trabajo dev
 
         # Establecemos el jugador activo como el jugador1
         self.jugador_activo = self.jugador1
@@ -136,7 +138,7 @@ class Fase(Escena):
             if self.nivel == 1 or self.nivel == 2:
                 self.director.cambiarEscena(Fase(self.director, self.nivel + 1))
             else:
-                self.director.cambiarEscena(Fase(self.director, 1)) # TODO CAMBIAR A GAME OVER
+                self.director.cambiarEscena(GameOver(self.director, "enhorabuena"))
         
         # TODO Quitar vidas
         self.actualizarScroll()
@@ -282,7 +284,12 @@ class Fase(Escena):
         return False
 
     def encender_musica(self):
-        GestorSonido.musica_nivel_1()
+        if self.nivel == 1:
+            GestorSonido.musica_nivel_1()
+        if self.nivel == 2:
+            GestorSonido.musica_nivel_2()
+        if self.nivel == 3:
+            GestorSonido.musica_nivel_3()
 
 class Plataforma(MiSprite):
     def __init__(self,rectangulo):

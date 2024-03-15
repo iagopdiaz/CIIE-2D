@@ -56,7 +56,7 @@ class BotonSalir(Boton):
 
 class BotonPantallaCompleta(Boton):
     def __init__(self, pantalla):
-        Boton.__init__(self, pantalla, "interfaces/botones/pantalla_completa.png", (100, 150))
+        Boton.__init__(self, pantalla, "interfaces/botones/pantalla_completa.png", (100, 360))
     
     def accion(self):
         self.pantalla.menu.ejecutarPantallaCompleta()

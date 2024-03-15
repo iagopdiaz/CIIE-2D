@@ -11,7 +11,7 @@ from botones import GUI, Boton
 
 class GUIInicial(GUI):
     def __init__(self, menu):
-        GUI.__init__(self, menu, "interfaces/wallpaper.jpg")
+        GUI.__init__(self, menu, "interfaces/fondos/ajustes.jpg")
         botonFase1 = BotonNivel1(self)
         botonFase2 = BotonNivel2(self)
         botonFase3 = BotonNivel3(self)

@@ -12,7 +12,7 @@ from botones import *
 
 class GUIInicial(GUI):
     def __init__(self, menu):
-        GUI.__init__(self, menu, "interfaces/wallpaper.jpg")
+        GUI.__init__(self, menu, "interfaces/fondos/principal.jpg")
         botonJugar = BotonJugar(self)
         botonNivel = BotonNivel(self)
         botonAjustes = BotonAjuste(self)
