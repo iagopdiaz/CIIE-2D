@@ -17,7 +17,7 @@ class Cubo(MiSprite):
         # Primero invocamos al constructor de la clase padre
         MiSprite.__init__(self)
         # Se carga la hoja
-        self.image = GestorRecursos.CargarImagen(archivoImagen, -1)
+        self.image = GestorRecursos.CargarImagenCubos(archivoImagen, -1)
         self.rect = self.image.get_rect()
         
     

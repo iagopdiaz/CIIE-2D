@@ -192,7 +192,7 @@ class PrimerPersonaje(Jugador):#and Observable
         self.observers.remove(observador) 
         
     def habilidad1(self, ataques):
-        ataque = Onda1(self.rect.center[0], self.rect.center[1])
+        ataque = Onda1(self.rect.left, self.rect.top)
         ataques.add(ataque)
 
 class SegundoPersonaje(Jugador,Observable):

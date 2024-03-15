@@ -120,6 +120,74 @@ class GestorRecursos:
             cls.recursos[nombre] = datos
             return datos   
         
+    @classmethod
+    def CargarImagenCubos(cls, nombre, colorkey=None):
+        # Si el nombre de archivo está entre los recursos ya cargados
+        if nombre in cls.recursos:
+            # Se devuelve ese recurso
+            return cls.recursos[nombre]
+        # Si no ha sido cargado anteriormente
+        else:
+            # Se carga la imagen indicando la carpeta en la que está
+            fullname = os.path.join('imagenes/cubos', nombre)
+            try:
+                imagen = pygame.image.load(fullname)
+            except pygame.error as message:
+                print (f'Cannot load image: {fullname}')
+                raise SystemExit(message)
+            imagen = imagen.convert()
+            if colorkey != None:
+                if colorkey == -1:
+                    colorkey = imagen.get_at((0,0))
+                imagen.set_colorkey(colorkey, RLEACCEL)
+            # Se almacena
+            cls.recursos[nombre] = imagen
+            # Se devuelve
+            return imagen 
+        
+    @classmethod
+    def CargarImagenAtaque(cls, nombre, colorkey=None):
+        # Si el nombre de archivo está entre los recursos ya cargados
+        if nombre in cls.recursos:
+            # Se devuelve ese recurso
+            return cls.recursos[nombre]
+        # Si no ha sido cargado anteriormente
+        else:
+            # Se carga la imagen indicando la carpeta en la que está
+            fullname = os.path.join('imagenes/ataques', nombre)
+            try:
+                imagen = pygame.image.load(fullname)
+            except pygame.error as message:
+                print (f'Cannot load image: {fullname}')
+                raise SystemExit(message)
+            imagen = imagen.convert()
+            if colorkey != None:
+                if colorkey == -1:
+                    colorkey = imagen.get_at((0,0))
+                imagen.set_colorkey(colorkey, RLEACCEL)
+            # Se almacena
+            cls.recursos[nombre] = imagen
+            # Se devuelve
+            return imagen 
+        
+    @classmethod
+    def CargarCoordenadasAtaque(cls, nombre):
+        # Si el nombre de archivo está entre los recursos ya cargados
+        if nombre in cls.recursos:
+            # Se devuelve ese recurso
+            return cls.recursos[nombre]
+        # Si no ha sido cargado anteriormente
+        else:
+            # Se carga el recurso indicando el nombre de su carpeta
+            fullname = os.path.join('imagenes/ataques', nombre)
+            pfile=open(fullname,'r')
+            datos=pfile.read()
+            pfile.close()
+            # Se almacena
+            cls.recursos[nombre] = datos
+            # Se devuelve
+            return datos
+        
     def CargarFuente(self,fuente,tamano):
         #Cargar fuente y tamaño. Habria que comprobar si ya ha sido cargada
         try:
