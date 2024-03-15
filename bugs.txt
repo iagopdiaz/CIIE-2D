@@ -1,1 +1,2 @@
-al clicar en el menun principal a veces peta al darle al boton de jugar 
+- Al hacer click en el menú principal, a veces se cierra el programa al darle al botón de jugar.
+- Algunas veces, la vida de los personajes 2 y 3 se inicia en 2, en vez de los 3 estándar. El error parece aleatorio y no puedo reproducirlo consistentemente.
