@@ -41,10 +41,6 @@ class Director:
         #Eliminamos todos los eventos producidos antes de entrar en el bucle
         pygame.event.clear()
         while not self.salir_escena:
-            #Si se produce un evento de salir del juego, salimos
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    self.salirPrograma()
             #Sincronizar el juego a 60 fps
             tiempo_pasado = self.reloj.tick(60)
             if (escena.eventos(pygame.event.get())):
