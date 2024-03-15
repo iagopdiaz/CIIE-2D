@@ -118,7 +118,8 @@ class GestorRecursos:
             with open(fullname, 'r') as pfile:
                 datos = pfile.readlines()
             cls.recursos[nombre] = datos
-            return datos   
+            return datos    
+       
         
     @classmethod
     def CargarImagenCubos(cls, nombre, colorkey=None):
@@ -187,6 +188,43 @@ class GestorRecursos:
             cls.recursos[nombre] = datos
             # Se devuelve
             return datos
+        
+    @classmethod
+    def CargarImagenPinchos(cls, orientacion, colorkey=None):
+        # Si el nombre de archivo está entre los recursos ya cargados
+        nombre = "spritePinchos" + str(orientacion) + ".png"
+        if nombre in cls.recursos:
+            # Se devuelve ese recurso
+            return cls.recursos[nombre]
+        # Si no ha sido cargado anteriormente
+        else:
+            # Se carga la imagen indicando la carpeta en la que está
+            fullname = os.path.join('imagenes/pinchos', nombre)
+            try:
+                imagen = pygame.image.load(fullname)
+            except pygame.error as message:
+                print (f'Cannot load image: {fullname}')
+                raise SystemExit(message)
+            imagen = imagen.convert()
+            if colorkey != None:
+                if colorkey == -1:
+                    colorkey = imagen.get_at((0,0))
+                imagen.set_colorkey(colorkey, RLEACCEL)
+            # Se almacena
+            cls.recursos[nombre] = imagen
+            # Se devuelve
+            return imagen 
+        
+    @classmethod
+    def CargarCoordenadasPinchos(cls, nombre):
+        if nombre in cls.recursos:
+            return cls.recursos[nombre]
+        else:
+            fullname = os.path.join('imagenes/mapa', nombre)  # Asegúrate de que el archivo esté en la carpeta correcta
+            with open(fullname, 'r') as pfile:
+                datos = pfile.readlines()
+            cls.recursos[nombre] = datos
+            return datos  
         
     def CargarFuente(self,fuente,tamano):
         #Cargar fuente y tamaño. Habria que comprobar si ya ha sido cargada

@@ -13,7 +13,7 @@ from meta_fase import *
 from puzzle_cubo import *
 from onda import *
 from penumbra import *
-
+from pared import *
 
 class Fase(Escena):
     def __init__(self, director, nivel):
@@ -55,6 +55,18 @@ class Fase(Escena):
             pared = Pared(pygame.Rect(x, y, ancho, alto))
             self.grupoParedes.add(pared)
             self.grupoSprites.add(pared)
+
+        #Creamos los pinchos
+        datosPinchos = GestorRecursos.CargarCoordenadasPinchos("coordPinchos.txt")
+        
+        self.grupoPinchos = pygame.sprite.Group()
+        for linea in datosPinchos:
+            print( linea.split())
+            x, y, orientacion = map(int, linea.split())
+            pincho = ParedPinchos(orientacion)
+            pincho.establecerPosicion((x, y))
+            self.grupoPinchos.add(pincho)
+            self.grupoSprites.add(pincho)
 
         # Creamos las partituras del decorado basándonos en las coordenadas cargadas
         # TODO COLOCAR PARTITURAS EN EL MAPA - IF NIVEL 1, 2 O 3
@@ -98,8 +110,13 @@ class Fase(Escena):
         datosCuboAlchemist = GestorRecursos.CargarCubos('coordMapaCuboSombra.txt')
         self.grupoCubosSombra = pygame.sprite.Group()
         for linea in datosCuboAlchemist:
-            x, y = map(int, linea.split())
-            cubo = Cubo_Sombra2()
+            x, y, tipoCubo = map(int, linea.split())
+            if tipoCubo == 1:
+                cubo = Cubo_Sombra1()
+            elif tipoCubo == 2:
+                cubo = Cubo_Sombra2()
+            elif tipoCubo == 3:
+                cubo = Cubo_Sombra3()
             cubo.establecerPosicion((x, y))
             self.grupoCubosSombra.add(cubo)
             self.grupoSprites.add(cubo)
@@ -122,7 +139,7 @@ class Fase(Escena):
         self.grupoAtaques = pygame.sprite.Group()
 
     def update(self, tiempo):
-        self.grupoJugadores.update(self.grupoParedes, self.grupoPartituras, self.grupoPuertas, self.grupoCubosNegros, self.grupoCubosGrises, self.grupoMeta, tiempo)
+        self.grupoJugadores.update(self.grupoParedes, self.grupoPinchos, self.grupoPartituras, self.grupoPuertas, self.grupoCubosNegros, self.grupoCubosGrises, self.grupoMeta, tiempo)
         self.grupoPuertas.update(tiempo)
         self.grupoCubosSombra.update(self.grupoAtaques, self.grupoCubosNegros)
         self.grupoAtaques.update(self.jugador_activo, tiempo)
@@ -188,6 +205,7 @@ class Fase(Escena):
         # Luego los Sprites
         self.decorado.dibujar(pantalla)
         self.grupoParedes.draw(pantalla)
+        self.grupoPinchos.draw(pantalla)
         self.grupoPartituras.draw(pantalla)
         self.grupoCubosGrises.draw(pantalla)
         self.grupoCubosSombra.draw(pantalla)
@@ -289,25 +307,6 @@ class Fase(Escena):
         if self.nivel == 3:
             GestorSonido.musica_nivel_3()
 
-class Pared(MiSprite):
-    def __init__(self,rectangulo):
-        # Primero invocamos al constructor de la clase padre
-        MiSprite.__init__(self)
-        # Rectangulo con las coordenadas en pantalla que ocupara
-        self.rect = rectangulo
-        # Y lo situamos de forma global en esas coordenadas
-        self.establecerPosicion((self.rect.left, self.rect.top))
-        # En el caso particular de este juego, las paredes no se van a ver, asi que no se carga ninguna imagen
-        self.image = pygame.Surface((0, 0))
-
-    def update(self, scrollx, scrolly):
-        # Asegúrate de que scrollx no sea menor que 0 ni mayor que la anchura de la imagen menos la anchura de la pantalla
-        self.rectSubimagen.left = max(0, min(scrollx, self.imagen.get_width() - ANCHO_PANTALLA))
-        # Asegúrate de que scrolly no sea menor que 0 ni mayor que la altura de la imagen menos la altura de la pantalla
-        self.rectSubimagen.top = max(0, min(scrolly, self.imagen.get_height() - ALTO_PANTALLA))
-
-    def dibujar(self, pantalla):
-        pantalla.blit(self.imagen, self.rect, self.rectSubimagen)
 
 class Decorado:
     def __init__(self, nivel):

@@ -120,7 +120,7 @@ class Jugador(Personaje, Observable):
         return False
 
     # Metodo para actualizar el estado del personaje
-    def update(self, grupoParedes, grupoPartituras, grupoPuertas, grupoCubos_negros, grupoCubos_grises, grupoMeta, tiempo):
+    def update(self, grupoParedes, grupoPinchos, grupoPartituras, grupoPuertas, grupoCubos_negros, grupoCubos_grises, grupoMeta, tiempo):
         self.grupoParedes = grupoParedes
         self.grupoPuertas = grupoPuertas
         
@@ -164,11 +164,14 @@ class Jugador(Personaje, Observable):
         # Comprobamos si puede moverse a esa posicion
         if not self.puede_moverse(futuro_rect, grupoParedes, grupoPuertas, grupoCubos_grises):
             velocidadx, velocidady = 0, 0
-            tiempo_actual = pygame.time.get_ticks()
-            if tiempo_actual - self.tiempo_ultimo_dano > self.cooldown_dano:
-                self.vida -= 1  # Restamos un punto de vida
-                self.tiempo_ultimo_dano = tiempo_actual
-        
+
+        for pincho in grupoPinchos:
+            if futuro_rect.colliderect(pincho.rect):
+                tiempo_actual = pygame.time.get_ticks()
+                if tiempo_actual - self.tiempo_ultimo_dano > self.cooldown_dano:
+                    self.vida -= pincho.vida  # Restamos un punto de vida
+                    self.tiempo_ultimo_dano = tiempo_actual
+
         # Comprobamos si puede recoger una partitura
         for partitura in grupoPartituras:
             if futuro_rect.colliderect(partitura.rect) and self.id == partitura.jugador:
