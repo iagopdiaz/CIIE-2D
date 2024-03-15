@@ -35,7 +35,6 @@ class Fase(Escena):
         self.jugador1 = PrimerPersonaje()
         self.jugador2 = SegundoPersonaje()
         self.jugador3 = TercerPersonaje()
-        self.grupoJugadores = pygame.sprite.Group(self.jugador1, self.jugador2, self.jugador3)
 
         # Ponemos a los jugadores en sus posiciones iniciales
         self.jugador1.establecerPosicion((255, 530))
@@ -149,7 +148,7 @@ class Fase(Escena):
         self.grupoAtaques = pygame.sprite.Group()
 
     def update(self, tiempo):
-        self.grupoJugadores.update(self.grupoParedes, self.grupoPinchos, self.grupoPartituras, self.grupoPuertas, self.grupoCubosNegros, self.grupoCubosGrises, self.grupoMeta, tiempo)
+        self.grupoJugadorActivo.update(self.grupoParedes, self.grupoPinchos, self.grupoPartituras, self.grupoPuertas, self.grupoCubosGrises, self.grupoCubosNegros, self.grupoPuertas, tiempo)
         self.grupoPuertas.update()
         self.grupoCubosSombra.update(self.grupoAtaques, self.grupoCubosNegros)
         self.grupoAtaques.update(self.jugador_activo, tiempo)
@@ -158,7 +157,7 @@ class Fase(Escena):
 
         #ESTO NO HABRIA QUE COLOCARLO DENTRO DE PERSONAJE Y A ESTE PASARLE EL SELF.DIRECTOR?????
         # Comprueba si el jugador ha llegado a la meta
-        if pygame.sprite.groupcollide(self.grupoJugadores, self.grupoMeta, False, False) != {}:
+        if pygame.sprite.groupcollide(self.grupoJugadorActivo, self.grupoMeta, False, False) != {}:
             if self.nivel == 1 or self.nivel == 2:
                 self.director.cambiarEscena(Fase(self.director, self.nivel + 1))
             else:
@@ -176,10 +175,10 @@ class Fase(Escena):
         LIMITE_SCROLL_X = ANCHO_PANTALLA * 3 / 4
         LIMITE_SCROLL_Y = ALTO_PANTALLA * 3 / 4
 
-        ##COMO NO TIENEN TODOS LOS SPRITES EL MISMO TAMAÑO, VAMOS A COGER SIEMPRE LA MISMA MEDIDA
-        #Esta puesto 25 como ejemplo de la media de tamaño de los personajes hacia el centro
-        posicion_x = self.jugador_activo.rect.center[0]
-        posicion_y = self.jugador_activo.rect.center[1]
+        #Aproximacion del centro del jugador, no se coge con .center porque sino varia con los diferentes personajes
+        #En penumbra si que se coje con .center por que sino en el circulo se nota mucho el centrro mal
+        posicion_x = self.jugador_activo.rect.topleft[0] + 25
+        posicion_y = self.jugador_activo.rect.topleft[1] + 25
 
         if posicion_x > LIMITE_SCROLL_X:
             # Calculamos cuántos píxeles está fuera del límite
