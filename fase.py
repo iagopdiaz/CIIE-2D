@@ -13,7 +13,6 @@ from meta_fase import *
 from puzzle_cubo import *
 from onda import *
 from penumbra import *
-from interfaz_usuario import *
 
 
 class Fase(Escena):
@@ -36,8 +35,8 @@ class Fase(Escena):
         self.grupoJugadores = pygame.sprite.Group(self.jugador1, self.jugador2, self.jugador3)
 
         # Ponemos a los jugadores en sus posiciones iniciales
-        #self.jugador1.establecerPosicion((255, 530))
-        self.jugador1.establecerPosicion((4255, 530)) # Posición trabajo dev
+        self.jugador1.establecerPosicion((255, 530))
+        # self.jugador1.establecerPosicion((4255, 530)) # Posición trabajo dev
 
         # Establecemos el jugador activo como el jugador1
         self.jugador_activo = self.jugador1
