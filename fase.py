@@ -155,7 +155,6 @@ class Fase(Escena):
         self.grupoAtaques.update(self.jugador_activo, tiempo)
         self.grupoCubosNegros.update(self.jugador_activo, self.grupoParedes, self.grupoPuertas, self.grupoCubosGrises, tiempo)
         self.grupoPenumbra.update(self.jugador_activo, self.nivel)
-        self.grupoPartituras.update(tiempo)
 
         #ESTO NO HABRIA QUE COLOCARLO DENTRO DE PERSONAJE Y A ESTE PASARLE EL SELF.DIRECTOR?????
         # Comprueba si el jugador ha llegado a la meta
