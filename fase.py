@@ -207,26 +207,11 @@ class Fase(Escena):
                                    
             else:
                 pass         
-        elif tipo == 1 or 2 or 3 or 4 or 5 or 6:
-            if (not self.tipo_anterior):            
-                if(tipo == 1 or 4):
-                    self.tipo_anterior[0] = tipo
-                elif (tipo == 2 or 5):
-                    self.tipo_anterior[1] = tipo
-                elif (tipo == 3 or 6):
-                    self.tipo_anterior[2] = tipo    
-                self.interfazUsuario.cargar_inventario(tipo,imagen)  
-            else:          
-                if(tipo == 1 or 4):
-                    self.interfazUsuario.eliminar_partitura(self.tipo_anterior[0])    
-                    self.tipo_anterior[0] = tipo
-                elif (tipo == 2 or 5):
-                    self.interfazUsuario.eliminar_partitura(self.tipo_anterior[1])   
-                    self.tipo_anterior[1] = tipo
-                elif (tipo == 3 or 6):
-                    self.interfazUsuario.eliminar_partitura(self.tipo_anterior[2])   
-                    self.tipo_anterior[2] = tipo    
-                self.interfazUsuario.cargar_inventario(tipo,imagen)    
+        elif tipo == "partitura1" or "partitura2" or "partitura3": 
+            self.interfazUsuario.cargar_inventario(tipo,imagen)  
+        elif tipo == "DELpartitura1" or "DELpartitura2" or "DELpartitura3":  
+            self.interfazUsuario.cargar_inventario(tipo, "partituras/partituraX.png")
+                 
             
     def actualizarScroll(self):
         # Definimos el límite para el scroll como los 3/4 de la pantalla

@@ -11,10 +11,9 @@ class InterfazUsuario(Observer):
         #inventario
         #imagen inventario
         self.personaje = personaje
-        self.partitura_surfaces = {}
-        self.partituras = []
-        self.cargar_inventario(4, "partituras/partituraX.png") 
-        self.cargar_marco()     
+        self.partituras_surfaces = {}
+        self.cargar_inventario("partituraX", "partituras/partituraX.png") 
+        self.cargar_marco()
         self.cargar_vida1llena()
         self.cargar_vida2media()
         self.cargar_vida3vacia()
@@ -27,31 +26,34 @@ class InterfazUsuario(Observer):
 
 
     def cargar_inventario(self, tipo, imagen_partitura):
-        
-        if tipo not in self.partituras:
-            self.partituras.append(tipo)
-            
         self.imagen_partitura = GestorRecursos.CargarImagen(imagen_partitura, -1)
         self.partitura_surface = self.imagen_partitura.get_rect()
-        print(tipo)
-        if (tipo == 1):
+        print("--------**ENTRADA IF CASOS***------------")  
+        print(imagen_partitura)
+        if (tipo == "partitura1" or "DELpartitura1"):
+            print(tipo)
+            print("1")
             self.partitura_surface.topleft = (60, 60)
-        elif (tipo == 2):  
+        elif (tipo == "partitura2" or "DELpartitura2"):  
+            print(tipo)
+            print("2")
             self.partitura_surface.topleft = (60, 110)
-        elif (tipo == 3): 
-            self.partitura_surface.topleft = (60, 160)  
-        elif (tipo == 4):
-            self.partitura_surface.topleft = (60, 60)
-        elif (tipo == 5):  
-            self.partitura_surface.topleft = (60, 110)
-        elif (tipo == 6): 
-            self.partitura_surface.topleft = (60, 160)         
-        else: 
-            self.partitura_surface.topleft = (6000, 16000)
+        elif (tipo == "partitura3" or "DELpartitura3"): 
+            self.partitura_surface.topleft = (60, 160)   
+        else: #Primer caso
+            self.partitura_surface.topleft = (16000, 16000)
             
-        self.partitura_surfaces[tipo] = (self.imagen_partitura, self.partitura_surface)
-
-            
+        if tipo.startswith("DEL"):
+            tipo_real = tipo[3:]  # Eliminar el prefijo "DEL"
+            self.partituras_surfaces[tipo_real] = (GestorRecursos.CargarImagen("partituras/partituraX.png", -1), self.partitura_surface)
+        else:
+            self.partituras_surfaces[tipo] = (self.imagen_partitura, self.partitura_surface)   
+        
+        print("--------------------")
+        print(self.partituras_surfaces.values())
+        print("--------------------")  
+        
+                
     def cargar_marco(self):
         self.marco1 = GestorRecursos.CargarImagen("interfaces/inventario/inventarioPersonaje1.png", -1)
         self.marco2 = GestorRecursos.CargarImagen("interfaces/inventario/inventarioPersonaje2.png", -1)
@@ -87,7 +89,8 @@ class InterfazUsuario(Observer):
         pantalla.blit(self.marco2, self.marco2_rect)
         pantalla.blit(self.marco3, self.marco3_rect)
         
-        for tipo, (imagen, surface) in self.partitura_surfaces.items():
+        print("no printeo por otra cosa")        
+        for (imagen, surface) in self.partituras_surfaces.values():
             pantalla.blit(imagen, surface)
         
         #pantalla.blit(self.imagen_partitura, self.partitura_surface)

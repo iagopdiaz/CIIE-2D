@@ -76,8 +76,7 @@ class Jugador(Personaje, Observable):
         imagen = partitura.archivoImagen
         self.notificar_observers("partitura", imagen)  # Notifica a la interfaz que ha recogido una partitura
         self.notificar_observers("accion", PARTITURA_RECOGIDA)  # Notifica a la interfaz que ha recogido una partitura
-        print("notifica en jugador_reccogerPartirua") # Notifica a la interfaz que ha recogido una partitura
-
+        
     def soltar_partitura(self, grupoPartituras, grupoParedes, grupoPuertas, grupoCubosGrises):
         if self.inventario:
             # Definición de las posiciones en función de la dirección
@@ -135,6 +134,7 @@ class Jugador(Personaje, Observable):
             # Si no colisiona, establece la posición de la partitura y la suelta
             self.inventario.establecerPosicion(posicion)
             #aqui no se notifica
+            self.notificar_observers("accion", SOLTAR_PARTITURA_NO)
             return True  
         else:
             return False
@@ -203,7 +203,8 @@ class Jugador(Personaje, Observable):
         # Comprobamos si puede soltar una partitura
         if self.soltando:
             print("Soltando partitura")
-            self.soltar_partitura(grupoPartituras)
+            self.soltar_partitura(grupoPartituras)            
+            self.notificar_observers("DELpartitura", "partituras\partituraX.png") 
             self.notificar_observers("accion", PARTITURA_SOLTADA)  # Notifica a la interfaz que no se puede soltar la partitura aquí
             return
 
@@ -229,9 +230,9 @@ class PrimerPersonaje(Jugador, Observable):#and Observable
     def notificar_observers(self, tipo, imagen):
         for observer in self.observers:
             if (tipo == "partitura"):
-                observer.actualizar_observer(1, imagen)
+                observer.actualizar_observer("partitura1", imagen)
             elif (tipo == "DELpartitura"):                    
-                observer.actualizar_observer(4, imagen)
+                observer.actualizar_observer("DELpartitura1", imagen)
             elif (tipo == "accion"):
                 observer.actualizar_observer("accion", imagen)    
             else: 
@@ -258,9 +259,9 @@ class SegundoPersonaje(Jugador,Observable):
     def notificar_observers(self, tipo, imagen):
         for observer in self.observers:
             if (tipo == "partitura"):
-                observer.actualizar_observer(2, imagen)
-            elif (tipo == "DELartitura"):                    
-                observer.actualizar_observer(5, imagen)
+                observer.actualizar_observer("partitura2", imagen)
+            elif (tipo == "DELpartitura"):                    
+                observer.actualizar_observer("partitura2", imagen)
             else: 
                 observer.actualizar_observer(tipo, imagen)
               
@@ -285,9 +286,9 @@ class TercerPersonaje(Jugador,Observable):
     def notificar_observers(self, tipo, imagen):
         for observer in self.observers:
             if (tipo == "partitura"):
-                observer.actualizar_observer(3, imagen)
-            elif (tipo == "DELartitura"):                    
-                observer.actualizar_observer(6, imagen)
+                observer.actualizar_observer("partitura3", imagen)
+            elif (tipo == "DELpartitura"):                    
+                observer.actualizar_observer("DELpartitura3", imagen)
             else: 
                 observer.actualizar_observer(tipo, imagen)
                
