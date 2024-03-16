@@ -65,20 +65,15 @@ class Fase(Escena):
             pared = Pared(pygame.Rect(x, y, ancho, alto))
             self.grupoParedes.add(pared)
 
-
-
         #Pinchos
-        datosPinchos = GestorRecursos.CargarCoordenadasPinchos("coordPinchos.txt")
+        datosPinchos = GestorRecursos.CargarCoordenadasPinchos(f"coordPinchos{self.nivel}.txt")
         
         self.grupoPinchos = pygame.sprite.Group()
         for linea in datosPinchos:
-            print( linea.split())
             x, y, orientacion = map(int, linea.split())
             pincho = ParedPinchos(orientacion)
             pincho.establecerPosicion((x, y))
             self.grupoPinchos.add(pincho)
-
-
 
         # Partituras
         datosPartituras = GestorRecursos.CargarPartituras(f'coordPartituras{nivel}.txt')
@@ -91,7 +86,6 @@ class Fase(Escena):
             self.grupoPartituras.add(partitura)
 
 
-
         # Meta
         if self.nivel == 2:
             meta = MetaFase(4761, 349, 'metas/metaVertical.png')
@@ -99,8 +93,6 @@ class Fase(Escena):
             # Misma meta para fases 1 y 3
             meta = MetaFase(5115, 188, 'metas/metaHorizontal.png')
         self.grupoMeta = pygame.sprite.Group(meta)
-
-
 
         # Puertas
         datosPuertas = GestorRecursos.CargarPuertas(f"coordPuertas{nivel}.txt")
@@ -117,10 +109,8 @@ class Fase(Escena):
             puerta.establecerPosicion((x_foto, y_foto))
             self.grupoPuertas.add(puerta)
 
-
-
         #Cubos
-        datosCuboAlchemist = GestorRecursos.CargarCubos('coordMapaCuboSombra.txt')
+        datosCuboAlchemist = GestorRecursos.CargarCubos(f'coordMapaCuboSombra{self.nivel}.txt')
         self.grupoCubosSombra = pygame.sprite.Group()
         for linea in datosCuboAlchemist:
             x, y, tipoCubo = map(int, linea.split())
@@ -133,7 +123,7 @@ class Fase(Escena):
             cubo.establecerPosicion((x, y))
             self.grupoCubosSombra.add(cubo)
         
-        datosCuboGris = GestorRecursos.CargarCubos('coordMapaCuboGris.txt')
+        datosCuboGris = GestorRecursos.CargarCubos(f'coordMapaCuboGris{self.nivel}.txt')
         self.grupoCubosGrises = pygame.sprite.Group()
         for linea in datosCuboGris:
             x, y = map(int, linea.split())
@@ -143,15 +133,11 @@ class Fase(Escena):
 
         self.grupoCubosNegros = pygame.sprite.Group()
 
-
-
         #Penumbra
         self.grupoPenumbra = pygame.sprite.Group()
         if nivel == 3:
             self.grupoPenumbra.add(Penumbra())
         
-
-
         #Ataques        
         self.grupoAtaques = pygame.sprite.Group()
 
@@ -166,8 +152,7 @@ class Fase(Escena):
             self.dialogos.actualizar_dialgo()
         else :
             self.dialogos.actualizar_accion(0)
-        #ESTO NO HABRIA QUE COLOCARLO DENTRO DE PERSONAJE Y A ESTE PASARLE EL SELF.DIRECTOR?????
-        # Comprueba si el jugador ha llegado a la meta
+        
         if pygame.sprite.groupcollide(self.grupoJugadorActivo, self.grupoMeta, False, False) != {}:
             if self.nivel == 1 or self.nivel == 2:
                 self.director.cambiarEscena(Fase(self.director, self.nivel + 1))
