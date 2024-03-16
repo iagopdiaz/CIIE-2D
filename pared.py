@@ -29,6 +29,6 @@ class ParedPinchos(MiSprite):
         self.image = GestorRecursos.CargarImagenPinchos(orientacion, -1)
         self.rect = self.image.get_rect()
         
-        self.vida = 1
+        self.damage = 1
 
 

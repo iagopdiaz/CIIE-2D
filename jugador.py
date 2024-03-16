@@ -132,7 +132,7 @@ class Jugador(Personaje, Observable):
             return False
 
     # Metodo para actualizar el estado del personaje
-    def update(self, grupoParedes, grupoPinchos, grupoPartituras, grupoPuertas, grupoCubos_negros, grupoCubos_grises, grupoMeta, tiempo):
+    def update(self, grupoParedes, grupoPinchos, grupoPartituras, grupoPuertas, grupoCubos_negros, grupoCubos_grises, grupoMeta, grupoEnemigos, tiempo):
         self.grupoParedes = grupoParedes
         self.grupoPuertas = grupoPuertas
         self.grupoPartituras = grupoPartituras
@@ -178,13 +178,20 @@ class Jugador(Personaje, Observable):
             if futuro_rect.colliderect(pincho.rect):
                 tiempo_actual = pygame.time.get_ticks()
                 if tiempo_actual - self.tiempo_ultimo_dano > self.cooldown_dano:
-                    self.vida -= pincho.vida  # Restamos un punto de vida
+                    self.vida -= pincho.damage  # Restamos un punto de vida
                     self.tiempo_ultimo_dano = tiempo_actual
 
         # Comprobamos si puede recoger una partitura
-        for partitura in self.grupoPartituras:
+        for partitura in grupoPartituras:
             if futuro_rect.colliderect(partitura.rect) and self.id == partitura.jugador:
                 self.recoger_partitura(partitura)
+
+        for enemigo in grupoEnemigos:
+            if futuro_rect.colliderect(enemigo.rect):
+                tiempo_actual = pygame.time.get_ticks()
+                if tiempo_actual - self.tiempo_ultimo_dano > self.cooldown_dano:
+                    self.vida -= enemigo.damage  # Restamos un punto de vida
+                    self.tiempo_ultimo_dano = tiempo_actual
 
         # Comprobamos si puede soltar una partitura
         if self.soltando:

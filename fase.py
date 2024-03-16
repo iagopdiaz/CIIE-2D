@@ -16,6 +16,7 @@ from onda import *
 from penumbra import *
 from pared import *
 from dialogos import Dialogos 
+from enemigos import *
 
 class Fase(Escena):
     def __init__(self, director, nivel, dialogos = True):
@@ -137,17 +138,28 @@ class Fase(Escena):
         self.grupoPenumbra = pygame.sprite.Group()
         if nivel == 3:
             self.grupoPenumbra.add(Penumbra())
-        
+
+        #Enemigos
+        datosEnemigo = GestorRecursos.CargarCubos(f'coordEnemigo{self.nivel}.txt')
+        self.grupoEnemigos = pygame.sprite.Group()
+        for linea in datosEnemigo:
+            x, y, tipo = map(int, linea.split())
+            enemigo = Enemigo(tipo)
+            enemigo.establecerPosicion((x, y))
+            self.grupoEnemigos.add(enemigo)
+
         #Ataques        
         self.grupoAtaques = pygame.sprite.Group()
 
     def update(self, tiempo):
-        self.grupoJugadorActivo.update(self.grupoParedes, self.grupoPinchos, self.grupoPartituras, self.grupoPuertas, self.grupoCubosGrises, self.grupoCubosNegros, self.grupoPuertas, tiempo)
+        self.grupoJugadorActivo.update(self.grupoParedes, self.grupoPinchos, self.grupoPartituras, self.grupoPuertas, self.grupoCubosGrises, self.grupoCubosNegros, self.grupoPuertas, self.grupoEnemigos, tiempo)
         self.grupoPuertas.update()
         self.grupoCubosSombra.update(self.grupoAtaques, self.grupoCubosNegros)
         self.grupoAtaques.update(self.jugador_activo, tiempo)
         self.grupoCubosNegros.update(self.jugador_activo, self.grupoParedes, self.grupoPuertas, self.grupoCubosGrises, tiempo)
         self.grupoPenumbra.update(self.jugador_activo, self.nivel)
+        self.grupoEnemigos.update(self.jugador_activo, self.grupoParedes, self.grupoPuertas, tiempo)
+        
         if not self.ultimo_dialogo:
             self.dialogos.actualizar_dialgo()
         else :
@@ -205,7 +217,7 @@ class Fase(Escena):
             self.scrolly = max(0, self.scrolly - desplazamiento_y)
             
         # Actualizamos la posición en pantalla de todos los Sprites según el scroll actual
-        for sprite in chain(self.grupoJugadorActivo, self.grupoParedes, self.grupoPinchos, self.grupoPartituras, self.grupoCubosGrises, self.grupoCubosSombra, self.grupoPuertas, self.grupoMeta, self.grupoCubosNegros, self.grupoAtaques):
+        for sprite in chain(self.grupoJugadorActivo, self.grupoParedes, self.grupoPinchos, self.grupoPartituras, self.grupoCubosGrises, self.grupoCubosSombra, self.grupoPuertas, self.grupoMeta, self.grupoCubosNegros, self.grupoAtaques, self.grupoEnemigos):
             sprite.establecerPosicionPantalla((self.scrollx, self.scrolly))
 
         # Además, actualizamos el decorado para que se muestre una parte distinta
@@ -216,9 +228,10 @@ class Fase(Escena):
         self.grupoParedes.draw(pantalla)
         self.grupoPinchos.draw(pantalla)
         self.grupoPartituras.draw(pantalla)
+        self.grupoEnemigos.draw(pantalla)
+        self.grupoJugadorActivo.draw(pantalla)
         self.grupoCubosGrises.draw(pantalla)
         self.grupoCubosSombra.draw(pantalla)
-        self.grupoJugadorActivo.draw(pantalla)
         self.grupoPuertas.draw(pantalla)
         self.grupoMeta.draw(pantalla)
         self.grupoCubosNegros.draw(pantalla)

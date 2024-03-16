@@ -38,7 +38,7 @@ class Personaje(MiSprite, Observable):
         self.numImagenPostura = 0
         cont = 0
         self.coordenadasHoja = []
-        for linea in range(0, 8):
+        for linea in range(0, len(numImagenes)):
             self.coordenadasHoja.append([])
             tmp = self.coordenadasHoja[linea]
             for postura in range(1, numImagenes[linea]+1):
@@ -92,20 +92,8 @@ class Personaje(MiSprite, Observable):
                 self.numImagenPostura = 0
             if self.numImagenPostura < 0:
                 self.numImagenPostura = len(self.coordenadasHoja[self.numPostura])-1
+
             self.image = self.hoja.subsurface(self.coordenadasHoja[self.numPostura][self.numImagenPostura])
-
-            # Si esta mirando a la izquiera, cogemos la porcion de la hoja
-            if self.mirando == IZQUIERDA:
-                self.image = self.hoja.subsurface(self.coordenadasHoja[self.numPostura][self.numImagenPostura])
-            #  Si no, si mira a la derecha, invertimos esa imagen
-            elif self.mirando == DERECHA:
-                self.image = self.hoja.subsurface(self.coordenadasHoja[self.numPostura][self.numImagenPostura])
-
-            elif self.mirando == ARRIBA:
-                self.image = self.hoja.subsurface(self.coordenadasHoja[self.numPostura][self.numImagenPostura])
-
-            elif self.mirando == ABAJO:
-                self.image = self.hoja.subsurface(self.coordenadasHoja[self.numPostura][self.numImagenPostura])
 
     def update(self, tiempo):
         velocidadx, velocidady = 0, 0

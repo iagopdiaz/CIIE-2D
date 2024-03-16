@@ -4,6 +4,7 @@ IZQUIERDA = 1
 DERECHA = 2
 ARRIBA = 3
 ABAJO = 4
+ATAQUE = 5
 
 #Posturas
 SPRITE_QUIETO = 0
@@ -18,10 +19,16 @@ SPRITE_ARRIBA = 7
 
 VELOCIDAD_JUGADORX = 0.2 # Pixeles por milisegundo
 VELOCIDAD_JUGADORY = 0.2 # Pixeles por milisegundo
-RETARDO_ANIMACION_JUGADOR = 15 # updates que durará cada imagen del personaje
-                              # debería de ser un valor distinto para cada postura
+RETARDO_ANIMACION_JUGADOR = 15 # updates que durará cada imagen del personaje              
                               
 RETARDO_ANIMACION_ONDA = 6
+
+ENEMIGO_ANDANDO_IZQ = 0
+ENEMIGO_ATAQUE = 1
+
+VELOCIDAD_ENEMIGOX = 0.05 # Pixeles por milisegundo
+VELOCIDAD_ENEMIGOY = 0.05    # Pixeles por milisegundo
+RETARDO_ANIMACION_ENEMIGO = 15 # updates que durará cada imagen del personaje        
 
 CONFIGURACION_USUARIO = 'configuracion_user.json'                              
 
