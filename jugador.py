@@ -224,9 +224,9 @@ class PrimerPersonaje(Jugador, Observable):#and Observable
     def notificar_observers(self, tipo, imagen):
         for observer in self.observers:
             if (tipo == "partitura"):
-                observer.actualizar_observer("partitura1", imagen)
+                observer.actualizar_observer(1, imagen)
             elif (tipo == "DELpartitura"):                    
-                observer.actualizar_observer("DELpartitura1", imagen)
+                observer.actualizar_observer(4, imagen)
             elif (tipo == "accion"):
                 observer.actualizar_observer("accion", imagen)    
             else: 
@@ -253,9 +253,9 @@ class SegundoPersonaje(Jugador,Observable):
     def notificar_observers(self, tipo, imagen):
         for observer in self.observers:
             if (tipo == "partitura"):
-                observer.actualizar_observer("partitura2", imagen)
+                observer.actualizar_observer(2, imagen)
             elif (tipo == "DELartitura"):                    
-                observer.actualizar_observer("DELpartitura2", imagen)
+                observer.actualizar_observer(5, imagen)
             else: 
                 observer.actualizar_observer(tipo, imagen)
               
@@ -280,9 +280,9 @@ class TercerPersonaje(Jugador,Observable):
     def notificar_observers(self, tipo, imagen):
         for observer in self.observers:
             if (tipo == "partitura"):
-                observer.actualizar_observer("partitura3", imagen)
+                observer.actualizar_observer(3, imagen)
             elif (tipo == "DELartitura"):                    
-                observer.actualizar_observer("DELpartitura3", imagen)
+                observer.actualizar_observer(6, imagen)
             else: 
                 observer.actualizar_observer(tipo, imagen)
                
