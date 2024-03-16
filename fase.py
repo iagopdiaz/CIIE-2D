@@ -89,6 +89,7 @@ class Fase(Escena):
             partitura = Partitura(f"partituras/partitura{i}.png", datos['nombre'], datos['jugador'])
             partitura.establecerPosicion((x, y))
             self.grupoPartituras.add(partitura)
+            #registrar observer 
 
 
 
@@ -116,6 +117,7 @@ class Fase(Escena):
             puerta = Puerta(datos['nombre'], f"puertas/puerta.png", pygame.Rect(x_area, y_area, ancho, alto))
             puerta.establecerPosicion((x_foto, y_foto))
             self.grupoPuertas.add(puerta)
+            puerta.registrar_observador(self)
 
 
 
@@ -185,6 +187,27 @@ class Fase(Escena):
                 self.dialogos.actualizar_accion(1)
             elif( imagen == PARTITURA_RECOGIDA):
                 self.dialogos.actualizar_accion(2)
+            elif( imagen == PARTIRUTA_TOCADA):  
+                self.dialogos.actualizar_accion(3)
+            elif( imagen == ABRIR_PUERTA):        
+                self.dialogos.actualizar_accion(4)    
+            elif( imagen == PUERTA_ABIERTA):        
+                self.dialogos.actualizar_accion(5)
+            elif( imagen == HABILIDAD_PERSONAJE):        
+                self.dialogos.actualizar_accion(6)  
+            elif( imagen == PERDER_VIDA):        
+                self.dialogos.actualizar_accion(7)   
+            elif (imagen == SIN_PARTITURA):
+                self.dialogos.actualizar_accion(8)
+            elif (imagen == PUERTA_PARTITURA):
+                self.dialogos.actualizar_accion(9)
+            elif (imagen == PUERTA_PARTITURA_NO):
+                self.dialogos.actualizar_accion(10)  
+            elif (imagen == SOLTAR_PARTITURA_NO):
+                self.dialogos.actualizar_accion(11) 
+            elif (imagen == ESCUCHANDO):
+                self.dialogos.actualizar_accion(12) 
+                                   
             else:
                 pass         
         elif tipo == "partitura1" or "partitura2" or "partitura3" or "DELpartitura1" or "DELpartitura2" or "DELpartitura3":

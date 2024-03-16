@@ -64,8 +64,8 @@ class InterfazUsuario(Observer):
         self.vida3_rect.center = (ANCHO_PANTALLA/2, 50)
 
     def actualizar_jugador(self, jugador):
-        self.personaje = jugador
-        # Aquí puedes agregar cualquier lógica adicional necesaria para actualizar la interfaz de usuario
+       self.personaje = jugador
+        #Aquí puedes agregar cualquier lógica adicional necesaria para actualizar la interfaz de usuario
     
     def dibujar(self, pantalla):
         pantalla.blit(self.marco1, self.marco1_rect)
@@ -80,7 +80,7 @@ class InterfazUsuario(Observer):
             else:
                 pantalla.blit(self.vida3, self.vida3_rect)
         
-    def actualizar_observer(self, tipo, imagen):
-        if tipo == "partitura":
-            self.cargar_inventario(tipo,imagen)
+    #def actualizar_observer(self, tipo, imagen):
+    #    if tipo == "partitura":
+    #        self.cargar_inventario(tipo,imagen)
         

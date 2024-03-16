@@ -1,11 +1,14 @@
 from misprite import *
 from gestor_recursos import *
+from observable import Observable
 
-class Puerta(MiSprite):
+class Puerta(MiSprite, Observable):
     def __init__(self, nombres, imagen_puerta, area_activacion):
         # Llamamos al constructor de la clase padre
         MiSprite.__init__(self)
-
+        Observable.__init__(self)
+        observers = []
+        
         #Cargamos la imagen de la puerta
         imagen_puerta = GestorRecursos.CargarImagen(imagen_puerta, colorkey=(112, 136, 168))
 
@@ -71,7 +74,9 @@ class Puerta(MiSprite):
         if partitura.nombre in self.nombres:
             print("Partitura añadida a la puerta, falta:", len(self.nombres)-len(self.inventario)-1, "partituras")
             self.inventario.append(partitura.nombre)
+            self.notificar_observers("accion", PUERTA_PARTITURA)
             return True
+        self.notificar_observers("accion", PUERTA_PARTITURA_NO)
         return False
     
     def abrir_puerta(self):
@@ -83,6 +88,7 @@ class Puerta(MiSprite):
             self.image = self.frames_puerta[self.frame_actual]
         if self.frame_actual == 0:
             self.abierta = True
+            self.notificar_observers("accion", PUERTA_ABIERTA)
 
 
 
@@ -91,3 +97,17 @@ class Puerta(MiSprite):
         if all([nombre in self.inventario for nombre in self.nombres]):
             self.abrir_puerta()
             return
+    
+    
+    def notificar_observers(self, tipo, imagen):
+        for observer in self.observers:
+            if (tipo == "accion"):
+                observer.actualizar_observer("accion", imagen) 
+            else: 
+                observer.actualizar_observer(tipo, imagen)
+                
+    def registrar_observador(self, observador):
+        self.observers.append(observador)
+            
+    def eliminar_observador(self, observador):
+        self.observers.remove(observador)             
