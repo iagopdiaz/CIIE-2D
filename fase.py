@@ -42,8 +42,10 @@ class Fase(Escena):
 
         # Creamos los sprites de los jugadores y los añadimos a un grupo
         self.jugador1 = PrimerPersonaje()
-        self.jugador2 = SegundoPersonaje()
-        self.jugador3 = TercerPersonaje()
+        if self.nivel > 1:
+            self.jugador2 = SegundoPersonaje()
+        if self.nivel > 2:
+            self.jugador3 = TercerPersonaje()
 
         # Ponemos a los jugadores en sus posiciones iniciales
         self.jugador1.establecerPosicion((250, 520))
@@ -54,8 +56,6 @@ class Fase(Escena):
         self.interfazUsuario = InterfazUsuario(self.jugador_activo)
         self.grupoJugadorActivo = pygame.sprite.Group(self.jugador_activo)
         self.tipo_anterior = [None,None,None]
-        # Iniciar el grupo de sprites general    
-        #self.grupoSprites = pygame.sprite.Group(self.jugador1, self.jugador2, self.jugador3)
 
         # Creamos las paredes del decorado basándonos en las coordenadas cargadas
         datosParedes = GestorRecursos.CargarCoordenadasParedes(f'coordParedes{self.nivel}.txt')
@@ -284,38 +284,40 @@ class Fase(Escena):
         self.dialogos.dibujar(pantalla)
 
     def cambiar_jugador(self):
-        if (self.jugador_activo == self.jugador1):
-            nuevo_jugador_activo = self.jugador2
+        if self.nivel > 1:
+            if (self.jugador_activo == self.jugador1):
+                nuevo_jugador_activo = self.jugador2
 
-        elif (self.jugador_activo == self.jugador2):
-            nuevo_jugador_activo = self.jugador3
+            if self.nivel > 2:
+                if (self.jugador_activo == self.jugador2):
+                    nuevo_jugador_activo = self.jugador3
 
-        elif (self.jugador_activo == self.jugador3):
-            nuevo_jugador_activo = self.jugador1
-    
-        # Establece la posición del nuevo jugador activo a la posición del actual antes de cambiar
-        nuevo_jugador_activo.establecerPosicion(self.jugador_activo.posicion)
+                elif (self.jugador_activo == self.jugador3):
+                    nuevo_jugador_activo = self.jugador1
+        
+            # Establece la posición del nuevo jugador activo a la posición del actual antes de cambiar
+            nuevo_jugador_activo.establecerPosicion(self.jugador_activo.posicion)
 
-        #Creamos un rectangulo con la futura posicion del jugador
-        futuro_rect = pygame.Rect(nuevo_jugador_activo.posicion[0]-self.scrollx, nuevo_jugador_activo.posicion[1]-self.scrolly, nuevo_jugador_activo.rect.width, nuevo_jugador_activo.rect.height)
+            #Creamos un rectangulo con la futura posicion del jugador
+            futuro_rect = pygame.Rect(nuevo_jugador_activo.posicion[0]-self.scrollx, nuevo_jugador_activo.posicion[1]-self.scrolly, nuevo_jugador_activo.rect.width, nuevo_jugador_activo.rect.height)
 
-        #Calcular posicion futura del jugador activo, solo permitir el cambio si no hay colision con pared o puerta
-        if nuevo_jugador_activo.puede_moverse(futuro_rect, self.grupoParedes, self.grupoPuertas, self.grupoCubosGrises):
-            # Actualiza el grupo de sprites para que contenga al nuevo jugador activo
-            # Primero, elimina el jugador activo actual de los grupos relevantes
-            nuevo_jugador_activo.vida = self.jugador_activo.vida
+            #Calcular posicion futura del jugador activo, solo permitir el cambio si no hay colision con pared o puerta
+            if nuevo_jugador_activo.puede_moverse(futuro_rect, self.grupoParedes, self.grupoPuertas, self.grupoCubosGrises):
+                # Actualiza el grupo de sprites para que contenga al nuevo jugador activo
+                # Primero, elimina el jugador activo actual de los grupos relevantes
+                nuevo_jugador_activo.vida = self.jugador_activo.vida
 
-            self.grupoJugadorActivo.remove(self.jugador_activo)
+                self.grupoJugadorActivo.remove(self.jugador_activo)
 
-            # Luego, agrega el nuevo jugador activo a los grupos
-            self.grupoJugadorActivo.add(nuevo_jugador_activo)
+                # Luego, agrega el nuevo jugador activo a los grupos
+                self.grupoJugadorActivo.add(nuevo_jugador_activo)
 
-            # Finalmente, actualiza la referencia de jugador_activo al nuevo jugador
-            self.jugador_activo = nuevo_jugador_activo
-            self.interfazUsuario.actualizar_jugador(self.jugador_activo)
-            self.jugador_activo.registrar_observador(self)
-        else:
-            print("No se puede cambiar de jugador en esta posicion")
+                # Finalmente, actualiza la referencia de jugador_activo al nuevo jugador
+                self.jugador_activo = nuevo_jugador_activo
+                self.interfazUsuario.actualizar_jugador(self.jugador_activo)
+                self.jugador_activo.registrar_observador(self)
+            else:
+                print("No se puede cambiar de jugador en esta posicion")
 
     def eventos(self, lista_eventos):
         # Miramos a ver si hay algun evento de salir del programa
