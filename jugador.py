@@ -20,7 +20,7 @@ class Jugador(Personaje, Observable):
         self.tiempo_ultimo_dano = 0  # Inicializa el tiempo desde el último daño a 0
         self.cooldown_dano = 1500  # Establece un cooldown de daño de 1500 milisegundos
 
-        
+    
     def mover(self, teclasPulsadas, arriba, abajo, izquierda, derecha):
         # Indicamos la acción a realizar segun la tecla pulsada para el jugador
         if teclasPulsadas[arriba]:
@@ -34,17 +34,17 @@ class Jugador(Personaje, Observable):
         else:
             Personaje.mover(self,QUIETO)
 
-    def tocar(self):
+    def tocar(self, grupoPuertas, grupoPartituras):
         if self.inventario != None:
             print("Tocando: " + str(self.inventario.nombre))
             #GestorSonido.....
-            for puerta in self.grupoPuertas:
+            for puerta in grupoPuertas:
                 # Crea un rectángulo para el área de activación del personaje
                 area_activacion_personaje = pygame.Rect(self.posicion[0], self.posicion[1], self.rect.width, self.rect.height)
 
                 if (puerta.area.colliderect(area_activacion_personaje)):                    
                     if (puerta.añadir_partitura(self.inventario)):
-                        self.grupoPartituras.remove(self.inventario)
+                        grupoPartituras.remove(self.inventario)
                         self.inventario = None
                         self.notificar_observers("DELpartitura", "partituras\partituraX.png")  # Notifica a la interfaz que ha soltado una partitura
                         self.notificar_observers("accion", PUERTA_PARTITURA)  
@@ -59,26 +59,26 @@ class Jugador(Personaje, Observable):
             self.notificar_observers("accion", SIN_PARTITURA)
             print("No hay partitura en el inventario")
     
-    def escuchar(self):
-        for puerta in self.grupoPuertas:
+    def escuchar(self, grupoPuertas):
+        for puerta in grupoPuertas:
                 area_activacion_personaje = pygame.Rect(self.posicion[0], self.posicion[1], self.rect.width, self.rect.height)
                 if (puerta.area.colliderect(area_activacion_personaje)):
                     print("Escuchando: " + str(puerta.nombres))
                     self.notificar_observers("accion", ESCUCHANDO)  # Notifica a la interfaz que ha recogido una partitura
 
-    def recoger_partitura(self, partitura):
+    def recoger_partitura(self, partitura, grupoPartituras, grupoParedes, grupoPuertas, grupoCubosGrises):
         if self.id == partitura.jugador:
             if self.inventario:  # Si ya tiene una partitura en el inventario
-                self.soltar_partitura()  
+                self.soltar_partitura(grupoPartituras, grupoParedes, grupoPuertas, grupoCubosGrises)  
             #partitura.desaparecer() # La partitura desaparece del mapa
-            self.grupoPartituras.remove(partitura)  # La partitura desaparece del grupo de partituras
+            grupoPartituras.remove(partitura)  # La partitura desaparece del grupo de partituras
             self.inventario = partitura  # Recoge la nueva partitura
         imagen = partitura.archivoImagen
         self.notificar_observers("partitura", imagen)  # Notifica a la interfaz que ha recogido una partitura
         self.notificar_observers("accion", PARTITURA_RECOGIDA)  # Notifica a la interfaz que ha recogido una partitura
         print("notifica en jugador_reccogerPartirua") # Notifica a la interfaz que ha recogido una partitura
 
-    def soltar_partitura(self):
+    def soltar_partitura(self, grupoPartituras, grupoParedes, grupoPuertas, grupoCubosGrises):
         if self.inventario:
             # Definición de las posiciones en función de la dirección
             posiciones_por_direccion = {
@@ -93,9 +93,9 @@ class Jugador(Personaje, Observable):
             nueva_posicion = (self.posicion[0] + dx, self.posicion[1] + dy)
 
             # Prueba en la dirección actual
-            if self.puede_soltar_partitura(nueva_posicion):
+            if self.puede_soltar_partitura(nueva_posicion, grupoParedes, grupoPuertas, grupoCubosGrises):
                 self.soltando = False
-                self.grupoPartituras.add(self.inventario)
+                grupoPartituras.add(self.inventario)
                 self.inventario = None
                 self.notificar_observers("DELpartitura", "partituras\partituraX.png")  # Notifica a la interfaz que ha soltado una partitura
                 self.notificar_observers("accion", PARTITURA_SOLTADA)  # Notifica a la interfaz que ha soltado una partitura
@@ -107,9 +107,9 @@ class Jugador(Personaje, Observable):
                 if direccion != self.mirando:
                     dx, dy = posiciones_por_direccion[direccion]
                     nueva_posicion = (self.posicion[0] + dx, self.posicion[1] + dy)
-                    if self.puede_soltar_partitura(nueva_posicion):
+                    if self.puede_soltar_partitura(nueva_posicion, grupoParedes, grupoPuertas, grupoCubosGrises):
                         self.soltando = False
-                        self.grupoPartituras.add(self.inventario)
+                        grupoPartituras.add(self.inventario)
                         self.inventario = None
                         print("Partitura soltada en otra")
                         self.notificar_observers("DELpartitura", "partituras\partituraX.png")  # Notifica a la interfaz que ha soltado una partitura
@@ -123,7 +123,7 @@ class Jugador(Personaje, Observable):
             self.notificar_observers("accion", SIN_PARTITURA)
             print("No hay partitura en el inventario")
 
-    def puede_soltar_partitura(self, posicion):
+    def puede_soltar_partitura(self, posicion, grupoParedes, grupoPuertas, grupoCubosGrises):
         # Ajusta las coordenadas de la partitura en función del desplazamiento de la pantalla
         posicion_ajustada = (posicion[0] - self.scroll[0], posicion[1] - self.scroll[1])
 
@@ -131,7 +131,7 @@ class Jugador(Personaje, Observable):
         futuro_rect = pygame.Rect(posicion_ajustada[0], posicion_ajustada[1], self.rect.width, self.rect.height)
 
         # Comprueba si el rectángulo colisiona con alguna pared o puerta
-        if not any(futuro_rect.colliderect(pared.rect) for pared in self.grupoParedes) and not any(futuro_rect.colliderect(puerta.rect) for puerta in self.grupoPuertas):
+        if not any(futuro_rect.colliderect(pared.rect) for pared in grupoParedes) and not any(futuro_rect.colliderect(puerta.rect) for puerta in grupoPuertas) and not any(futuro_rect.colliderect(cubo.rect) for cubo in grupoCubosGrises):
             # Si no colisiona, establece la posición de la partitura y la suelta
             self.inventario.establecerPosicion(posicion)
             #aqui no se notifica
@@ -140,11 +140,8 @@ class Jugador(Personaje, Observable):
             return False
 
     # Metodo para actualizar el estado del personaje
-    def update(self, grupoParedes, grupoPinchos, grupoPartituras, grupoPuertas, grupoCubos_negros, grupoCubos_grises, grupoMeta, grupoEnemigos, tiempo):
-        self.grupoParedes = grupoParedes
-        self.grupoPuertas = grupoPuertas
-        self.grupoPartituras = grupoPartituras
-        
+    def update(self, grupoParedes, grupoPinchos, grupoPartituras, grupoPuertas, grupoCubos_negros, grupoCubosGrises, grupoMeta, grupoEnemigos, tiempo):
+
         velocidadx, velocidady = 0, 0
 
         # Segun el movimiento que este realizando, actualizamos su velocidad
@@ -179,7 +176,7 @@ class Jugador(Personaje, Observable):
 
         # Comprobamos si puede moverse a esa posicion
         
-        if not self.puede_moverse(futuro_rect, grupoParedes, grupoPuertas, grupoCubos_grises):
+        if not self.puede_moverse(futuro_rect, grupoParedes, grupoPuertas, grupoCubosGrises):
             velocidadx, velocidady = 0, 0
 
         # Comprobamos si choca con un pincho
@@ -194,7 +191,7 @@ class Jugador(Personaje, Observable):
         # Comprobamos si puede recoger una partitura
         for partitura in grupoPartituras:
             if futuro_rect.colliderect(partitura.rect) and self.id == partitura.jugador:
-                self.recoger_partitura(partitura)
+                self.recoger_partitura(partitura, grupoPartituras, grupoParedes, grupoPuertas, grupoCubosGrises)
 
         for enemigo in grupoEnemigos:
             if futuro_rect.colliderect(enemigo.rect):
@@ -206,7 +203,7 @@ class Jugador(Personaje, Observable):
         # Comprobamos si puede soltar una partitura
         if self.soltando:
             print("Soltando partitura")
-            self.soltar_partitura()
+            self.soltar_partitura(grupoPartituras)
             self.notificar_observers("accion", PARTITURA_SOLTADA)  # Notifica a la interfaz que no se puede soltar la partitura aquí
             return
 

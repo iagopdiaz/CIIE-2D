@@ -326,13 +326,13 @@ class Fase(Escena):
                     # No necesitas continuar el bucle después de cambiar de jugador
                     continue
                 elif evento.key == pygame.K_t:
-                    self.jugador_activo.tocar()
+                    self.jugador_activo.tocar(self.grupoPuertas, self.grupoPartituras)
                 elif evento.key == pygame.K_p:
                     print(self.jugador_activo.posicion)
                 elif evento.key == pygame.K_e:
-                    self.jugador_activo.escuchar()
+                    self.jugador_activo.escuchar(self.grupoPuertas)
                 elif evento.key == pygame.K_s:
-                    self.jugador_activo.soltar_partitura()
+                    self.jugador_activo.soltar_partitura(self.grupoPartituras, self.grupoParedes, self.grupoPuertas, self.grupoCubosGrises)
                 elif evento.key == pygame.K_KP_ENTER:
                     self.dialogos.siguiente_dialogo()     
                 #elif evento.key == pygame.K_ESCAPE:
