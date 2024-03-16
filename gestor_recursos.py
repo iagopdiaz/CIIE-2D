@@ -1,8 +1,7 @@
 import pygame, os
 from pygame.locals import *
 
-# Clase GestorRecursos
-# Deberia ser singleton
+# Singleton
 class GestorRecursos:
     
     recursos = {}
