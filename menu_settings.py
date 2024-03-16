@@ -11,8 +11,18 @@ from botones import *
 class GUIInicial(GUI):
     def __init__(self, menu):
         GUI.__init__(self, menu, "interfaces/fondos/ajustes.jpg")
+        botonBajarVolumenMusica = BotonBajarMusica(self)
+        botonSubirVolumenMusica = BotonSubirMusica(self)
+        botonBajarVolumenSonido = BotonBajarSonido(self)
+        botonSubirVolumenSonido = BotonSubirSonido(self)
+        
         botonPantallaCompleta = BotonPantallaCompleta(self)
         botonAtras = BotonAtras(self)
+        
+        self.GUIelementos.append(botonBajarVolumenMusica)
+        self.GUIelementos.append(botonSubirVolumenMusica)
+        self.GUIelementos.append(botonBajarVolumenSonido)
+        self.GUIelementos.append(botonSubirVolumenSonido)
         self.GUIelementos.append(botonPantallaCompleta)
         self.GUIelementos.append(botonAtras)
 
@@ -57,6 +67,18 @@ class MenuAjustes(Escena):
     
     def ejecutarAtras(self):
         self.director.salirEscena()
+    
+    def ejecutarBajarVolumenMusica(self):
+        GestorSonido.bajar_volumen_musica(10) 
+        
+    def ejecutarSubirVolumenMusica(self):
+        GestorSonido.subir_volumen_musica(10) 
+    
+    def ejecutarBajarVolumenSonido(self):
+        GestorSonido.bajar_volumen_sonido(10) 
+    
+    def ejecutarSubirVolumenSonido(self):
+        GestorSonido.subir_volumen_sonido(10)
     
     def mostrarPantallaInicial(self):
         self.pantallaActual = 0

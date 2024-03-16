@@ -4,10 +4,10 @@ from escena import *
 from gestor_recursos import *
 from gestor_sonido import GestorSonido
 from fase import *
-from menu_nivel import *
-from menu_settings import * 
+from menu_nivel import MenuNivel
+from menu_settings import MenuAjustes
 from GUIElemento import *
-from botones import *
+from botones import GUI, BotonJugar, BotonNivel, BotonAjuste, BotonSalir
 
 
 class GUIInicial(GUI):

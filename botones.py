@@ -24,7 +24,7 @@ class Boton(GUIElemento):
 
 class BotonJugar(Boton):
     def __init__(self, pantalla):
-        Boton.__init__(self, pantalla, "interfaces/botones/jugar.png", (100, 120))
+        Boton.__init__(self, pantalla, BOTON_JUGAR, (100, 120))
     
     def accion(self):
         self.pantalla.menu.ejecutarJugar()
@@ -32,7 +32,7 @@ class BotonJugar(Boton):
 
 class BotonNivel(Boton):
     def __init__(self, pantalla):
-        Boton.__init__(self, pantalla, "interfaces/botones/nivel.png", (100, 240))
+        Boton.__init__(self, pantalla, BOTON_NIVEL, (100, 240))
     
     def accion(self):
         self.pantalla.menu.ejecutarNivel()
@@ -40,7 +40,7 @@ class BotonNivel(Boton):
 
 class BotonAjuste(Boton):
     def __init__(self, pantalla):
-        Boton.__init__(self, pantalla, "interfaces/botones/ajustes.png", (100, 360))
+        Boton.__init__(self, pantalla, BOTON_AJUSTES, (100, 360))
     
     def accion(self):
         self.pantalla.menu.ejecutarAjustes()
@@ -48,7 +48,7 @@ class BotonAjuste(Boton):
 
 class BotonSalir(Boton):
     def __init__(self, pantalla):
-        Boton.__init__(self, pantalla, "interfaces/botones/salir.png", (100, 480))
+        Boton.__init__(self, pantalla, BOTON_SALIR, (100, 480))
     
     def accion(self):
         self.pantalla.menu.ejecutarSalir()
@@ -56,7 +56,7 @@ class BotonSalir(Boton):
 
 class BotonPantallaCompleta(Boton):
     def __init__(self, pantalla):
-        Boton.__init__(self, pantalla, "interfaces/botones/pantalla_completa.png", (100, 360))
+        Boton.__init__(self, pantalla, BOTON_PANTALLA_COMPLETA, (100, 360))
     
     def accion(self):
         self.pantalla.menu.ejecutarPantallaCompleta()
@@ -64,7 +64,36 @@ class BotonPantallaCompleta(Boton):
 
 class BotonAtras(Boton):
     def __init__(self, pantalla):
-        Boton.__init__(self, pantalla, "interfaces/botones/atras.png", (100, 480))
+        Boton.__init__(self, pantalla, BOTON_ATRAS, (100, 480))
     
     def accion(self):
         self.pantalla.menu.ejecutarAtras()
+        
+class BotonBajarMusica(Boton):
+    def __init__(self, pantalla):
+        Boton.__init__(self, pantalla, BOTON_JUGAR , (100, 120))
+    
+    def accion(self):
+        self.pantalla.menu.ejecutarBajarVolumenMusica()       
+        
+        
+class BotonSubirMusica(Boton):
+    def __init__(self, pantalla):
+        Boton.__init__(self, pantalla, BOTON_JUGAR, (350, 120))
+    
+    def accion(self):
+        self.pantalla.menu.ejecutarSubirVolumenMusica()
+
+class BotonBajarSonido(Boton):
+    def __init__(self, pantalla):
+        Boton.__init__(self, pantalla, BOTON_JUGAR, (100, 240))
+    
+    def accion(self):
+        self.pantalla.menu.ejecutarBajarVolumenSonido()
+                       
+class BotonSubirSonido(Boton):
+    def __init__(self, pantalla):
+        Boton.__init__(self, pantalla, BOTON_JUGAR, (350, 240))
+    
+    def accion(self):
+        self.pantalla.menu.ejecutarSubirVolumenSonido()        

@@ -40,7 +40,16 @@ MUSICA_MENUS = 'musica/menus/menus.ogg'
 CABECERA = "cabecera.txt"
 NIVEL0 = "nivel_0.txt"
 CAJA_DIALOGO = "interfaces\dialogo.png"
-
+BOTON_JUGAR = "interfaces/botones\jugar.png"
+BOTON_NIVEL = "interfaces/botones/nivel.png"
+BOTON_AJUSTES = "interfaces/botones/ajustes.png"
+BOTON_SALIR = "interfaces/botones\salir.png"
+BOTON_PANTALLA_COMPLETA = "interfaces/botones\pantalla_completa.png"
+BOTON_ATRAS = "interfaces/botones/atras.png"
+BOTON_BAJAR_MUSICA = "interfaces/botones/bajar_musica.png"
+BOTON_SUBIR_MUSICA = "interfaces/botones/subir_musica.png"
+BOTON_BAJAR_SONIDO = "interfaces/botones/bajar_sonido.png"
+BOTON_SUBIR_SONIDO = "interfaces/botones/subir_sonido.png"
 
 TEXTO_ENTER = "Presiona ENTER_numerico para seguir"
 PARTITURA_SOLTADA = "Partirura soltada"
