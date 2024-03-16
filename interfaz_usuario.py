@@ -11,31 +11,46 @@ class InterfazUsuario(Observer):
         #inventario
         #imagen inventario
         self.personaje = personaje
-        self.cargar_inventario("partitura", "partituras/partituraX.png") 
-        self.cargar_marco()
+        self.partitura_surfaces = {}
+        self.partituras = []
+        self.cargar_inventario(4, "partituras/partituraX.png") 
+        self.cargar_marco()     
         self.cargar_vida1llena()
         self.cargar_vida2media()
         self.cargar_vida3vacia()
-        
+    
+    def eliminar_partitura(self, tipo):
+        if tipo is None:
+            return
+        if tipo in self.partitura_surfaces:
+            del self.partitura_surfaces[tipo]
+
+
     def cargar_inventario(self, tipo, imagen_partitura):
-        self.imagen_partitura = GestorRecursos.CargarImagen(imagen_partitura, -1)    
-        self.partitura_surface = self.imagen_partitura.get_rect() 
-        print("mal")
-        if (tipo == "partitura1"):
+        
+        if tipo not in self.partituras:
+            self.partituras.append(tipo)
+            
+        self.imagen_partitura = GestorRecursos.CargarImagen(imagen_partitura, -1)
+        self.partitura_surface = self.imagen_partitura.get_rect()
+        print(tipo)
+        if (tipo == 1):
             self.partitura_surface.topleft = (60, 60)
-        elif (tipo == "partitura2"):  
+        elif (tipo == 2):  
             self.partitura_surface.topleft = (60, 110)
-        elif (tipo == "partitura3"): 
+        elif (tipo == 3): 
             self.partitura_surface.topleft = (60, 160)  
-        elif (tipo == "DELpartitura1"):
+        elif (tipo == 4):
             self.partitura_surface.topleft = (60, 60)
-        elif (tipo == "DELpartitura2"):  
+        elif (tipo == 5):  
             self.partitura_surface.topleft = (60, 110)
-        elif (tipo == "DELpartitura3"): 
+        elif (tipo == 6): 
             self.partitura_surface.topleft = (60, 160)         
         else: 
-            self.partitura_surface.topleft = (6000, 16000)  
-            print("Error al cargar la partitura") 
+            self.partitura_surface.topleft = (6000, 16000)
+            
+        self.partitura_surfaces[tipo] = (self.imagen_partitura, self.partitura_surface)
+
             
     def cargar_marco(self):
         self.marco1 = GestorRecursos.CargarImagen("interfaces/inventario/inventarioPersonaje1.png", -1)
@@ -64,14 +79,18 @@ class InterfazUsuario(Observer):
         self.vida3_rect.center = (ANCHO_PANTALLA/2, 50)
 
     def actualizar_jugador(self, jugador):
-        self.personaje = jugador
-        # Aquí puedes agregar cualquier lógica adicional necesaria para actualizar la interfaz de usuario
+       self.personaje = jugador
+        #Aquí puedes agregar cualquier lógica adicional necesaria para actualizar la interfaz de usuario
     
     def dibujar(self, pantalla):
         pantalla.blit(self.marco1, self.marco1_rect)
         pantalla.blit(self.marco2, self.marco2_rect)
         pantalla.blit(self.marco3, self.marco3_rect)
-        pantalla.blit(self.imagen_partitura, self.partitura_surface)
+        
+        for tipo, (imagen, surface) in self.partitura_surfaces.items():
+            pantalla.blit(imagen, surface)
+        
+        #pantalla.blit(self.imagen_partitura, self.partitura_surface)
         if self.personaje.vida > 0:
             if self.personaje.vida == 3:
                 pantalla.blit(self.vida1, self.vida1_rect)
@@ -79,8 +98,3 @@ class InterfazUsuario(Observer):
                 pantalla.blit(self.vida2, self.vida2_rect)
             else:
                 pantalla.blit(self.vida3, self.vida3_rect)
-        
-    def actualizar_observer(self, tipo, imagen):
-        if tipo == "partitura":
-            self.cargar_inventario(tipo,imagen)
-        

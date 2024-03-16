@@ -40,10 +40,22 @@ MUSICA_MENUS = 'musica/menus/menus.ogg'
 CABECERA = "cabecera.txt"
 NIVEL0 = "nivel_0.txt"
 CAJA_DIALOGO = "interfaces\dialogo.png"
+
+
 TEXTO_ENTER = "Presiona ENTER_numerico para seguir"
 PARTITURA_SOLTADA = "Partirura soltada"
 PARTITURA_RECOGIDA = "Partitura recogida"
-ESCUCHANDO = "Escuchando"
+ESCUCHANDO = "Escuchando..."
+PARTIRUTA_TOCADA = "La partitura esta siendo tocada"
+ABRIR_PUERTA = "Acercate a una puerta para abrirla"
+PUERTA_ABIERTA = "Puerta abierta"
+HABILIDAD_PERSONAJE = "Has usado la habilidad personaje"
+PERDER_VIDA = "CUIDADO. Pierdes vida"
+SIN_PARTITURA = "No hay partitura en el inventario"
+PUERTA_PARTITURA = "Partitura añadida a la puerta"
+PUERTA_PARTITURA_NO = "La partitura no abre esta puerta"
+SOLTAR_PARTITURA_NO = "No se puede soltar la partitura aqui"
+PUERTA_MAS = "Falta alguna partitura"
 
 ANCHO_PANTALLA = 800
 ALTO_PANTALLA = 600

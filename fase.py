@@ -53,7 +53,7 @@ class Fase(Escena):
         self.jugador_activo.registrar_observador(self)
         self.interfazUsuario = InterfazUsuario(self.jugador_activo)
         self.grupoJugadorActivo = pygame.sprite.Group(self.jugador_activo)
-
+        self.tipo_anterior = [None,None,None]
         # Iniciar el grupo de sprites general    
         #self.grupoSprites = pygame.sprite.Group(self.jugador1, self.jugador2, self.jugador3)
 
@@ -85,6 +85,7 @@ class Fase(Escena):
             partitura = Partitura(f"partituras/partitura{i}.png", datos['nombre'], datos['jugador'])
             partitura.establecerPosicion((x, y))
             self.grupoPartituras.add(partitura)
+            #registrar observer 
 
 
         # Meta
@@ -109,6 +110,7 @@ class Fase(Escena):
             puerta = Puerta(datos['nombre'], f"puertas/puerta.png", pygame.Rect(x_area, y_area, ancho, alto))
             puerta.establecerPosicion((x_foto, y_foto))
             self.grupoPuertas.add(puerta)
+            puerta.registrar_observador(self)
 
         #Cubos
         datosCuboAlchemist = GestorRecursos.CargarCubos(f'coordMapaCuboSombra{self.nivel}.txt')
@@ -182,11 +184,50 @@ class Fase(Escena):
                 self.dialogos.actualizar_accion(1)
             elif( imagen == PARTITURA_RECOGIDA):
                 self.dialogos.actualizar_accion(2)
+            elif( imagen == PARTIRUTA_TOCADA):  
+                self.dialogos.actualizar_accion(3)
+            elif( imagen == ABRIR_PUERTA):        
+                self.dialogos.actualizar_accion(4)    
+            elif( imagen == PUERTA_ABIERTA):        
+                self.dialogos.actualizar_accion(5)
+            elif( imagen == HABILIDAD_PERSONAJE):        
+                self.dialogos.actualizar_accion(6)  
+            elif( imagen == PERDER_VIDA):        
+                self.dialogos.actualizar_accion(7)   
+            elif (imagen == SIN_PARTITURA):
+                self.dialogos.actualizar_accion(8)
+            elif (imagen == PUERTA_PARTITURA):
+                self.dialogos.actualizar_accion(9)
+            elif (imagen == PUERTA_PARTITURA_NO):
+                self.dialogos.actualizar_accion(10)  
+            elif (imagen == SOLTAR_PARTITURA_NO):
+                self.dialogos.actualizar_accion(11) 
+            elif (imagen == ESCUCHANDO):
+                self.dialogos.actualizar_accion(12) 
+                                   
             else:
                 pass         
-        elif tipo == "partitura1" or "partitura2" or "partitura3" or "DELpartitura1" or "DELpartitura2" or "DELpartitura3":
-            self.interfazUsuario.cargar_inventario(tipo,imagen)    
-        
+        elif tipo == 1 or 2 or 3 or 4 or 5 or 6:
+            if (not self.tipo_anterior):            
+                if(tipo == 1 or 4):
+                    self.tipo_anterior[0] = tipo
+                elif (tipo == 2 or 5):
+                    self.tipo_anterior[1] = tipo
+                elif (tipo == 3 or 6):
+                    self.tipo_anterior[2] = tipo    
+                self.interfazUsuario.cargar_inventario(tipo,imagen)  
+            else:          
+                if(tipo == 1 or 4):
+                    self.interfazUsuario.eliminar_partitura(self.tipo_anterior[0])    
+                    self.tipo_anterior[0] = tipo
+                elif (tipo == 2 or 5):
+                    self.interfazUsuario.eliminar_partitura(self.tipo_anterior[1])   
+                    self.tipo_anterior[1] = tipo
+                elif (tipo == 3 or 6):
+                    self.interfazUsuario.eliminar_partitura(self.tipo_anterior[2])   
+                    self.tipo_anterior[2] = tipo    
+                self.interfazUsuario.cargar_inventario(tipo,imagen)    
+            
     def actualizarScroll(self):
         # Definimos el límite para el scroll como los 3/4 de la pantalla
         LIMITE_SCROLL_X = ANCHO_PANTALLA * 3 / 4

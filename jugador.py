@@ -47,12 +47,16 @@ class Jugador(Personaje, Observable):
                         self.grupoPartituras.remove(self.inventario)
                         self.inventario = None
                         self.notificar_observers("DELpartitura", "partituras\partituraX.png")  # Notifica a la interfaz que ha soltado una partitura
+                        self.notificar_observers("accion", PUERTA_PARTITURA)  
                         return
                     else:
+                        self.notificar_observers("accion", PUERTA_PARTITURA_NO) 
                         print("La partitura no abre esta puerta")
                 else:
+                    self.notificar_observers("accion", ABRIR_PUERTA) 
                     print("No hay puerta en el area de activacion")
         else:
+            self.notificar_observers("accion", SIN_PARTITURA)
             print("No hay partitura en el inventario")
     
     def escuchar(self):
@@ -108,11 +112,15 @@ class Jugador(Personaje, Observable):
                         self.grupoPartituras.add(self.inventario)
                         self.inventario = None
                         print("Partitura soltada en otra")
+                        self.notificar_observers("DELpartitura", "partituras\partituraX.png")  # Notifica a la interfaz que ha soltado una partitura
+                        self.notificar_observers("accion", PARTITURA_SOLTADA)  # Notifica a la interfaz que ha soltado una partitura
                         return
 
             print("No se puede soltar la partitura aqui, soltando true")
             self.soltando = True
+            self.notificar_observers("accion", SOLTAR_PARTITURA_NO)  # Notifica a la interfaz que no se puede soltar la partitura aquí
         else:
+            self.notificar_observers("accion", SIN_PARTITURA)
             print("No hay partitura en el inventario")
 
     def puede_soltar_partitura(self, posicion):
@@ -126,7 +134,7 @@ class Jugador(Personaje, Observable):
         if not any(futuro_rect.colliderect(pared.rect) for pared in self.grupoParedes) and not any(futuro_rect.colliderect(puerta.rect) for puerta in self.grupoPuertas):
             # Si no colisiona, establece la posición de la partitura y la suelta
             self.inventario.establecerPosicion(posicion)
-            self.notificar_observers("accion", 1)  # Notifica a la interfaz que ha soltado una partitura
+            #aqui no se notifica
             return True  
         else:
             return False
@@ -179,6 +187,7 @@ class Jugador(Personaje, Observable):
                 tiempo_actual = pygame.time.get_ticks()
                 if tiempo_actual - self.tiempo_ultimo_dano > self.cooldown_dano:
                     self.vida -= pincho.damage  # Restamos un punto de vida
+                    self.notificar_observers("accion", PERDER_VIDA)  # Notifica a la interfaz que ha perdido vida
                     self.tiempo_ultimo_dano = tiempo_actual
 
         # Comprobamos si puede recoger una partitura
@@ -197,6 +206,7 @@ class Jugador(Personaje, Observable):
         if self.soltando:
             print("Soltando partitura")
             self.soltar_partitura()
+            self.notificar_observers("accion", PARTITURA_SOLTADA)  # Notifica a la interfaz que no se puede soltar la partitura aquí
             return
 
         # Actualizamos su posicion
@@ -211,7 +221,7 @@ class Jugador(Personaje, Observable):
     def habilidad1():
         raise NotImplemented("jugador sin habilidad1")
 
-class PrimerPersonaje(Jugador):#and Observable
+class PrimerPersonaje(Jugador, Observable):#and Observable
     def __init__(self):#and Observers
         # Invocamos al constructor de la clase padre con la configuracion de este personaje concreto
         Jugador.__init__(self,'personajes/jugador1.png','personajes/coordJugador1.txt', [4, 4, 4, 4, 4, 4, 4, 4], VELOCIDAD_JUGADORX, VELOCIDAD_JUGADORY, RETARDO_ANIMACION_JUGADOR, 0)
@@ -220,25 +230,25 @@ class PrimerPersonaje(Jugador):#and Observable
         
     def notificar_observers(self, tipo, imagen):
         for observer in self.observers:
-            observer.actualizar_observer(tipo, imagen)
-            
-    def notificar_observers(self, tipo, imagen):
-        for observer in self.observers:
             if (tipo == "partitura"):
-                observer.actualizar_observer("partitura1", imagen)
+                observer.actualizar_observer(1, imagen)
             elif (tipo == "DELpartitura"):                    
-                observer.actualizar_observer("DELpartitura1", imagen)
+                observer.actualizar_observer(4, imagen)
             elif (tipo == "accion"):
                 observer.actualizar_observer("accion", imagen)    
             else: 
                 observer.actualizar_observer(tipo, imagen)
-         
+    
+    def registrar_observador(self, observador):
+        self.observers.append(observador)
+            
     def eliminar_observador(self, observador):
         self.observers.remove(observador) 
         
     def habilidad1(self, ataques):
         ataque = Onda1(self.rect.left, self.rect.top)
         ataques.add(ataque)
+        self.notificar_observers("accion", HABILIDAD_PERSONAJE) 
 
 class SegundoPersonaje(Jugador,Observable):
     def __init__(self):
@@ -250,9 +260,9 @@ class SegundoPersonaje(Jugador,Observable):
     def notificar_observers(self, tipo, imagen):
         for observer in self.observers:
             if (tipo == "partitura"):
-                observer.actualizar_observer("partitura2", imagen)
+                observer.actualizar_observer(2, imagen)
             elif (tipo == "DELartitura"):                    
-                observer.actualizar_observer("DELpartitura2", imagen)
+                observer.actualizar_observer(5, imagen)
             else: 
                 observer.actualizar_observer(tipo, imagen)
               
@@ -265,6 +275,7 @@ class SegundoPersonaje(Jugador,Observable):
     def habilidad1(self, ataques):
         ataque = Onda2(self.rect.center[0], self.rect.center[1])
         ataques.add(ataque)
+        self.notificar_observers("accion", HABILIDAD_PERSONAJE) 
 
 class TercerPersonaje(Jugador,Observable):
     def __init__(self):#and Observers
@@ -276,9 +287,9 @@ class TercerPersonaje(Jugador,Observable):
     def notificar_observers(self, tipo, imagen):
         for observer in self.observers:
             if (tipo == "partitura"):
-                observer.actualizar_observer("partitura3", imagen)
+                observer.actualizar_observer(3, imagen)
             elif (tipo == "DELartitura"):                    
-                observer.actualizar_observer("DELpartitura3", imagen)
+                observer.actualizar_observer(6, imagen)
             else: 
                 observer.actualizar_observer(tipo, imagen)
                
@@ -291,3 +302,4 @@ class TercerPersonaje(Jugador,Observable):
     def habilidad1(self, ataques):
         ataque = Onda3(self.rect.center[0], self.rect.center[1])
         ataques.add(ataque)
+        self.notificar_observers("accion", HABILIDAD_PERSONAJE) 
