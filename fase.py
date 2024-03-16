@@ -155,6 +155,9 @@ class Fase(Escena):
         #Ataques        
         self.grupoAtaques = pygame.sprite.Group()
 
+        #Control para la musica
+        self.tocando = False
+
     def update(self, tiempo):
         self.grupoJugadorActivo.update(self.grupoParedes, self.grupoPinchos, self.grupoPartituras, self.grupoPuertas, self.grupoCubosNegros, self.grupoCubosGrises, self.grupoPuertas, self.grupoEnemigos, tiempo)
         self.grupoPuertas.update()
@@ -176,6 +179,18 @@ class Fase(Escena):
                 self.director.cambiarEscena(GameOver(self.director, "enhorabuena"))
         
         self.actualizarScroll()
+
+        #Variable de control para saber cuando acaba de tocar
+        if GestorSonido.canal_partitura.get_busy():
+            self.tocando = True
+
+        #Si estubo tocando pero ahora ya no esta ocupado es que termino, por lo que ajustamos el volumen otra vez al del self del gestor
+        if not GestorSonido.canal_partitura.get_busy() and self.tocando:
+            GestorSonido.poner_volumen_musica(GestorSonido.obtener_volumen_musica())#AQUI ES DND NO SE QUE CARAJO FALLA
+            self.tocando = False
+            print("Ajustada la musica", GestorSonido.obtener_volumen_musica())
+
+
         return False
     
     def actualizar_observer(self, tipo, imagen):
