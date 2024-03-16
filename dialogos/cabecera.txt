@@ -5,9 +5,9 @@ Sigue el ritmo.. &&  Has tocado la partitura
 Sigue el ritmo.. &&  Has tocado la partitura. Acercate a la puerta para abrirla 
 Sigue el ritmo.. &&  Has abierto la puerta
 Sigue el ritmo.. &&  Has usado la habilidad de tu personaje
-Sigue el ritmo.. &&  Cuidado, estás perdiendo vida 
+Sigue el ritmo.. &&  Cuidado, estas perdiendo vida 
 Sigue el ritmo.. &&  No hay partitura en el inventario
-Sigue el ritmo.. &&  Partitura añadida a la puerta
+Sigue el ritmo.. &&  Partitura anhadida a la puerta
 Sigue el ritmo.. &&  La partitura no abre esta puerta
 Sigue el ritmo.. &&  No se puede soltar la partitura aqui
 Sigue el ritmo.. &&  Escuchando la musica....
