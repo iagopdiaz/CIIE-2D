@@ -46,7 +46,7 @@ class Fase(Escena):
         self.jugador3 = TercerPersonaje()
 
         # Ponemos a los jugadores en sus posiciones iniciales
-        self.jugador1.establecerPosicion((255, 530))
+        self.jugador1.establecerPosicion((250, 520))
 
         # Establecemos el jugador activo como el jugador1
         self.jugador_activo = self.jugador1
@@ -80,35 +80,36 @@ class Fase(Escena):
         datosPartituras = GestorRecursos.CargarPartituras(f'coordPartituras{nivel}.txt')
 
         self.grupoPartituras = pygame.sprite.Group()
-        for i, datos in enumerate(datosPartituras, start=1):
+        i = 1
+        for datos in datosPartituras:
+            if i == 5: i = 1
             x, y = map(int, datos['coords'].split())
             print(datos['nombre'])
             partitura = Partitura(f"partituras/partitura{i}.png", datos['nombre'], datos['jugador'])
             partitura.establecerPosicion((x, y))
             self.grupoPartituras.add(partitura)
-            #registrar observer 
-
+            i += 1
 
         # Meta
         if self.nivel == 2:
             meta = MetaFase(4761, 349, 'metas/metaVertical.png')
         else:
             # Misma meta para fases 1 y 3
-            meta = MetaFase(5115, 188, 'metas/metaHorizontal.png')
+            meta = MetaFase(5312, 150, 'metas/metaHorizontal.png')
         self.grupoMeta = pygame.sprite.Group(meta)
 
         # Puertas
         datosPuertas = GestorRecursos.CargarPuertas(f"coordPuertas{nivel}.txt")
 
         self.grupoPuertas = pygame.sprite.Group()
-
+        
         for i, datos in enumerate(datosPuertas, start=1):
             # Obtenemos las coordenadas de la foto de la puerta
-            x_foto, y_foto = map(int, datos['coords_foto'].split())
+            x_foto, y_foto, tipo = map(int, datos['coords_foto'].split())
             # Obtenemos las coordenadas y dimensiones del área de activación de la puerta
             x_area, y_area, ancho, alto = map(int, datos['coords_area'].split())
             # Creamos la puerta y establecemos su posición y área de activación
-            puerta = Puerta(datos['nombre'], f"puertas/puerta.png", pygame.Rect(x_area, y_area, ancho, alto))
+            puerta = Puerta(datos['nombre'], f"puertas/puerta.png", pygame.Rect(x_area, y_area, ancho, alto), tipo)
             puerta.establecerPosicion((x_foto, y_foto))
             self.grupoPuertas.add(puerta)
             puerta.registrar_observador(self)
@@ -316,8 +317,8 @@ class Fase(Escena):
                 elif evento.key == pygame.K_t:
                     self.jugador_activo.tocar(self.grupoPuertas, self.grupoPartituras)
                 elif evento.key == pygame.K_p:
-                    print(f"posicion: {self.jugador_activo.posicion}")
-                    print(f"left: {self.jugador_activo.rect.left} , top: {self.jugador_activo.rect.top}")
+                    (x,y) = self.jugador_activo.posicion
+                    print(f"{int(x)} {int(y)}")
                 elif evento.key == pygame.K_e:
                     self.jugador_activo.escuchar(self.grupoPuertas)
                 elif evento.key == pygame.K_s:

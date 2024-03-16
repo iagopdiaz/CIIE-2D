@@ -17,8 +17,8 @@ SPRITE_ANDANDO_IZQ = 5
 SPRITE_ANDANDO_DER = 6
 SPRITE_ARRIBA = 7
 
-VELOCIDAD_JUGADORX = 0.2 # Pixeles por milisegundo
-VELOCIDAD_JUGADORY = 0.2 # Pixeles por milisegundo
+VELOCIDAD_JUGADORX = 0.4 # Pixeles por milisegundo
+VELOCIDAD_JUGADORY = 0.4 # Pixeles por milisegundo
 RETARDO_ANIMACION_JUGADOR = 15 # updates que durará cada imagen del personaje              
                               
 RETARDO_ANIMACION_ONDA = 6

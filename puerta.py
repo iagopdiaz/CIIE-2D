@@ -4,7 +4,7 @@ from observable import Observable
 from gestor_sonido import *
 
 class Puerta(MiSprite, Observable):
-    def __init__(self, nombres, imagen_puerta, area_activacion):
+    def __init__(self, nombres, imagen_puerta, area_activacion, tipo):
         # Llamamos al constructor de la clase padre
         MiSprite.__init__(self)
         Observable.__init__(self)
@@ -38,7 +38,12 @@ class Puerta(MiSprite, Observable):
 
             # Obtenemos la imagen de ese frame
             frame = imagen_puerta.subsurface(rectangulo_frame)
-            frame = pygame.transform.scale(frame, (50, 131))
+            
+            if tipo == 1:
+                frame = pygame.transform.rotate(frame, -90)  # Rotamos 90 grados en sentido antihorario
+                frame = pygame.transform.scale(frame, (131, 50))  # Ajustamos el tamaño si es necesario
+            else:
+                frame = pygame.transform.scale(frame, (50, 131))
         
             # Añadimos el frame a la lista
             self.frames_puerta.append(frame)
