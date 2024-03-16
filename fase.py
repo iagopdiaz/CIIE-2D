@@ -160,7 +160,7 @@ class Fase(Escena):
         self.grupoAtaques.update(self.jugador_activo, tiempo)
         self.grupoCubosNegros.update(self.jugador_activo, self.grupoParedes, self.grupoPuertas, self.grupoCubosGrises, tiempo)
         self.grupoPenumbra.update(self.jugador_activo, self.nivel)
-        self.grupoEnemigos.update(self.jugador_activo, self.grupoParedes, self.grupoPuertas, tiempo)
+        self.grupoEnemigos.update(self.jugador_activo, self.grupoParedes, self.grupoPuertas, self.grupoCubosGrises, tiempo)
         
         if not self.ultimo_dialogo:
             self.dialogos.actualizar_dialgo()
@@ -258,7 +258,7 @@ class Fase(Escena):
             self.scrolly = max(0, self.scrolly - desplazamiento_y)
             
         # Actualizamos la posición en pantalla de todos los Sprites según el scroll actual
-        for sprite in chain(self.grupoJugadorActivo, self.grupoParedes, self.grupoPinchos, self.grupoPartituras, self.grupoCubosGrises, self.grupoCubosSombra, self.grupoPuertas, self.grupoMeta, self.grupoCubosNegros, self.grupoAtaques, self.grupoEnemigos):
+        for sprite in chain(self.grupoJugadorActivo, self.grupoParedes, self.grupoPinchos, self.grupoPartituras, self.grupoCubosGrises, self.grupoCubosSombra, self.grupoPuertas, self.grupoMeta, self.grupoCubosNegros, self.grupoEnemigos):
             sprite.establecerPosicionPantalla((self.scrollx, self.scrolly))
 
         # Además, actualizamos el decorado para que se muestre una parte distinta
@@ -328,7 +328,8 @@ class Fase(Escena):
                 elif evento.key == pygame.K_t:
                     self.jugador_activo.tocar(self.grupoPuertas, self.grupoPartituras)
                 elif evento.key == pygame.K_p:
-                    print(self.jugador_activo.posicion)
+                    print(f"posicion: {self.jugador_activo.posicion}")
+                    print(f"left: {self.jugador_activo.rect.left} , top: {self.jugador_activo.rect.top}")
                 elif evento.key == pygame.K_e:
                     self.jugador_activo.escuchar(self.grupoPuertas)
                 elif evento.key == pygame.K_s:

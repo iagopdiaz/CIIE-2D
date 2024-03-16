@@ -32,7 +32,7 @@ class Enemigo(Personaje):
                 self.image = self.hoja.subsurface(self.coordenadasHoja[self.numPostura][self.numImagenPostura])
 
 
-    def update(self, jugadorActivo, grupoParedes, grupoPuertas, tiempo):
+    def update(self, jugadorActivo, grupoParedes, grupoPuertas, grupoCubosGrises, tiempo):
         
         velocidadx, velocidady = 0, 0
 
@@ -63,7 +63,7 @@ class Enemigo(Personaje):
         futura_posicion_y = self.posicion[1] + velocidady * tiempo - self.scroll[1]
         futuro_rect = pygame.Rect(futura_posicion_x, futura_posicion_y, self.rect.width, self.rect.height)
 
-        if any(futuro_rect.colliderect(pared.rect) for pared in grupoParedes) or any(futuro_rect.colliderect(puerta.rect) for puerta in grupoPuertas):
+        if any(futuro_rect.colliderect(pared.rect) for pared in grupoParedes) or any(futuro_rect.colliderect(puerta.rect) for puerta in grupoPuertas) or  any(futuro_rect.colliderect(cubo.rect) for cubo in grupoCubosGrises):
             if self.movimiento == IZQUIERDA:
                 self.numPostura = ENEMIGO_ANDANDO_IZQ
                 self.movimiento = DERECHA
