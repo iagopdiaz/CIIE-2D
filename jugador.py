@@ -178,6 +178,7 @@ class Jugador(Personaje, Observable):
         futuro_rect = pygame.Rect(futura_posicion_x, futura_posicion_y, self.rect.width, self.rect.height)
 
         # Comprobamos si puede moverse a esa posicion
+        
         if not self.puede_moverse(futuro_rect, grupoParedes, grupoPuertas, grupoCubos_grises):
             velocidadx, velocidady = 0, 0
 

@@ -21,9 +21,9 @@ class Cubo(MiSprite):
         self.rect = self.image.get_rect()
         
     
-class Cubo_Negro(Cubo):#and Observable
+class Cubo_Negro(Cubo):
     "Cubo negro"
-    def __init__(self):#and Observers
+    def __init__(self):
         # Invocamos al constructor de la clase padre con la configuracion de este personaje concreto
         Cubo.__init__(self,'cubo_negro.png')
         
@@ -31,7 +31,7 @@ class Cubo_Negro(Cubo):#and Observable
         self.velocidadY = VELOCIDAD_JUGADORY
 
     
-    def update(self, jugador_activo, grupoParedes, grupoPuertas, grupoCubosGris, tiempo):
+    def update(self, jugador_activo, grupoPlataformas, grupoPuertas, grupoCubosGris, tiempo):
         velocidadx, velocidady = 0, 0
 
         if (self.rect.colliderect(jugador_activo.rect)):
@@ -50,7 +50,7 @@ class Cubo_Negro(Cubo):#and Observable
         # Y creamos un rectangulo con ella
         futuro_rect = pygame.Rect(futura_posicion_x, futura_posicion_y, self.rect.width, self.rect.height)
 
-        if any(futuro_rect.colliderect(pared.rect) for pared in grupoParedes):
+        if any(futuro_rect.colliderect(plataforma.rect) for plataforma in grupoPlataformas):
             velocidadx, velocidady = 0, 0
 
         for puerta in grupoPuertas:

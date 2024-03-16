@@ -71,7 +71,7 @@ class Personaje(MiSprite, Observable):
     #A esta se le pasan como argumentos pared y puertas ya que se le llama antes de actualizar los personajes cuando se cambian
     def puede_moverse(self, futuro_rect, grupoParedes, grupoPuertas, grupoCubos_grises):
         # Comprueba si el rectángulo colisiona con alguna pared
-        if any(futuro_rect.colliderect(pared.rect) for pared in grupoParedes) or (any(futuro_rect.colliderect(cubo.rect) for cubo in grupoCubos_grises)):
+        if any(futuro_rect.colliderect(pared.rect) for pared in grupoParedes) or any(futuro_rect.colliderect(cubo.rect) for cubo in grupoCubos_grises):
             return False
 
         # Compueba si el rectángulo colisiona con alguna puerta cerrada

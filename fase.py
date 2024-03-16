@@ -154,7 +154,7 @@ class Fase(Escena):
         self.grupoAtaques = pygame.sprite.Group()
 
     def update(self, tiempo):
-        self.grupoJugadorActivo.update(self.grupoParedes, self.grupoPinchos, self.grupoPartituras, self.grupoPuertas, self.grupoCubosGrises, self.grupoCubosNegros, self.grupoPuertas, self.grupoEnemigos, tiempo)
+        self.grupoJugadorActivo.update(self.grupoParedes, self.grupoPinchos, self.grupoPartituras, self.grupoPuertas, self.grupoCubosNegros, self.grupoCubosGrises, self.grupoPuertas, self.grupoEnemigos, tiempo)
         self.grupoPuertas.update()
         self.grupoCubosSombra.update(self.grupoAtaques, self.grupoCubosNegros)
         self.grupoAtaques.update(self.jugador_activo, tiempo)
@@ -298,7 +298,7 @@ class Fase(Escena):
         futuro_rect = pygame.Rect(nuevo_jugador_activo.posicion[0]-self.scrollx, nuevo_jugador_activo.posicion[1]-self.scrolly, nuevo_jugador_activo.rect.width, nuevo_jugador_activo.rect.height)
 
         #Calcular posicion futura del jugador activo, solo permitir el cambio si no hay colision con pared o puerta
-        if nuevo_jugador_activo.puede_moverse(futuro_rect, self.grupoParedes, self.grupoPuertas, self.grupoCubosNegros):
+        if nuevo_jugador_activo.puede_moverse(futuro_rect, self.grupoParedes, self.grupoPuertas, self.grupoCubosGrises):
             # Actualiza el grupo de sprites para que contenga al nuevo jugador activo
             # Primero, elimina el jugador activo actual de los grupos relevantes
             self.grupoJugadorActivo.remove(self.jugador_activo)
