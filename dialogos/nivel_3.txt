@@ -1,12 +1,12 @@
 Melodio Maestro && La penumbra oculta secretos que solo la luz de Lumina puede revelar.
-Melodio Maestro && En este nivel, la musica cobra vida de formas inesperadas.
+Melodio Maestro && En este nivel, la música cobra vida de formas inesperadas.
 Melodio Maestro && Los pinchos danzan al compás de una partitura desconocida.
-Alchemist && Que misterios aguardan en las sombras de este laberinto musical
-Alchemist && Las partituras resuenan con una intensidad aún mayor en esta oscuridad velada.
-Alchemist && La penumbra esconde melodias que desafían la razón y despiertan la intuición musical.
-Bartender && Bienvenido a la oscuridad iluminada por notas musicales
-Bartender && Aqui, cada acorde es una chispa en la noche eterna.
-Bartender && La penumbra es testigo de melodías que solo los valientes pueden interpretar.
-Lumina && Mi luz guiara tus pasos en esta sinfonía de sombras y sonidos.
+Melodius && ¿Qué misterios aguardan en las sombras de este laberinto musical?
+Melodius && Las partituras resuenan con una intensidad aún mayor en esta oscuridad velada.
+Melodius && La penumbra esconde melodías que desafían la razón y despiertan la intuición musical.
+Beatron && Bienvenido a la oscuridad iluminada por notas musicales.
+Beatron && Aquí, cada acorde es una chispa en la noche eterna.
+Beatron && La penumbra es testigo de melodías que solo los valientes pueden interpretar.
+Lumina && Mi luz guiará tus pasos en esta sinfonía de sombras y sonidos.
 Lumina && En la oscuridad, mis notas brillan como estrellas en un cielo nocturno.
-Lumina && Juntos, desvelaremos los secretos mas profundos de este laberinto musical.
+Lumina && Juntos, desvelaremos los secretos más profundos de este laberinto musical.

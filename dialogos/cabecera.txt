@@ -1,13 +1,13 @@
-Sigue el ritmo.. &&  Busca las partituras, abre las puertas, ten cuidado de no perderte... hay peligros escondidos
-Sigue el ritmo.. &&  Has soltado la partitura
-Sigue el ritmo.. &&  Has recogido la partitura
-Sigue el ritmo.. &&  Has tocado la partitura
-Sigue el ritmo.. &&  Has tocado la partitura. Acercate a la puerta para abrirla 
-Sigue el ritmo.. &&  Has abierto la puerta
-Sigue el ritmo.. &&  Has usado la habilidad de tu personaje
-Sigue el ritmo.. &&  Cuidado, estas perdiendo vida 
-Sigue el ritmo.. &&  No hay partitura en el inventario
-Sigue el ritmo.. &&  Partitura anhadida a la puerta
-Sigue el ritmo.. &&  La partitura no abre esta puerta
-Sigue el ritmo.. &&  No se puede soltar la partitura aqui
-Sigue el ritmo.. &&  Escuchando la musica....
+Sigue el ritmo... &&  Busca las partituras, abre las puertas, ten cuidado de no perderte... ¡Hay peligros escondidos!
+Sigue el ritmo... &&  Has soltado la partitura
+Sigue el ritmo... &&  Has recogido la partitura
+Sigue el ritmo... &&  Has tocado la partitura
+Sigue el ritmo... &&  Has tocado la partitura. Acércate a la puerta para abrirla 
+Sigue el ritmo... &&  Has abierto la puerta
+Sigue el ritmo... &&  Has usado la habilidad de tu personaje
+Sigue el ritmo... &&  Cuidado, ¡estás perdiendo vida!
+Sigue el ritmo... &&  No hay partitura en el inventario
+Sigue el ritmo... &&  Partitura añadida a la puerta
+Sigue el ritmo... &&  La partitura no abre esta puerta
+Sigue el ritmo... &&  No se puede soltar la partitura aquí
+Sigue el ritmo... &&  Escuchando la música...

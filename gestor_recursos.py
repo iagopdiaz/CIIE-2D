@@ -248,7 +248,7 @@ class GestorRecursos:
         else:
             # Se carga el recurso indicando el nombre de su carpeta
             fullname = os.path.join('dialogos', nombre)
-            with open(fullname, 'r') as pfile:
+            with open(fullname, 'r', encoding='utf-8') as pfile:
                 lineas = pfile.read().splitlines()
                 datos = []
                 for linea in lineas:
