@@ -124,4 +124,4 @@ class Puerta(MiSprite, Observable):
         if partituras_restantes:
             nombre = partituras_restantes[0]
             if nombre in self.musicas:
-                self.musicas[nombre].play()
+                GestorSonido.reproducir_partitura(self.musicas[nombre])
