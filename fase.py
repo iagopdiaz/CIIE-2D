@@ -49,6 +49,9 @@ class Fase(Escena):
 
         # Ponemos a los jugadores en sus posiciones iniciales
         self.jugador1.establecerPosicion((250, 520))
+        if self.nivel == 2:
+            self.jugador1.establecerPosicion((2000, 500))
+
 
         # Establecemos el jugador activo como el jugador1
         self.jugador_activo = self.jugador1

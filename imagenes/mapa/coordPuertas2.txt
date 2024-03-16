@@ -10,6 +10,6 @@
 [Sinfonia del silencio][Rapsodia del resplandor]
 955 831 0
 900 831 200 138
-[p15]
+[p15][p5]
 4761 480 0
 4720 480 200 138
