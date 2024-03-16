@@ -1,8 +1,10 @@
-Melodía de la Vida - 0 - 1
-413 438
-Arpegio de la Aurora - 1 - 2
-400 500
-Sinfonía del silencio - 1 - 3
+Melodia de la vida - 0
+135 388
+Arpegio de la aurora - 0
+135 657
+Sinfonia del silencio - 1
 810 456
-Rapsodia del Resplandor - 1 - 4
+Rapsodia del resplandor - 1
 1054 913
+Melodia de los cielos - 0
+1000 1000

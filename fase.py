@@ -82,7 +82,8 @@ class Fase(Escena):
         self.grupoPartituras = pygame.sprite.Group()
         for i, datos in enumerate(datosPartituras, start=1):
             x, y = map(int, datos['coords'].split())
-            partitura = Partitura(f"partituras/partitura{i}.png", datos['nombre'], datos['jugador'], datos['musica'])
+            print(datos['nombre'])
+            partitura = Partitura(f"partituras/partitura{i}.png", datos['nombre'], datos['jugador'])
             partitura.establecerPosicion((x, y))
             self.grupoPartituras.add(partitura)
             #registrar observer 

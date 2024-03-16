@@ -3,7 +3,7 @@ from gestor_recursos import *
 from gestor_sonido import *
 
 class Partitura(MiSprite):
-    def __init__(self, imagen_partitura, nombre, id_jugador, musica):
+    def __init__(self, imagen_partitura, nombre, id_jugador):
         #Invocamos al constructor de la clase padre
         MiSprite.__init__(self)
 
@@ -21,7 +21,7 @@ class Partitura(MiSprite):
         self.nombre = nombre
 
         #Falta la musica de la partitura
-        self.musica = GestorSonido.get_partitura(musica)
+        self.musica = GestorSonido.get_partitura(nombre)
 
     def tocar(self):
         self.musica.play()

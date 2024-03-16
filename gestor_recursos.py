@@ -79,9 +79,9 @@ class GestorRecursos:
                 datos = []
                 for i in range(0, len(lineas), 2):
                     # Split the name and player field
-                    nombre, jugador, musica = lineas[i].split(' - ')
+                    nombre, jugador = lineas[i].split(' - ')
                     coords = lineas[i+1]
-                    datos.append({'nombre': nombre, 'coords': coords, 'jugador': int(jugador), 'musica': musica})
+                    datos.append({'nombre': nombre, 'coords': coords, 'jugador': int(jugador)})
             # Se almacena
             cls.recursos[nombre] = datos
             # Se devuelve

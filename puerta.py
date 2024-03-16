@@ -1,6 +1,7 @@
 from misprite import *
 from gestor_recursos import *
 from observable import Observable
+from gestor_sonido import *
 
 class Puerta(MiSprite, Observable):
     def __init__(self, nombres, imagen_puerta, area_activacion):
@@ -11,9 +12,6 @@ class Puerta(MiSprite, Observable):
         
         #Cargamos la imagen de la puerta
         imagen_puerta = GestorRecursos.CargarImagen(imagen_puerta, colorkey=(112, 136, 168))
-
-        # Calculamos el ancho de cada frame de la animación
-        ancho_frame = imagen_puerta.get_width() // 16
         
     
         # Creamos una lista para almacenar cada frame de la animación
@@ -70,10 +68,15 @@ class Puerta(MiSprite, Observable):
         self.retardo_animacion = 7
         self.contador_retardo = 0
 
+        # Creamos un diccionario para almacenar las partituras con sus nombres correspondientes
+        self.musicas = {}
+        for nombre in self.nombres:
+            self.musicas[nombre] = GestorSonido.get_partitura(nombre)
+
     def añadir_partitura(self, partitura):
         if partitura.nombre in self.nombres:
-            print("Partitura añadida a la puerta, falta:", len(self.nombres)-len(self.inventario)-1, "partituras")
             self.inventario.append(partitura.nombre)
+            print("Partitura añadida a la puerta, falta:", len(self.nombres)-len(self.inventario), "partituras")
             self.notificar_observers("accion", PUERTA_PARTITURA)
             return True
         self.notificar_observers("accion", PUERTA_PARTITURA_NO)
@@ -111,3 +114,14 @@ class Puerta(MiSprite, Observable):
             
     def eliminar_observador(self, observador):
         self.observers.remove(observador)             
+
+
+    def escuchar(self, id_jugador):
+        # Obtenemos las partituras que aún no se han añadido al inventario
+        partituras_restantes = [nombre for nombre in self.nombres if nombre not in self.inventario]
+        
+        # Si hay partituras restantes, reproducimos la primera
+        if partituras_restantes:
+            nombre = partituras_restantes[0]
+            if nombre in self.musicas:
+                self.musicas[nombre].play()

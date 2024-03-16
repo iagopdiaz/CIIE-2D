@@ -64,7 +64,8 @@ class Jugador(Personaje, Observable):
                 area_activacion_personaje = pygame.Rect(self.posicion[0], self.posicion[1], self.rect.width, self.rect.height)
                 if (puerta.area.colliderect(area_activacion_personaje)):
                     print("Escuchando: " + str(puerta.nombres))
-                    self.notificar_observers("accion", ESCUCHANDO)  # Notifica a la interfaz que ha recogido una partitura
+                    puerta.escuchar(self.id)
+                    self.notificar_observers("accion", ESCUCHANDO)  # Notifica a la interfaz que esta escuchando una puerta
 
     def recoger_partitura(self, partitura, grupoPartituras, grupoParedes, grupoPuertas, grupoCubosGrises):
         if self.id == partitura.jugador:
