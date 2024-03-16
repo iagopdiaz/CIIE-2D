@@ -91,5 +91,9 @@ class GestorSonido:
         if self.volumen_sonido < 0:
             self.volumen_sonido = 0
         self.poner_volumen_sonido(self.volumen_sonido)
+
+    @classmethod
+    def get_partitura(self, nombre):
+        return pygame.mixer.Sound("musica/partituras/" + nombre + ".ogg")
             
         

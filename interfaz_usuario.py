@@ -42,10 +42,6 @@ class InterfazUsuario(Observer):
         else:
             self.partituras_surfaces[tipo] = (self.imagen_partitura, self.partitura_surface)   
         
-        print("--------------------")
-        print(self.partituras_surfaces.values())
-        print("--------------------")  
-        
                 
     def cargar_marco(self):
         self.marco1 = GestorRecursos.CargarImagen("interfaces/inventario/inventarioPersonaje1.png", -1)
@@ -82,7 +78,6 @@ class InterfazUsuario(Observer):
         pantalla.blit(self.marco2, self.marco2_rect)
         pantalla.blit(self.marco3, self.marco3_rect)
         
-        print("no printeo por otra cosa")        
         for (imagen, surface) in self.partituras_surfaces.values():
             pantalla.blit(imagen, surface)
         

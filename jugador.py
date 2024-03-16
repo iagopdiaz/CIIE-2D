@@ -37,7 +37,7 @@ class Jugador(Personaje, Observable):
     def tocar(self, grupoPuertas, grupoPartituras):
         if self.inventario != None:
             print("Tocando: " + str(self.inventario.nombre))
-            #GestorSonido.....
+            self.inventario.tocar()
             for puerta in grupoPuertas:
                 # Crea un rectángulo para el área de activación del personaje
                 area_activacion_personaje = pygame.Rect(self.posicion[0], self.posicion[1], self.rect.width, self.rect.height)
