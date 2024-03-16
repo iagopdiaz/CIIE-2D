@@ -17,28 +17,21 @@ class InterfazUsuario(Observer):
         self.cargar_vida1llena()
         self.cargar_vida2media()
         self.cargar_vida3vacia()
-    
-    def eliminar_partitura(self, tipo):
-        if tipo is None:
-            return
-        if tipo in self.partitura_surfaces:
-            del self.partitura_surfaces[tipo]
-
 
     def cargar_inventario(self, tipo, imagen_partitura):
         self.imagen_partitura = GestorRecursos.CargarImagen(imagen_partitura, -1)
         self.partitura_surface = self.imagen_partitura.get_rect()
         print("--------**ENTRADA IF CASOS***------------")  
         print(imagen_partitura)
-        if (tipo == "partitura1" or "DELpartitura1"):
+        if tipo == "partitura1" or tipo == "DELpartitura1":
             print(tipo)
             print("1")
             self.partitura_surface.topleft = (60, 60)
-        elif (tipo == "partitura2" or "DELpartitura2"):  
+        elif tipo == "partitura2" or tipo == "DELpartitura2":  
             print(tipo)
             print("2")
             self.partitura_surface.topleft = (60, 110)
-        elif (tipo == "partitura3" or "DELpartitura3"): 
+        elif tipo == "partitura3" or tipo == "DELpartitura3": 
             self.partitura_surface.topleft = (60, 160)   
         else: #Primer caso
             self.partitura_surface.topleft = (16000, 16000)
