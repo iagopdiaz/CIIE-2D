@@ -92,7 +92,7 @@ class Fase(Escena):
 
         # Meta
         if self.nivel == 2:
-            meta = MetaFase(4761, 349, 'metas/metaVertical.png')
+            meta = MetaFase(4780, 349, 'metas/metaVertical.png')
         else:
             # Misma meta para fases 1 y 3
             meta = MetaFase(5312, 150, 'metas/metaHorizontal.png')
@@ -287,6 +287,9 @@ class Fase(Escena):
         if self.nivel > 1:
             if (self.jugador_activo == self.jugador1):
                 nuevo_jugador_activo = self.jugador2
+
+            elif (self.jugador_activo == self.jugador2):
+                nuevo_jugador_activo = self.jugador1
 
             if self.nivel > 2:
                 if (self.jugador_activo == self.jugador2):

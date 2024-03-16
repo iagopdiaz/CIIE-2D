@@ -1,3 +1,15 @@
-[Melodia de la vida]
+[Melodia de la vida][Arpegio de la aurora]
 519 478 0
 449 475 188 138
+[Sinfonia del silencio][Rapsodia del resplandor]
+955 126 0
+900 126 200 138
+[Sinfonia del silencio][Rapsodia del resplandor]
+955 480 0
+900 480 200 138
+[Sinfonia del silencio][Rapsodia del resplandor]
+955 831 0
+900 831 200 138
+[p15]
+4761 480 0
+4720 480 200 138
