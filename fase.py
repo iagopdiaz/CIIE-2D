@@ -301,6 +301,8 @@ class Fase(Escena):
         if nuevo_jugador_activo.puede_moverse(futuro_rect, self.grupoParedes, self.grupoPuertas, self.grupoCubosGrises):
             # Actualiza el grupo de sprites para que contenga al nuevo jugador activo
             # Primero, elimina el jugador activo actual de los grupos relevantes
+            nuevo_jugador_activo.vida = self.jugador_activo.vida
+
             self.grupoJugadorActivo.remove(self.jugador_activo)
 
             # Luego, agrega el nuevo jugador activo a los grupos

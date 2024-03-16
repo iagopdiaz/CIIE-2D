@@ -13,7 +13,6 @@ class InterfazUsuario(Observer):
         self.personaje = personaje
         self.partitura_surfaces = {}
         self.partituras = []
-        self.cargar_inventario(4, "partituras/partituraX.png") 
         self.cargar_marco()     
         self.cargar_vida1llena()
         self.cargar_vida2media()
