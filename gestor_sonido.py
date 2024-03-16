@@ -24,45 +24,45 @@ class GestorSonido:
         except:
             pass
         
+        self.canal_sonido = pygame.mixer.Channel(1)
+        self.canal_musica = pygame.mixer.Channel(2)
+        self.canal_partitura = pygame.mixer.Channel(3)
+
     @classmethod
     def musica_nivel_1(self):
-        pygame.mixer.music.load(MUSICA_NIVEL_1)
+        self.canal_musica.play(pygame.mixer.Sound(MUSICA_NIVEL_1))  # Usar el canal de música
         self.poner_volumen_musica(self.volumen_musica)
-        pygame.mixer.music.play(-1)
 
     @classmethod
     def musica_nivel_2(self):
-        pygame.mixer.music.load(MUSICA_NIVEL_2)
+        self.canal_musica.play(pygame.mixer.Sound(MUSICA_NIVEL_2))
         self.poner_volumen_musica(self.volumen_musica)
-        pygame.mixer.music.play(-1)
-    
+
+
     @classmethod
     def musica_nivel_3(self):
-        pygame.mixer.music.load(MUSICA_NIVEL_3)
+        self.canal_musica.play(pygame.mixer.Sound(MUSICA_NIVEL_3))
         self.poner_volumen_musica(self.volumen_musica)
-        pygame.mixer.music.play(-1)
     
     @classmethod
     def musica_menu_principal(self):
-        pygame.mixer.music.load(MUSICA_MENU_PRINCIPAL)
+        self.canal_musica.play(pygame.mixer.Sound(MUSICA_MENU_PRINCIPAL))
         self.poner_volumen_musica(self.volumen_musica)
-        pygame.mixer.music.play(-1)
     
     @classmethod
     def musica_menus(self):
-        pygame.mixer.music.load(MUSICA_MENUS)
+        self.canal_musica.play(pygame.mixer.Sound(MUSICA_MENUS))
         self.poner_volumen_musica(self.volumen_musica)
-        pygame.mixer.music.play(-1)
-        
+
     @classmethod
     def poner_volumen_musica(self,volumen):
         self.volumen_musica = volumen
-        pygame.mixer.music.set_volume(self.volumen_musica/100.0)
+        self.canal_musica.set_volume(self.volumen_musica/100.0)
     
     @classmethod
     def poner_volumen_sonido(self,volumen):
         self.volumen_sonido = volumen
-        pygame.mixer.music.set_volume(self.volumen_sonido/100.0)
+        self.canal_sonido.set_volume(self.volumen_sonido/100.0)
         
     @classmethod
     def subir_volumen_musica(self,volumen):
@@ -91,10 +91,6 @@ class GestorSonido:
         if self.volumen_sonido < 0:
             self.volumen_sonido = 0
         self.poner_volumen_sonido(self.volumen_sonido)
-
-    @classmethod
-    def get_partitura(self, nombre):
-        return pygame.mixer.Sound("musica/partituras/" + nombre + ".ogg")
     
     @classmethod
     def obtener_volumen_musica(self):
@@ -103,5 +99,12 @@ class GestorSonido:
     @classmethod
     def obtener_volumen_sonido(self):
         return self.volumen_sonido
-            
-        
+
+    @classmethod
+    def get_partitura(self, nombre):
+        return pygame.mixer.Sound("musica/partituras/" + nombre + ".ogg")
+    
+    @classmethod
+    def reproducir_partitura(self, partitura):
+        self.canal_partitura.stop() 
+        self.canal_partitura.play(partitura)  
