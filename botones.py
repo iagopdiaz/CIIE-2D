@@ -87,7 +87,6 @@ class BotonSubirMusica(Boton):
 class BotonBajarSonido(Boton):
     def __init__(self, pantalla):
         Boton.__init__(self, pantalla, BOTON_JUGAR, (100, 240))
-    
     def accion(self):
         self.pantalla.menu.ejecutarBajarVolumenSonido()
                        
@@ -97,3 +96,25 @@ class BotonSubirSonido(Boton):
     
     def accion(self):
         self.pantalla.menu.ejecutarSubirVolumenSonido()        
+
+class BotonVolumenMusica(Boton):
+    def __init__(self, pantalla):
+        Boton.__init__(self, pantalla, NIVEL_VOLUMEN, (600, 110))
+    
+    def dibujar(self, pantalla):
+        imagen_escalada = pygame.transform.scale(self.imagen, (int(self.imagen.get_width() * 2), int(self.imagen.get_height() * 1.5)))
+        pantalla.blit(imagen_escalada, self.rect)
+        fuente = GestorRecursos.CargarFuente(self, FUENTE1, 25)
+        texto = fuente.render(str(GestorSonido.obtener_volumen_musica()), 1, (10, 10, 10))
+        pantalla.blit(texto, (self.rect.x + 30, self.rect.y + 24))
+
+class BotonVolumenSonido(Boton):
+    def __init__(self, pantalla):
+        Boton.__init__(self, pantalla, NIVEL_VOLUMEN, (600, 230))
+    
+    def dibujar(self, pantalla):
+        imagen_escalada = pygame.transform.scale(self.imagen, (int(self.imagen.get_width() * 2), int(self.imagen.get_height() * 1.5)))
+        pantalla.blit(imagen_escalada, self.rect)
+        fuente = GestorRecursos.CargarFuente(self, FUENTE1, 25)
+        texto = fuente.render(str(GestorSonido.obtener_volumen_sonido()), 1, (10, 10, 10))
+        pantalla.blit(texto, (self.rect.x + 30, self.rect.y + 24))

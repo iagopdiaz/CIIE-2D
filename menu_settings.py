@@ -15,14 +15,17 @@ class GUIInicial(GUI):
         botonSubirVolumenMusica = BotonSubirMusica(self)
         botonBajarVolumenSonido = BotonBajarSonido(self)
         botonSubirVolumenSonido = BotonSubirSonido(self)
-        
+        botonVolumenMusica = BotonVolumenMusica(self)
+        botonVolumenSonido = BotonVolumenSonido(self)        
         botonPantallaCompleta = BotonPantallaCompleta(self)
         botonAtras = BotonAtras(self)
         
         self.GUIelementos.append(botonBajarVolumenMusica)
         self.GUIelementos.append(botonSubirVolumenMusica)
         self.GUIelementos.append(botonBajarVolumenSonido)
-        self.GUIelementos.append(botonSubirVolumenSonido)
+        self.GUIelementos.append(botonSubirVolumenSonido)        
+        self.GUIelementos.append(botonVolumenMusica)
+        self.GUIelementos.append(botonVolumenSonido)
         self.GUIelementos.append(botonPantallaCompleta)
         self.GUIelementos.append(botonAtras)
 

@@ -95,5 +95,13 @@ class GestorSonido:
     @classmethod
     def get_partitura(self, nombre):
         return pygame.mixer.Sound("musica/partituras/" + nombre + ".ogg")
+    
+    @classmethod
+    def obtener_volumen_musica(self):
+        return self.volumen_musica
+    
+    @classmethod
+    def obtener_volumen_sonido(self):
+        return self.volumen_sonido
             
         
