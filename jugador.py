@@ -37,7 +37,7 @@ class Jugador(Personaje, Observable):
     def tocar(self, grupoPuertas, grupoPartituras):
         if self.inventario != None:
             print("Tocando: " + str(self.inventario.nombre))
-            self.inventario.tocar()
+            GestorSonido.reproducir_partitura(self.inventario.musica)
             for puerta in grupoPuertas:
                 # Crea un rectángulo para el área de activación del personaje
                 area_activacion_personaje = pygame.Rect(self.posicion[0], self.posicion[1], self.rect.width, self.rect.height)
@@ -63,7 +63,6 @@ class Jugador(Personaje, Observable):
         for puerta in grupoPuertas:
                 area_activacion_personaje = pygame.Rect(self.posicion[0], self.posicion[1], self.rect.width, self.rect.height)
                 if (puerta.area.colliderect(area_activacion_personaje)):
-                    print("Escuchando: " + str(puerta.nombres))
                     puerta.escuchar(self.id)
                     self.notificar_observers("accion", ESCUCHANDO)  # Notifica a la interfaz que esta escuchando una puerta
 

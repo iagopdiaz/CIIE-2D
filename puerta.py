@@ -4,7 +4,7 @@ from observable import Observable
 from gestor_sonido import *
 
 class Puerta(MiSprite, Observable):
-    def __init__(self, nombres, imagen_puerta, area_activacion, tipo):
+    def __init__(self, partituras, imagen_puerta, area_activacion, tipo):
         # Llamamos al constructor de la clase padre
         MiSprite.__init__(self)
         Observable.__init__(self)
@@ -55,13 +55,11 @@ class Puerta(MiSprite, Observable):
         #Obtenemos el rectangulo del sprite
         self.rect = self.image.get_rect()
 
-        if isinstance(nombres, str):
-            self.nombres = [nombres]
-        else:
-            self.nombres = nombres
-
         #Creamos un inventario para la puerta
         self.inventario = []
+
+        #Establecemos las partituras necesarias para abrir la puerta
+        self.partituras = partituras
 
         #Establecemos el area de activacion de la puerta
         self.area = area_activacion
@@ -73,15 +71,10 @@ class Puerta(MiSprite, Observable):
         self.retardo_animacion = 7
         self.contador_retardo = 0
 
-        # Creamos un diccionario para almacenar las partituras con sus nombres correspondientes
-        self.musicas = {}
-        for nombre in self.nombres:
-            self.musicas[nombre] = GestorSonido.get_partitura(nombre)
-
     def añadir_partitura(self, partitura):
-        if partitura.nombre in self.nombres:
-            self.inventario.append(partitura.nombre)
-            print("Partitura añadida a la puerta, falta:", len(self.nombres)-len(self.inventario), "partituras")
+        if partitura in self.partituras:
+            self.inventario.append(partitura)
+            print("Partitura añadida a la puerta, falta:", len(self.partituras)-len(self.inventario), "partituras")
             self.notificar_observers("accion", PUERTA_PARTITURA)
             return True
         self.notificar_observers("accion", PUERTA_PARTITURA_NO)
@@ -97,11 +90,9 @@ class Puerta(MiSprite, Observable):
         if self.frame_actual == 0:
             self.abierta = True
 
-
-
     def update(self):
         #Abrir la puerta cuando todos los nombres esten en el inventario
-        if all([nombre in self.inventario for nombre in self.nombres]):
+        if all([partitura in self.inventario for partitura in self.partituras]):
             self.notificar_observers("accion", PUERTA_ABIERTA)
             self.abrir_puerta()
             return
@@ -123,10 +114,12 @@ class Puerta(MiSprite, Observable):
 
     def escuchar(self, id_jugador):
         # Obtenemos las partituras que aún no se han añadido al inventario
-        partituras_restantes = [nombre for nombre in self.nombres if nombre not in self.inventario]
+        partituras_restantes = [partitura for partitura in self.partituras if partitura not in self.inventario]
         
-        # Si hay partituras restantes, reproducimos la primera
+        # Si hay partituras restantes, se reproduce la del jugador
         if partituras_restantes:
-            nombre = partituras_restantes[0]
-            if nombre in self.musicas:
-                GestorSonido.reproducir_partitura(self.musicas[nombre])
+            #De las restantes, busca la que le corresponde al jugador
+            for partitura in partituras_restantes:
+                if partitura.jugador == id_jugador:
+                    GestorSonido.reproducir_partitura(partitura.musica)
+                    return

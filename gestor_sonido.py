@@ -113,4 +113,4 @@ class GestorSonido:
         self.canal_partitura.play(partitura)  
 
         #Bajamos el volumen de las musicas(asi para evitar tocar el self y volver a subir el volumen al q estaba al terminar de tocar la partitura)
-        self.canal_musica.set_volume((self.volumen_musica/2)/100)
+        self.canal_musica.set_volume((self.volumen_musica/3)/100)

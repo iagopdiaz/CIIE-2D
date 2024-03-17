@@ -22,7 +22,3 @@ class Partitura(MiSprite):
 
         #Falta la musica de la partitura
         self.musica = GestorSonido.get_partitura(nombre)
-
-    def tocar(self):
-        GestorSonido.reproducir_partitura(self.musica)
-    

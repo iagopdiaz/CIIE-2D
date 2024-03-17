@@ -114,8 +114,15 @@ class Fase(Escena):
             x_foto, y_foto, tipo = map(int, datos['coords_foto'].split())
             # Obtenemos las coordenadas y dimensiones del área de activación de la puerta
             x_area, y_area, ancho, alto = map(int, datos['coords_area'].split())
+            #Creamos el array de partituras
+            partituras = []
             # Creamos la puerta y establecemos su posición y área de activación
-            puerta = Puerta(datos['nombre'], f"puertas/puerta.png", pygame.Rect(x_area, y_area, ancho, alto), tipo)
+            for nombre in datos['nombre']:
+                #Buscar la partitura en el grupo de partituras
+                for partitura in self.grupoPartituras:
+                    if partitura.nombre == nombre:
+                        partituras.append(partitura)
+            puerta = Puerta(partituras, f"puertas/puerta.png", pygame.Rect(x_area, y_area, ancho, alto), tipo)
             puerta.establecerPosicion((x_foto, y_foto))
             self.grupoPuertas.add(puerta)
             puerta.registrar_observador(self)
@@ -329,21 +336,17 @@ class Fase(Escena):
                 print("No se puede cambiar de jugador en esta posicion")
 
     def eventos(self, lista_eventos):
-        # Miramos a ver si hay algun evento de salir del programa
         for evento in lista_eventos:
-            # Si se sale del programa
             if evento.type == pygame.QUIT:
                 return True
             elif evento.type == pygame.KEYDOWN:
                 if evento.key == pygame.K_p:
-                        self.dialogos.siguiente_dialogo()
-                        if (self.dialogos.final()):
-                            self.jugando = True
+                    self.dialogos.siguiente_dialogo()
+                    if (self.dialogos.final()):
+                        self.jugando = True
                 if self.jugando:
-                    # Si la tecla presionada es TAB
                     if evento.key == pygame.K_TAB:
                         self.cambiar_jugador()
-                        # No necesitas continuar el bucle después de cambiar de jugador
                         continue
                     elif evento.key == pygame.K_t:
                         self.jugador_activo.tocar(self.grupoPuertas, self.grupoPartituras)
@@ -353,17 +356,17 @@ class Fase(Escena):
                     elif evento.key == pygame.K_e:
                         self.jugador_activo.escuchar(self.grupoPuertas)
                     elif evento.key == pygame.K_s:
-                        self.jug.ador_activo.soltar_partitura(self.grupoPartituras, self.grupoParedes, self.grupoPuertas, self.grupoCubosGrises)
+                        self.jugador_activo.soltar_partitura(self.grupoPartituras, self.grupoParedes, self.grupoPuertas, self.grupoCubosGrises)
                     elif evento.key == pygame.K_h:
                         self.jugador_activo.habilidad1(self.grupoAtaques)
                         continue
+            if self.jugando:
+                # Indicamos la acción a realizar segun la tecla pulsada para cada jugador
+                teclasPulsadas = pygame.key.get_pressed()
+                self.jugador_activo.mover(teclasPulsadas, K_UP, K_DOWN, K_LEFT, K_RIGHT)
 
-                    # Indicamos la acción a realizar segun la tecla pulsada para cada jugador
-                    teclasPulsadas = pygame.key.get_pressed()
-                    self.jugador_activo.mover(teclasPulsadas, K_UP, K_DOWN, K_LEFT, K_RIGHT)
-        
-        # No se sale del programa
-        return False
+        return False  # No se sale del programa
+
 
     def encender_musica(self):
         if self.nivel == 1:
