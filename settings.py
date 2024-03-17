@@ -54,7 +54,7 @@ BOTON_VOL_MUSICA = "interfaces/botones/volumen_musica.png"
 BOTON_VOL_SONIDO = "interfaces/botones/volumen_efectos.png"
 NIVEL_VOLUMEN = "interfaces/botones/nivel_volumen.png"
 
-TEXTO_ENTER = "Presiona K para seguir"
+TEXTO_ENTER = "Presiona P para pasar"
 PARTITURA_SOLTADA = "Partitura soltada"
 PARTITURA_RECOGIDA = "Partitura recogida"
 ESCUCHANDO = "Escuchando..."

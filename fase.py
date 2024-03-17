@@ -98,7 +98,7 @@ class Fase(Escena):
             meta = MetaFase(4780, 349, 'metas/metaVertical.png')
         else:
             # Misma meta para fases 1 y 3
-            meta = MetaFase(5312, 150, 'metas/metaHorizontal.png')
+            meta = MetaFase(5314, 190, 'metas/metaHorizontal.png')
         self.grupoMeta = pygame.sprite.Group(meta)
 
         # Puertas
@@ -234,12 +234,12 @@ class Fase(Escena):
                  
             
     def actualizarScroll(self):
-        # Definimos el límite para el scroll como los 3/4 de la pantalla
-        LIMITE_SCROLL_X = ANCHO_PANTALLA * 3 / 4
-        LIMITE_SCROLL_Y = ALTO_PANTALLA * 3 / 4
+        # Definimos el límite para el scroll como los 3/5 de la pantalla
+        LIMITE_SCROLL_X = ANCHO_PANTALLA * 3 / 5
+        LIMITE_SCROLL_Y = ALTO_PANTALLA * 3 / 5
 
         #Aproximacion del centro del jugador, no se coge con .center porque sino varia con los diferentes personajes
-        #En penumbra si que se coje con .center por que sino en el circulo se nota mucho el centrro mal
+        #En penumbra si que se coje con .center por que sino en el circulo se nota mucho el centro mal
         posicion_x = self.jugador_activo.rect.topleft[0] + 25
         posicion_y = self.jugador_activo.rect.topleft[1] + 25
 
@@ -339,18 +339,16 @@ class Fase(Escena):
                     continue
                 elif evento.key == pygame.K_t:
                     self.jugador_activo.tocar(self.grupoPuertas, self.grupoPartituras)
-                elif evento.key == pygame.K_p:
+                elif evento.key == pygame.K_x:
                     (x,y) = self.jugador_activo.posicion
                     print(f"{int(x)} {int(y)}")
                 elif evento.key == pygame.K_e:
                     self.jugador_activo.escuchar(self.grupoPuertas)
                 elif evento.key == pygame.K_s:
                     self.jugador_activo.soltar_partitura(self.grupoPartituras, self.grupoParedes, self.grupoPuertas, self.grupoCubosGrises)
-                elif evento.key == pygame.K_KP_ENTER:
-                    self.dialogos.siguiente_dialogo()     
-                #elif evento.key == pygame.K_ESCAPE:
-                    # TODO pausa
-                elif evento.key == pygame.K_1:
+                elif evento.key == pygame.K_p:
+                    self.dialogos.siguiente_dialogo()
+                elif evento.key == pygame.K_h:
                     self.jugador_activo.habilidad1(self.grupoAtaques)
                     continue
 
