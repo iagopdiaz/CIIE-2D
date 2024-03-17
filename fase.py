@@ -30,7 +30,13 @@ class Fase(Escena):
         self.ultimo_dialogo = False
         if(nivel == 4): 
             self.ultimo_dialogo = True 
-        self.dialogos = Dialogos(nivel, not self.ultimo_dialogo)   
+        if(nivel == 1) : 
+            dialogo = NIVEL1   
+        elif(nivel == 2) :
+            dialogo = NIVEL2
+        elif(nivel == 3) :
+            dialogo = NIVEL3 
+        self.dialogos = Dialogos(dialogo, not self.ultimo_dialogo)   
          
         
         # Iniciar el scroll

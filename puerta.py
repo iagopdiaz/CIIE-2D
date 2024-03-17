@@ -96,13 +96,13 @@ class Puerta(MiSprite, Observable):
             self.image = self.frames_puerta[self.frame_actual]
         if self.frame_actual == 0:
             self.abierta = True
-            self.notificar_observers("accion", PUERTA_ABIERTA)
 
 
 
     def update(self):
         #Abrir la puerta cuando todos los nombres esten en el inventario
         if all([nombre in self.inventario for nombre in self.nombres]):
+            self.notificar_observers("accion", PUERTA_ABIERTA)
             self.abrir_puerta()
             return
     

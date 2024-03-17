@@ -14,7 +14,7 @@ class Dialogos(Observer):
         self.habilitado = habilitado
         self.reiniciar()
         self.ultimo_tiempo = pygame.time.get_ticks()
-        self.lista_dialogos = GestorRecursos.CargarDialogo(NIVEL0)
+        self.lista_dialogos = GestorRecursos.CargarDialogo(nivel)
         self.acciones = GestorRecursos.CargarDialogo(CABECERA)
         self.fuente_nombre = GestorRecursos.CargarFuente(self,FUENTE1, TAMAÑO_FUENTE_NOMBRE)
         self.fuente_frase = GestorRecursos.CargarFuente(self,FUENTE1, TAMAÑO_FUENTE_FRASE)

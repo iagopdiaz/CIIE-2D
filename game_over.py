@@ -45,9 +45,9 @@ class GO_Boton(GO_GUIElemento):
         pantalla.blit(self.imagen, self.rect)
 
 
-class GO_BotonAtras(GO_Boton):
+class GO_BotonJugar(GO_Boton):
     def __init__(self, pantalla):
-        GO_Boton.__init__(self, pantalla, "interfaces/botones/atras.png", (100, 360))
+        GO_Boton.__init__(self, pantalla, BOTON_JUGAR, (100, 360))
     
     def accion(self):
         self.pantalla.menu.ejecutarAtras()
@@ -55,7 +55,7 @@ class GO_BotonAtras(GO_Boton):
 
 class GO_BotonSalir(GO_Boton):
     def __init__(self, pantalla):
-        GO_Boton.__init__(self, pantalla, "interfaces/botones/salir.png", (100, 480))
+        GO_Boton.__init__(self, pantalla, BOTON_SALIR, (100, 480))
     
     def accion(self):
         self.pantalla.menu.ejecutarSalir()
@@ -96,7 +96,7 @@ class GameOverGUI(GO_GUI):
             GO_GUI.__init__(self, menu, "interfaces/fondos/muerte.jpg")
         
         go_botonSalir = GO_BotonSalir(self)
-        go_botonAtras = GO_BotonAtras(self)
+        go_botonAtras = GO_BotonJugar(self)
         self.GO_GUIelementos.append(go_botonSalir)
         self.GO_GUIelementos.append(go_botonAtras)
 
@@ -146,6 +146,6 @@ class GameOver(Escena):
 
     def ejecutarSalir(self):
         self.director.salirPrograma()
-
+        
     def encender_musica(self):
         GestorSonido.musica_menu_principal()
