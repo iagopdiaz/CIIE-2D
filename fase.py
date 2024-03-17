@@ -187,7 +187,7 @@ class Fase(Escena):
         if GestorSonido.canal_partitura.get_busy():
             self.tocando = True
 
-        #Si estubo tocando pero ahora ya no esta ocupado es que termino, por lo que ajustamos el volumen otra vez al del self del gestor
+        #Si estuvo tocando pero ahora ya no esta ocupado es que termino, por lo que ajustamos el volumen otra vez al del self del gestor
         if not GestorSonido.canal_partitura.get_busy() and self.tocando:
             GestorSonido.poner_volumen_musica(GestorSonido.obtener_volumen_musica())#AQUI ES DND NO SE QUE CARAJO FALLA
             self.tocando = False
