@@ -11,21 +11,25 @@ from botones import *
 class GUIInicial(GUI):
     def __init__(self, menu):
         GUI.__init__(self, menu, "interfaces/fondos/ajustes.jpg")
+        textoBotonVolumenMusica = TextoBotonVolumenMusica(self)
         botonBajarVolumenMusica = BotonBajarMusica(self)
         botonSubirVolumenMusica = BotonSubirMusica(self)
-        botonBajarVolumenSonido = BotonBajarSonido(self)
-        botonSubirVolumenSonido = BotonSubirSonido(self)
+        textoBotonVolumenEfectos = TextoBotonVolumenEfectos(self)
+        botonBajarVolumenEfectos = BotonBajarEfectos(self)
+        botonSubirVolumenEfectos = BotonSubirEfectos(self)
         botonVolumenMusica = BotonVolumenMusica(self)
-        botonVolumenSonido = BotonVolumenSonido(self)        
+        botonVolumenEfectos = BotonVolumenEfectos(self)        
         botonPantallaCompleta = BotonPantallaCompleta(self)
         botonAtras = BotonAtras(self)
         
+        self.GUIelementos.append(textoBotonVolumenMusica)
         self.GUIelementos.append(botonBajarVolumenMusica)
         self.GUIelementos.append(botonSubirVolumenMusica)
-        self.GUIelementos.append(botonBajarVolumenSonido)
-        self.GUIelementos.append(botonSubirVolumenSonido)        
+        self.GUIelementos.append(textoBotonVolumenEfectos)
+        self.GUIelementos.append(botonBajarVolumenEfectos)
+        self.GUIelementos.append(botonSubirVolumenEfectos)        
         self.GUIelementos.append(botonVolumenMusica)
-        self.GUIelementos.append(botonVolumenSonido)
+        self.GUIelementos.append(botonVolumenEfectos)
         self.GUIelementos.append(botonPantallaCompleta)
         self.GUIelementos.append(botonAtras)
 
@@ -77,11 +81,11 @@ class MenuAjustes(Escena):
     def ejecutarSubirVolumenMusica(self):
         GestorSonido.subir_volumen_musica(10) 
     
-    def ejecutarBajarVolumenSonido(self):
-        GestorSonido.bajar_volumen_sonido(10) 
+    def ejecutarBajarVolumenEfectos(self):
+        GestorSonido.bajar_volumen_efectos(10) 
     
-    def ejecutarSubirVolumenSonido(self):
-        GestorSonido.subir_volumen_sonido(10)
+    def ejecutarSubirVolumenEfectos(self):
+        GestorSonido.subir_volumen_efectos(10)
     
     def mostrarPantallaInicial(self):
         self.pantallaActual = 0

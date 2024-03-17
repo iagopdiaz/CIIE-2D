@@ -8,7 +8,7 @@ from gestor_usuario import GestorUsuario
 class GestorSonido: 
     
     volumen_musica = 50
-    volumen_sonido = 50
+    volumen_efectos = 50
     
     
     @classmethod
@@ -20,11 +20,11 @@ class GestorSonido:
         except:
             pass    
         try :
-            self.volumen_sonido = GestorUsuario.get_value("volumen_sonido")
+            self.volumen_efectos = GestorUsuario.get_value("volumen_efectos")
         except:
             pass
         
-        self.canal_sonido = pygame.mixer.Channel(1)
+        self.canal_efectos = pygame.mixer.Channel(1)
         self.canal_musica = pygame.mixer.Channel(2)
         self.canal_partitura = pygame.mixer.Channel(3)
 
@@ -60,9 +60,9 @@ class GestorSonido:
         self.canal_musica.set_volume(self.volumen_musica/100.0)
     
     @classmethod
-    def poner_volumen_sonido(self,volumen):
-        self.volumen_sonido = volumen
-        self.canal_sonido.set_volume(self.volumen_sonido/100.0)
+    def poner_volumen_efectos(self,volumen):
+        self.volumen_efectos = volumen
+        self.canal_efectos.set_volume(self.volumen_efectos/100.0)
         
     @classmethod
     def subir_volumen_musica(self,volumen):
@@ -79,26 +79,26 @@ class GestorSonido:
         self.poner_volumen_musica(self.volumen_musica)       
     
     @classmethod    
-    def subir_volumen_sonido(self,volumen):
-        self.volumen_sonido += volumen
-        if self.volumen_sonido > 100:
-            self.volumen_sonido = 100
-        self.poner_volumen_sonido(self.volumen_sonido)
+    def subir_volumen_efectos(self,volumen):
+        self.volumen_efectos += volumen
+        if self.volumen_efectos > 100:
+            self.volumen_efectos = 100
+        self.poner_volumen_efectos(self.volumen_efectos)
     
     @classmethod
-    def bajar_volumen_sonido(self,volumen):
-        self.volumen_sonido -= volumen
-        if self.volumen_sonido < 0:
-            self.volumen_sonido = 0
-        self.poner_volumen_sonido(self.volumen_sonido)
+    def bajar_volumen_efectos(self,volumen):
+        self.volumen_efectos -= volumen
+        if self.volumen_efectos < 0:
+            self.volumen_efectos = 0
+        self.poner_volumen_efectos(self.volumen_efectos)
     
     @classmethod
     def obtener_volumen_musica(self):
         return self.volumen_musica
     
     @classmethod
-    def obtener_volumen_sonido(self):
-        return self.volumen_sonido
+    def obtener_volumen_efectos(self):
+        return self.volumen_efectos
 
     @classmethod
     def get_partitura(self, nombre):

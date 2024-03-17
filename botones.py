@@ -68,38 +68,60 @@ class BotonAtras(Boton):
     
     def accion(self):
         self.pantalla.menu.ejecutarAtras()
-        
+
+
+class TextoBotonVolumenMusica(Boton):
+    def __init__(self, pantalla):
+        Boton.__init__(self, pantalla, BOTON_VOL_MUSICA, (100, 120))
+    
+    def accion(self):
+        # No hace nada. Realmente es un texto. Formato botón por comodidad y para mantener estética del menú
+        pass
+
+
 class BotonBajarMusica(Boton):
     def __init__(self, pantalla):
-        Boton.__init__(self, pantalla, BOTON_JUGAR , (100, 120))
+        Boton.__init__(self, pantalla, BOTON_BAJAR, (490, 120))
     
     def accion(self):
         self.pantalla.menu.ejecutarBajarVolumenMusica()       
-        
-        
+
+
 class BotonSubirMusica(Boton):
     def __init__(self, pantalla):
-        Boton.__init__(self, pantalla, BOTON_JUGAR, (350, 120))
+        Boton.__init__(self, pantalla, BOTON_SUBIR, (668, 120))
     
     def accion(self):
         self.pantalla.menu.ejecutarSubirVolumenMusica()
 
-class BotonBajarSonido(Boton):
+
+class TextoBotonVolumenEfectos(Boton):
     def __init__(self, pantalla):
-        Boton.__init__(self, pantalla, BOTON_JUGAR, (100, 240))
-    def accion(self):
-        self.pantalla.menu.ejecutarBajarVolumenSonido()
-                       
-class BotonSubirSonido(Boton):
-    def __init__(self, pantalla):
-        Boton.__init__(self, pantalla, BOTON_JUGAR, (350, 240))
+        Boton.__init__(self, pantalla, BOTON_VOL_EFECTOS, (100, 240))
     
     def accion(self):
-        self.pantalla.menu.ejecutarSubirVolumenSonido()        
+        # No hace nada. Realmente es un texto. Formato botón por comodidad y para mantener estética del menú
+        pass
+
+
+class BotonBajarEfectos(Boton):
+    def __init__(self, pantalla):
+        Boton.__init__(self, pantalla, BOTON_BAJAR, (490, 240))
+    def accion(self):
+        self.pantalla.menu.ejecutarBajarVolumenEfectos()
+
+           
+class BotonSubirEfectos(Boton):
+    def __init__(self, pantalla):
+        Boton.__init__(self, pantalla, BOTON_SUBIR, (668, 240))
+    
+    def accion(self):
+        self.pantalla.menu.ejecutarSubirVolumenEfectos()        
+
 
 class BotonVolumenMusica(Boton):
     def __init__(self, pantalla):
-        Boton.__init__(self, pantalla, NIVEL_VOLUMEN, (600, 110))
+        Boton.__init__(self, pantalla, NIVEL_VOLUMEN, (550, 100))
     
     def dibujar(self, pantalla):
         imagen_escalada = pygame.transform.scale(self.imagen, (int(self.imagen.get_width() * 2), int(self.imagen.get_height() * 1.5)))
@@ -108,13 +130,14 @@ class BotonVolumenMusica(Boton):
         texto = fuente.render(str(GestorSonido.obtener_volumen_musica()), 1, (10, 10, 10))
         pantalla.blit(texto, (self.rect.x + 30, self.rect.y + 24))
 
-class BotonVolumenSonido(Boton):
+
+class BotonVolumenEfectos(Boton):
     def __init__(self, pantalla):
-        Boton.__init__(self, pantalla, NIVEL_VOLUMEN, (600, 230))
+        Boton.__init__(self, pantalla, NIVEL_VOLUMEN, (550, 220))
     
     def dibujar(self, pantalla):
         imagen_escalada = pygame.transform.scale(self.imagen, (int(self.imagen.get_width() * 2), int(self.imagen.get_height() * 1.5)))
         pantalla.blit(imagen_escalada, self.rect)
         fuente = GestorRecursos.CargarFuente(self, FUENTE1, 25)
-        texto = fuente.render(str(GestorSonido.obtener_volumen_sonido()), 1, (10, 10, 10))
+        texto = fuente.render(str(GestorSonido.obtener_volumen_efectos()), 1, (10, 10, 10))
         pantalla.blit(texto, (self.rect.x + 30, self.rect.y + 24))
