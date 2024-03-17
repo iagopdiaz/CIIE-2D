@@ -55,6 +55,7 @@ class Fase(Escena):
 
         # Ponemos a los jugadores en sus posiciones iniciales
         self.jugador1.establecerPosicion((250, 520))
+        self.jugando = False
 
         # Establecemos el jugador activo como el jugador1
         self.jugador_activo = self.jugador1
@@ -334,29 +335,32 @@ class Fase(Escena):
             if evento.type == pygame.QUIT:
                 return True
             elif evento.type == pygame.KEYDOWN:
-                # Si la tecla presionada es TAB
-                if evento.key == pygame.K_TAB:
-                    self.cambiar_jugador()
-                    # No necesitas continuar el bucle después de cambiar de jugador
-                    continue
-                elif evento.key == pygame.K_t:
-                    self.jugador_activo.tocar(self.grupoPuertas, self.grupoPartituras)
-                elif evento.key == pygame.K_x:
-                    (x,y) = self.jugador_activo.posicion
-                    print(f"{int(x)} {int(y)}")
-                elif evento.key == pygame.K_e:
-                    self.jugador_activo.escuchar(self.grupoPuertas)
-                elif evento.key == pygame.K_s:
-                    self.jugador_activo.soltar_partitura(self.grupoPartituras, self.grupoParedes, self.grupoPuertas, self.grupoCubosGrises)
-                elif evento.key == pygame.K_p:
-                    self.dialogos.siguiente_dialogo()
-                elif evento.key == pygame.K_h:
-                    self.jugador_activo.habilidad1(self.grupoAtaques)
-                    continue
+                if evento.key == pygame.K_p:
+                        self.dialogos.siguiente_dialogo()
+                        if (self.dialogos.final()):
+                            self.jugando = True
+                if self.jugando:
+                    # Si la tecla presionada es TAB
+                    if evento.key == pygame.K_TAB:
+                        self.cambiar_jugador()
+                        # No necesitas continuar el bucle después de cambiar de jugador
+                        continue
+                    elif evento.key == pygame.K_t:
+                        self.jugador_activo.tocar(self.grupoPuertas, self.grupoPartituras)
+                    elif evento.key == pygame.K_x:
+                        (x,y) = self.jugador_activo.posicion
+                        print(f"{int(x)} {int(y)}")
+                    elif evento.key == pygame.K_e:
+                        self.jugador_activo.escuchar(self.grupoPuertas)
+                    elif evento.key == pygame.K_s:
+                        self.jug.ador_activo.soltar_partitura(self.grupoPartituras, self.grupoParedes, self.grupoPuertas, self.grupoCubosGrises)
+                    elif evento.key == pygame.K_h:
+                        self.jugador_activo.habilidad1(self.grupoAtaques)
+                        continue
 
-        # Indicamos la acción a realizar segun la tecla pulsada para cada jugador
-        teclasPulsadas = pygame.key.get_pressed()
-        self.jugador_activo.mover(teclasPulsadas, K_UP, K_DOWN, K_LEFT, K_RIGHT)
+                    # Indicamos la acción a realizar segun la tecla pulsada para cada jugador
+                    teclasPulsadas = pygame.key.get_pressed()
+                    self.jugador_activo.mover(teclasPulsadas, K_UP, K_DOWN, K_LEFT, K_RIGHT)
         
         # No se sale del programa
         return False

@@ -24,7 +24,7 @@ class GUIInicial(GUI):
 
 class BotonNivel1(Boton):
     def __init__(self, pantalla):
-        Boton.__init__(self, pantalla, "interfaces/botones/nivel1.png", (100, 120))
+        Boton.__init__(self, pantalla, BOTON_NIVEL1, (100, 120))
     
     def accion(self):
         self.pantalla.menu.ejecutarNivel1()
@@ -32,7 +32,7 @@ class BotonNivel1(Boton):
 
 class BotonNivel2(Boton):
     def __init__(self, pantalla):
-        Boton.__init__(self, pantalla, "interfaces/botones/nivel2.png", (100, 240))
+        Boton.__init__(self, pantalla, BOTON_NIVEL2 , (100, 240))
     
     def accion(self):
         self.pantalla.menu.ejecutarNivel2()
@@ -40,7 +40,7 @@ class BotonNivel2(Boton):
 
 class BotonNivel3(Boton):
     def __init__(self, pantalla):
-        Boton.__init__(self, pantalla, "interfaces/botones/nivel3.png", (100, 360))
+        Boton.__init__(self, pantalla,  BOTON_NIVEL3, (100, 360))
     
     def accion(self):
         self.pantalla.menu.ejecutarNivel3()
@@ -48,7 +48,7 @@ class BotonNivel3(Boton):
 
 class BotonAtras(Boton):
     def __init__(self, pantalla):
-        Boton.__init__(self, pantalla, "interfaces/botones/atras.png", (100, 480))
+        Boton.__init__(self, pantalla, BOTON_ATRAS, (100, 480))
     
     def accion(self):
         self.pantalla.menu.ejecutarAtras()
