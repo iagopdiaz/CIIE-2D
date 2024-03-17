@@ -49,9 +49,6 @@ class Fase(Escena):
 
         # Ponemos a los jugadores en sus posiciones iniciales
         self.jugador1.establecerPosicion((250, 520))
-        if self.nivel == 3:
-            self.jugador1.establecerPosicion((2272, 210))
-
 
         # Establecemos el jugador activo como el jugador1
         self.jugador_activo = self.jugador1
@@ -350,23 +347,6 @@ class Fase(Escena):
                 elif evento.key == pygame.K_h:
                     self.jugador_activo.habilidad1(self.grupoAtaques)
                     continue
-
-            elif evento.type == pygame.MOUSEBUTTONDOWN:
-                if evento.button == 1:  # Botón izquierdo del ratón
-                # Ajustar las posiciones iniciales con el desplazamiento actual
-                    self.start_pos = (evento.pos[0] + self.scrollx, evento.pos[1] + self.scrolly)
-            elif evento.type == pygame.MOUSEBUTTONUP:
-                if evento.button == 1:  # Botón izquierdo del ratón
-                    # Ajustar las posiciones finales con el desplazamiento actual
-                    self.end_pos = (evento.pos[0] + self.scrollx, evento.pos[1] + self.scrolly)
-                    # Calcula las coordenadas y dimensiones del rectángulo ajustadas al desplazamiento
-                    x = min(self.start_pos[0], self.end_pos[0])
-                    y = min(self.start_pos[1], self.end_pos[1])
-                    ancho = abs(self.start_pos[0] - self.end_pos[0])
-                    alto = abs(self.start_pos[1] - self.end_pos[1])
-                    print(f'x: {x}, y: {y}, ancho: {ancho}, alto: {alto}')
-                    with open(f'./imagenes/mapa/coordParedes{self.nivel}.txt', 'a') as archivo:
-                        archivo.write(f'{int(x)} {int(y)} {int(ancho)} {int(alto)}\n')
 
         # Indicamos la acción a realizar segun la tecla pulsada para cada jugador
         teclasPulsadas = pygame.key.get_pressed()
