@@ -21,15 +21,9 @@ class InterfazUsuario(Observer):
     def cargar_inventario(self, tipo, imagen_partitura):
         self.imagen_partitura = GestorRecursos.CargarImagen(imagen_partitura, -1)
         self.partitura_surface = self.imagen_partitura.get_rect()
-        print("--------**ENTRADA IF CASOS***------------")  
-        print(imagen_partitura)
         if tipo == "partitura1" or tipo == "DELpartitura1":
-            print(tipo)
-            print("1")
             self.partitura_surface.topleft = (60, 60)
         elif tipo == "partitura2" or tipo == "DELpartitura2":  
-            print(tipo)
-            print("2")
             self.partitura_surface.topleft = (60, 110)
         elif tipo == "partitura3" or tipo == "DELpartitura3": 
             self.partitura_surface.topleft = (60, 160)   

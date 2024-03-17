@@ -1,3 +1,9 @@
-[Melodia de la vida]
+[Melodia de la vida][p11][Melodia de los cielos]
 519 478 0
 449 475 188 138
+[Rapsodia del resplandor][p13][Sinfonia del silencio]
+2270 264 1
+2270 240 138 188
+[p6][p9][p7]
+5312 165 1
+5350 155 220 220

@@ -49,8 +49,8 @@ class Fase(Escena):
 
         # Ponemos a los jugadores en sus posiciones iniciales
         self.jugador1.establecerPosicion((250, 520))
-        if self.nivel == 2:
-            self.jugador1.establecerPosicion((2000, 500))
+        if self.nivel == 3:
+            self.jugador1.establecerPosicion((2272, 210))
 
 
         # Establecemos el jugador activo como el jugador1
@@ -87,7 +87,6 @@ class Fase(Escena):
         for datos in datosPartituras:
             if i == 5: i = 1
             x, y = map(int, datos['coords'].split())
-            print(datos['nombre'])
             partitura = Partitura(f"partituras/partitura{i}.png", datos['nombre'], datos['jugador'])
             partitura.establecerPosicion((x, y))
             self.grupoPartituras.add(partitura)
