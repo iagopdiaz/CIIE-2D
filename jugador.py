@@ -16,7 +16,7 @@ class Jugador(Personaje, Observable):
         self.inventario = None
         self.soltando = False
         self.id = idJugador
-        self.vida = 3 # Inicializa la vida del jugador
+        self.vida = 5 # Inicializa la vida del jugador
         self.tiempo_ultimo_dano = 0  # Inicializa el tiempo desde el último daño a 0
         self.cooldown_dano = 1500  # Establece un cooldown de daño de 1500 milisegundos
 

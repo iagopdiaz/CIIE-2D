@@ -189,7 +189,7 @@ class Fase(Escena):
             if self.nivel == 1 or self.nivel == 2:
                 self.director.cambiarEscena(Fase(self.director, self.nivel + 1))
             else:
-                self.director.cambiarEscena(GameOver(self.director, "enhorabuena"))
+                self.director.cambiarEscena(GameOver(self.director, ENHORABUENA))
         
         self.actualizarScroll()
 
@@ -208,7 +208,7 @@ class Fase(Escena):
     
     def actualizar_observer(self, tipo, imagen):
         if tipo == "muerte":
-            self.director.cambiarEscena(GameOver(self.director, "muerte"))
+            self.director.cambiarEscena(GameOver(self.director, MUERTE))
         elif tipo == "accion":
             if(imagen == PARTITURA_SOLTADA):
                 self.dialogos.actualizar_accion(1)

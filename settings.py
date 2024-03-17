@@ -56,8 +56,8 @@ BOTON_NIVEL1 = "interfaces/botones/nivel1.png"
 BOTON_NIVEL2 = "interfaces/botones/nivel2.png"
 BOTON_NIVEL3 = "interfaces/botones/nivel3.png"
 NIVEL_VOLUMEN = "interfaces/botones/nivel_volumen.png"
-
-TEXTO_ENTER = "Presiona P para pasar"
+VIDA = "interfaces/vida/vida3baja.png"
+TEXTO_P = "Presiona P para pasar"
 PARTITURA_SOLTADA = "Partitura soltada"
 PARTITURA_RECOGIDA = "Partitura recogida"
 ESCUCHANDO = "Escuchando..."
@@ -71,6 +71,9 @@ PUERTA_PARTITURA = "Partitura añadida a la puerta"
 PUERTA_PARTITURA_NO = "La partitura no abre esta puerta"
 SOLTAR_PARTITURA_NO = "No se puede soltar la partitura aquí"
 PUERTA_MAS = "Falta alguna partitura"
+ENHORABUENA = "enhorabuena"
+MUERTE = "muerte"
+
 
 ANCHO_PANTALLA = 800
 ALTO_PANTALLA = 600
