@@ -37,6 +37,11 @@ MUSICA_NIVEL_2 = 'musica/niveles/nivel2.ogg'
 MUSICA_NIVEL_3 = 'musica/niveles/nivel3.ogg'
 MUSICA_MENU_PRINCIPAL = 'musica/menus/menu_principal.ogg'
 MUSICA_MENUS = 'musica/menus/menus.ogg'
+
+SONIDO_PERDER_VIDA = 'musica/sonidos/lose_vida.ogg'
+SONIDO_PUERTA = 'musica/sonidos/sonido_puerta.ogg'
+SONIDO_PERDER = 'musica/sonidos/perder.ogg'
+
 CABECERA = "cabecera.txt"
 NIVEL1 = "1.txt"
 NIVEL2 = "2.txt"

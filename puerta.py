@@ -68,7 +68,6 @@ class Puerta(MiSprite, Observable):
         self.abierta = False
 
         # Establecemos el retardo de la animación
-        self.retardo_animacion = 7
         self.contador_retardo = 0
 
     def añadir_partitura(self, partitura):
@@ -76,13 +75,14 @@ class Puerta(MiSprite, Observable):
             self.inventario.append(partitura)
             print("Partitura añadida a la puerta, falta:", len(self.partituras)-len(self.inventario), "partituras")
             self.notificar_observers("accion", PUERTA_PARTITURA)
+            GestorSonido.reproducir_efecto(SONIDO_PUERTA)
             return True
         self.notificar_observers("accion", PUERTA_PARTITURA_NO)
         return False
     
     def abrir_puerta(self):
         self.contador_retardo += 1
-        if self.contador_retardo == self.retardo_animacion:
+        if self.contador_retardo == 10:
             self.frame_actual -= 1
             self.contador_retardo = 0
             self.frame_actual = max(0, self.frame_actual)

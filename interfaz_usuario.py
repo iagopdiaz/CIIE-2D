@@ -5,10 +5,11 @@ from observer import Observer
 from partitura import Partitura
 
 class InterfazUsuario(Observer):    
-    def __init__(self, personaje):
+    def __init__(self, personaje, nivel):
         #Inicializamos la interfaz de usuario   
         self.personaje = personaje
         self.partituras_surfaces = {}
+        self.nivel = nivel
         self.cargar_inventario("partituraX", "partituras/partituraX.png") 
         self.cargar_marco()
         self.cargar_vida1()
@@ -113,9 +114,13 @@ class InterfazUsuario(Observer):
     
        
     def dibujar(self, pantalla):
-        pantalla.blit(self.marco1, self.marco1_rect)
-        pantalla.blit(self.marco2, self.marco2_rect)
-        pantalla.blit(self.marco3, self.marco3_rect)
+        # Dibujamos los marcos de los jugadores en función del nivel
+        if self.nivel >= 1:
+            pantalla.blit(self.marco1, self.marco1_rect)
+        if self.nivel >= 2:
+            pantalla.blit(self.marco2, self.marco2_rect)
+        if self.nivel >= 3:
+            pantalla.blit(self.marco3, self.marco3_rect)
         
         #Dibujamos las partituras para cada uno de los personajes
         for (imagen, surface) in self.partituras_surfaces.values():

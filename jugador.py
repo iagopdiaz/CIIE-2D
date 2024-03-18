@@ -16,7 +16,7 @@ class Jugador(Personaje, Observable):
         self.inventario = None
         self.soltando = False
         self.id = idJugador
-        self.vida = 3000 # Inicializa la vida del jugador
+        self.vida = 5
         self.tiempo_ultimo_dano = 0  # Inicializa el tiempo desde el último daño a 0
         self.cooldown_dano = 1500  # Establece un cooldown de daño de 1500 milisegundos
 
@@ -187,6 +187,7 @@ class Jugador(Personaje, Observable):
                     self.vida -= pincho.damage  # Restamos un punto de vida
                     self.notificar_observers("accion", PERDER_VIDA)  # Notifica a la interfaz que ha perdido vida
                     self.tiempo_ultimo_dano = tiempo_actual
+                    GestorSonido.reproducir_efecto(SONIDO_PERDER_VIDA)
 
         # Comprobamos si puede recoger una partitura
         for partitura in grupoPartituras:
@@ -199,6 +200,7 @@ class Jugador(Personaje, Observable):
                 if tiempo_actual - self.tiempo_ultimo_dano > self.cooldown_dano:
                     self.vida -= enemigo.damage  # Restamos un punto de vida
                     self.tiempo_ultimo_dano = tiempo_actual
+                    GestorSonido.reproducir_efecto(SONIDO_PERDER_VIDA)
 
         # Comprobamos si puede soltar una partitura
         if self.soltando:
@@ -216,6 +218,7 @@ class Jugador(Personaje, Observable):
         # Muerte del personaje
         if self.vida <= 0:
             self.notificar_observers("muerte", "imagenes\interfaces\fondos\muerte.jpg")
+            GestorSonido.reproducir_efecto(SONIDO_PERDER)
 
     def habilidad1():
         raise NotImplemented("jugador sin habilidad1")

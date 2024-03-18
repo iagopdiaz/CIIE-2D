@@ -60,7 +60,7 @@ class Fase(Escena):
         # Establecemos el jugador activo como el jugador1
         self.jugador_activo = self.jugador1
         self.jugador_activo.registrar_observador(self)
-        self.interfazUsuario = InterfazUsuario(self.jugador_activo)
+        self.interfazUsuario = InterfazUsuario(self.jugador_activo, self.nivel)
         self.grupoJugadorActivo = pygame.sprite.Group(self.jugador_activo)
         self.tipo_anterior = [None,None,None]
 
@@ -91,7 +91,7 @@ class Fase(Escena):
         for datos in datosPartituras:
             if i == 5: i = 1
             x, y = map(int, datos['coords'].split())
-            partitura = Partitura(f"partituras/partitura{i}.png", datos['nombre'], datos['jugador'])
+            partitura = Partitura(f"partituras/partitura{datos['jugador']}.png", datos['nombre'], datos['jugador'])
             partitura.establecerPosicion((x, y))
             self.grupoPartituras.add(partitura)
             i += 1

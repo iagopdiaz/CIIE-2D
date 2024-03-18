@@ -92,31 +92,12 @@ class Director:
         self.pila = []
         self.salir_escena = True
 
-    # def transicion_negra(self,entrada):
-    #     # Del mismo tamaño que la pantalla
-    #     transicion = pygame.Surface(self.screen.get_size())
-    #     transicion.fill((0, 0, 0))
-
-    #     for alpha in range(0, 300):
-    #         if entrada: 
-    #             alpha = 300 - alpha
-
-    #         transicion.set_alpha(alpha)
-
-    #         # Dibujar en la pantalla
-    #         self.screen.blit(transicion, (0, 0))
-    #         pygame.display.flip()
-    #         time.sleep(1)
-    #     print("pase")
 
     def cambiarEscena(self, escena, actualizarMusica=True):
-        #self.transicion_negra(False)  
-
         self.musica = actualizarMusica
         self.salirEscena()
-        self.pila.append(escena)
+        self.apilarEscena(escena)
 
-        #self.transicion_negra(True)  
 
 
     def apilarEscena(self, escena, actualizarMusica = True):
