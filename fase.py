@@ -355,16 +355,12 @@ class Fase(Escena):
                     self.dialogos.siguiente_dialogo()
                     if (self.dialogos.final()):
                         self.jugando = True
-                    print(self.jugador_activo.posicion)
                 if self.jugando:
                     if evento.key == pygame.K_TAB:
                         self.cambiar_jugador()
                         continue
                     elif evento.key == pygame.K_t:
                         self.jugador_activo.tocar(self.grupoPuertas, self.grupoPartituras)
-                    elif evento.key == pygame.K_x:
-                        (x,y) = self.jugador_activo.posicion
-                        print(f"{int(x)} {int(y)}")
                     elif evento.key == pygame.K_e:
                         self.jugador_activo.escuchar(self.grupoPuertas)
                     elif evento.key == pygame.K_s:
