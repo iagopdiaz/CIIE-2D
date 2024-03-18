@@ -15,7 +15,7 @@ from Objetos.puzzle_cubo import *
 from Animaciones.onda import *
 from Animaciones.penumbra import *
 from Objetos.pared import *
-from dialogos.dialogos import Dialogos 
+from Dialogos.dialogos import Dialogos 
 from Personajes.enemigos import *
 from Animaciones.onda import *
 from Animaciones.animaciones import *
