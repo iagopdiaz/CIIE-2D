@@ -17,8 +17,8 @@ SPRITE_ANDANDO_IZQ = 5
 SPRITE_ANDANDO_DER = 6
 SPRITE_ARRIBA = 7
 
-VELOCIDAD_JUGADORX = 0.4 # Pixeles por milisegundo
-VELOCIDAD_JUGADORY = 0.4 # Pixeles por milisegundo
+VELOCIDAD_JUGADORX = 0.25 # Pixeles por milisegundo
+VELOCIDAD_JUGADORY = 0.25 # Pixeles por milisegundo
 RETARDO_ANIMACION_JUGADOR = 15 # updates que durará cada imagen del personaje              
                               
 RETARDO_ANIMACION_ONDA = 6
@@ -30,7 +30,7 @@ VELOCIDAD_ENEMIGOX = 0.05 # Pixeles por milisegundo
 VELOCIDAD_ENEMIGOY = 0.05    # Pixeles por milisegundo
 RETARDO_ANIMACION_ENEMIGO = 15 # updates que durará cada imagen del personaje        
 
-CONFIGURACION_USUARIO = 'configuracion_user.json'                              
+CONFIGURACION_USUARIO = 'config_user.json'                              
 
 MUSICA_NIVEL_1 = 'musica/niveles/nivel1.ogg'
 MUSICA_NIVEL_2 = 'musica/niveles/nivel2.ogg'

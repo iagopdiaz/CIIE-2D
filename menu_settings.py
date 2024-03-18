@@ -19,7 +19,6 @@ class GUIInicial(GUI):
         botonSubirVolumenEfectos = BotonSubirEfectos(self)
         botonVolumenMusica = BotonVolumenMusica(self)
         botonVolumenEfectos = BotonVolumenEfectos(self)        
-        botonPantallaCompleta = BotonPantallaCompleta(self)
         botonAtras = BotonAtras(self)
         
         self.GUIelementos.append(textoBotonVolumenMusica)
@@ -30,7 +29,6 @@ class GUIInicial(GUI):
         self.GUIelementos.append(botonSubirVolumenEfectos)        
         self.GUIelementos.append(botonVolumenMusica)
         self.GUIelementos.append(botonVolumenEfectos)
-        self.GUIelementos.append(botonPantallaCompleta)
         self.GUIelementos.append(botonAtras)
 
 
@@ -68,24 +66,25 @@ class MenuAjustes(Escena):
     
     def ejecutarSalir(self):
         self.director.salirPrograma()
-
-    def ejecutarPantallaCompleta(self):
-        self.director.pantallaCompleta()
     
     def ejecutarAtras(self):
         self.director.salirEscena()
     
     def ejecutarBajarVolumenMusica(self):
         GestorSonido.bajar_volumen_musica(10) 
+        GestorUsuario.do_update("volumen_musica", GestorSonido.obtener_volumen_musica())
         
     def ejecutarSubirVolumenMusica(self):
         GestorSonido.subir_volumen_musica(10) 
+        GestorUsuario.do_update("volumen_musica", GestorSonido.obtener_volumen_musica())
     
     def ejecutarBajarVolumenEfectos(self):
         GestorSonido.bajar_volumen_efectos(10) 
+        GestorUsuario.do_update("volumen_efectos", GestorSonido.obtener_volumen_efectos())
     
     def ejecutarSubirVolumenEfectos(self):
         GestorSonido.subir_volumen_efectos(10)
+        GestorUsuario.do_update("volumen_efectos", GestorSonido.obtener_volumen_efectos())
     
     def mostrarPantallaInicial(self):
         self.pantallaActual = 0

@@ -21,14 +21,6 @@ class Director:
         pygame.init()
         self.screen = pygame.display.set_mode((ANCHO_PANTALLA, ALTO_PANTALLA))
         pygame.display.set_caption(TITULO)
-        #Configuracion Pantalla Completa
-        self.pC = False
-        try: 
-            self.pC = GestorUsuario.get('pantalla_completa')
-        except:
-            pass       
-        if self.pC:
-            pygame.display.toggle_fullscreen()
              
         self.pila = []
         self.salir_escena = False
@@ -53,13 +45,6 @@ class Director:
             escena.dibujar(self.screen)
             pygame.display.flip()
     
-    def pantallaCompleta(self):
-        pygame.display.toggle_fullscreen()
-        self.pC = not self.pC
-        GestorUsuario.do_update('pantalla_completa',self.pC)
-    
-    def es_pantalla_completa(self):
-        return self.pantallaCompleta
     
     def ejecutar(self):
         #Mientras haya escenas en la pila, ejecutamos la de arriba

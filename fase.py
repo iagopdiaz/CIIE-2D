@@ -1,4 +1,4 @@
-import pygame, sys, os
+import pygame
 from itertools import chain
 from pygame.locals import *
 from game_over import GameOver
@@ -288,9 +288,9 @@ class Fase(Escena):
         self.grupoPinchos.draw(pantalla)
         self.grupoPartituras.draw(pantalla)
         self.grupoEnemigos.draw(pantalla)
+        self.grupoCubosSombra.draw(pantalla)
         self.grupoJugadorActivo.draw(pantalla)
         self.grupoCubosGrises.draw(pantalla)
-        self.grupoCubosSombra.draw(pantalla)
         self.grupoPuertas.draw(pantalla)
         self.grupoMeta.draw(pantalla)
         self.grupoCubosNegros.draw(pantalla)
