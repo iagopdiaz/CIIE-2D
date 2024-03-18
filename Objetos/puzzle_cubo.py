@@ -1,6 +1,6 @@
-from misprite import *
-from settings import *
-from onda import *
+from Personajes.misprite import *
+from Ajustes.settings import *
+from Animaciones.onda import *
 
 class Cubo(MiSprite):
     "Cualquier personaje del juego"

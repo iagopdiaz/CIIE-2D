@@ -1,9 +1,9 @@
 import pygame, sys, os
 from pygame.locals import *
-from gestor_recursos import *
-from settings import *
-from misprite import *
-from observable import Observable
+from Gestores.gestor_recursos import *
+from Ajustes.settings import *
+from Personajes.misprite import *
+from Observador.observable import Observable
 
 class Personaje(MiSprite, Observable):
     "Cualquier personaje del juego"

@@ -1,6 +1,6 @@
 import pygame
-from settings import *
-from misprite import MiSprite
+from Ajustes.settings import *
+from Personajes.misprite import MiSprite
 
 class Penumbra(MiSprite):
     def __init__(self):

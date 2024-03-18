@@ -1,7 +1,7 @@
 import pygame, sys
-from settings import *
-from gestor_usuario import *
-from escena import *
+from Ajustes.settings import *
+from Gestores.gestor_usuario import *
+from Escenarios.escena import *
 import time
 class Director:
     """Representa el objeto principal del juego.

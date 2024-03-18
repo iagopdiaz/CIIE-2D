@@ -1,8 +1,8 @@
 import pygame
 import datetime as datetime
-from gestor_recursos import GestorRecursos
-from observer import Observer
-from settings import *
+from Gestores.gestor_recursos import GestorRecursos
+from Observador.observer import Observer
+from Ajustes.settings import *
 
 class Dialogos(Observer):
     def __init__(self, nivel, habilitado=True):

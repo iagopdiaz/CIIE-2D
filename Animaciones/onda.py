@@ -1,7 +1,7 @@
 import pygame, sys, os
 from pygame.locals import *
-from gestor_recursos import *
-from misprite import *
+from Gestores.gestor_recursos import *
+from Personajes.misprite import *
 
 class Ataque(MiSprite):
     "Ataque"

@@ -1,5 +1,5 @@
-from settings import * 
-from personaje import *
+from Ajustes.settings import * 
+from Personajes.personajes import *
 
 class Enemigo(Personaje):
     "Personajes¡ enemigo"

@@ -1,7 +1,7 @@
 import pygame
 from pygame.locals import *
-from gestor_recursos import *
-from misprite import *
+from Gestores.gestor_recursos import *
+from Personajes.misprite import *
 
 class Animaciones(MiSprite):
     def __init__(self, archivoImagen, archivoCoordenadas, numImagenes, retardoAnimacion, left, top):

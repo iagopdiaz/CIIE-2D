@@ -1,5 +1,5 @@
 import pygame
-from settings import *
+from Ajustes.settings import *
 import json
 
 #Singleton

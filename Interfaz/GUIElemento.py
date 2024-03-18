@@ -1,9 +1,9 @@
 import pygame
 from pygame.locals import *
-from escena import *
-from gestor_recursos import *
-from fase import *
-from menu_nivel import *
+from Escenarios.escena import *
+from Gestores.gestor_recursos import *
+from Escenarios.fase import *
+from Escenarios.menu_nivel import *
 
 
 class GUIElemento:

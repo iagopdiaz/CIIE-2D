@@ -1,6 +1,6 @@
 import pygame, sys, os
-from misprite import *
-from gestor_recursos import *
+from Personajes.misprite import *
+from Gestores.gestor_recursos import *
 
 class MetaFase (MiSprite):
     def __init__(self, coordx, coordy, metaTipo):

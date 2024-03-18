@@ -1,24 +1,24 @@
 import pygame
+from Escenarios.escena import *
 from itertools import chain
 from pygame.locals import *
-from game_over import GameOver
-from gestor_recursos import *
-from gestor_sonido import GestorSonido
-from jugador import *
-from personaje import *
-from escena import *
-from partitura import *
-from interfaz_usuario import *
-from puerta import *
-from meta_fase import *
-from puzzle_cubo import *
-from onda import *
-from penumbra import *
-from pared import *
-from dialogos import Dialogos 
-from enemigos import *
-from onda import *
-from animaciones import *
+from Escenarios.game_over import GameOver
+from Gestores.gestor_recursos import *
+from Gestores.gestor_sonido import GestorSonido
+from Personajes.jugador import *
+from Personajes.personajes import *
+from Objetos.partitura import *
+from Interfaz.interfaz_usuario import *
+from Objetos.puerta import *
+from Objetos.meta_fase import *
+from Objetos.puzzle_cubo import *
+from Animaciones.onda import *
+from Animaciones.penumbra import *
+from Objetos.pared import *
+from dialogos.dialogos import Dialogos 
+from Personajes.enemigos import *
+from Animaciones.onda import *
+from Animaciones.animaciones import *
 
 class Fase(Escena):
     def __init__(self, director, nivel, dialogos = True):

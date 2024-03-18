@@ -1,7 +1,7 @@
-from misprite import *
-from gestor_recursos import *
-from observable import Observable
-from gestor_sonido import *
+from Personajes.misprite import *
+from Gestores.gestor_recursos import *
+from Observador.observable import Observable
+from Gestores.gestor_sonido import *
 
 class Puerta(MiSprite, Observable):
     def __init__(self, partituras, imagen_puerta, area_activacion, tipo):

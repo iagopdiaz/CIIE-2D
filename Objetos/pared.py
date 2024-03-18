@@ -1,6 +1,6 @@
 import pygame
 from pygame.locals import *
-from misprite import *
+from Personajes.misprite import *
 
 class Pared(MiSprite):
     def __init__(self,rectangulo):

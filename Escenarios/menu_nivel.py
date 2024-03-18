@@ -1,12 +1,12 @@
 import pygame
 from pygame.locals import *
-from escena import *
-from gestor_recursos import *
-from gestor_sonido import GestorSonido
-from fase import *
-from game_over import *
-from GUIElemento import *
-from botones import GUI, Boton
+from Escenarios.escena import *
+from Gestores.gestor_recursos import *
+from Gestores.gestor_sonido import GestorSonido
+from Escenarios.fase import *
+from Escenarios.game_over import *
+from Interfaz.GUIElemento import *
+from Escenarios.botones import GUI, Boton
 
 
 class GUIInicial(GUI):

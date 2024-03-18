@@ -1,8 +1,8 @@
 import pygame
-from settings import *
-from gestor_recursos import GestorRecursos
-from observer import Observer
-from partitura import Partitura
+from Ajustes.settings import *
+from Gestores.gestor_recursos import GestorRecursos
+from Observador.observer import Observer
+from Objetos.partitura import Partitura
 
 class InterfazUsuario(Observer):    
     def __init__(self, personaje, nivel):

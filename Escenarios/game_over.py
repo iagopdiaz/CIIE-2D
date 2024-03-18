@@ -1,9 +1,9 @@
 import pygame, sys, os
 from pygame.locals import *
-from escena import *
-from gestor_recursos import *
-from menu_principal import *
-from director import *
+from Escenarios.escena import *
+from Gestores.gestor_recursos import *
+from Escenarios.menu_principal import *
+from Gestores.director import *
 
 # Redundancia debido a imports circulares
 

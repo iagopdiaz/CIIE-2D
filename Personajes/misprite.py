@@ -1,7 +1,7 @@
 import pygame, sys, os
 from pygame.locals import *
-from gestor_recursos import *
-from settings import *
+from Gestores.gestor_recursos import *
+from Ajustes.settings import *
 
 class MiSprite(pygame.sprite.Sprite):
     "Los Sprites que tendra este juego"

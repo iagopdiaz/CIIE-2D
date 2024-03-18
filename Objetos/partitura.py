@@ -1,6 +1,6 @@
-from misprite import *
-from gestor_recursos import *
-from gestor_sonido import *
+from Personajes.misprite import *
+from Gestores.gestor_recursos import *
+from Gestores.gestor_sonido import *
 
 class Partitura(MiSprite):
     def __init__(self, imagen_partitura, nombre, id_jugador):

@@ -1,7 +1,7 @@
 import pygame
-from settings import *
-from gestor_recursos import GestorRecursos
-from gestor_usuario import GestorUsuario
+from Ajustes.settings import *
+from Gestores.gestor_recursos import GestorRecursos
+from Gestores.gestor_usuario import GestorUsuario
 
 #Singleton
 
