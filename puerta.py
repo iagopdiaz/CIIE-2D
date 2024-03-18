@@ -92,7 +92,7 @@ class Puerta(MiSprite, Observable):
 
     def update(self):
         #Abrir la puerta cuando todos los nombres esten en el inventario
-        if all([partitura in self.inventario for partitura in self.partituras]):
+        if all([partitura in self.inventario for partitura in self.partituras]) and not self.abierta:
             self.notificar_observers("accion", PUERTA_ABIERTA)
             self.abrir_puerta()
             return

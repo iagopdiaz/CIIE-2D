@@ -213,7 +213,7 @@ class Fase(Escena):
             if(imagen == PARTITURA_SOLTADA):
                 self.dialogos.actualizar_accion(1)
             elif( imagen == PARTITURA_RECOGIDA):
-                self.dialogos.actualizar_accion(2)
+                self.dialogos.actualizar_accion_txt(self.jugador_activo.inventario.nombre)
             elif( imagen == PARTIRUTA_TOCADA):  
                 self.dialogos.actualizar_accion(3)
             elif( imagen == ABRIR_PUERTA):        

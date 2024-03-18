@@ -94,42 +94,30 @@ class Dialogos(Observer):
         self.texto_x = x + 15
         self.texto_y = y + 25
     
-    # Carga la acción en la caja del diálogo    
-    def cargar_accion(self,accion):
+    def cargar_texto(self, texto):
         caja_dialogo = self.rect.width - 22 , self.rect.height - 10
-        frase = self.texto_accion(accion)
-        acciones = frase.split(' ')
+        palabras = texto.split(' ')
         linea_actual = ''
-        self.lineas_accion = []
-        for palabra in acciones:
+        lineas = []
+        for palabra in palabras:
             if self.fuente_frase.size(linea_actual + palabra)[0] > caja_dialogo[0]:
-                superficie_linea_accion = self.fuente_frase.render(linea_actual, True, DARK_GRAY)
-                self.lineas_accion.append(superficie_linea_accion)
-                linea_actual = palabra + ' '
-            else:
-                linea_actual += palabra + ' '
-        superficie_linea_accion = self.fuente_frase.render(linea_actual, True, DARK_GRAY)
-        self.lineas_accion.append(superficie_linea_accion)
-    
-    # Carga la frase en la caja del diálogo    
-    def cargar_frase(self):
-        caja_dialogo = self.rect.width - 22 , self.rect.height - 10
-        frase = self.frase_dice()
-        palabras = frase.split(' ')
-        linea_actual = ''
-        self.lineas = []
-        for palabra in palabras: 
-            #Si añadir la palabra sobrepasa el tamaño disponible
-            if self.fuente_frase.size(linea_actual + palabra)[0] > caja_dialogo[0]:
-                #Renderizamos la linea actual y la añadimos a la lista de lineas
-                #Añadimos la palabra a la siguiente linea
                 superficie_linea = self.fuente_frase.render(linea_actual, True, DARK_GRAY)
-                self.lineas.append(superficie_linea)
+                lineas.append(superficie_linea)
                 linea_actual = palabra + ' '
             else:
                 linea_actual += palabra + ' '
         superficie_linea = self.fuente_frase.render(linea_actual, True, DARK_GRAY)
-        self.lineas.append(superficie_linea)
+        lineas.append(superficie_linea)
+        return lineas
+
+    def cargar_accion(self, accion):
+        self.lineas_accion = self.cargar_texto(self.texto_accion(accion))
+
+    def cargar_frase(self):
+        self.lineas = self.cargar_texto(self.frase_dice())
+    
+    def cargar_partitura(self, nombre_partitura):
+        self.lineas_accion = self.cargar_texto(PARTITURA_RECOGIDA + nombre_partitura)
 
 
     def habilitar(self):
@@ -155,6 +143,11 @@ class Dialogos(Observer):
     def actualizar_accion(self,accion): 
         self.cargar_cabecera()  
         self.cargar_accion(accion)  
+    
+    #Para poner el nombre de la partitura que se ha recogido
+    def actualizar_accion_txt(self, nombre):
+        self.cargar_cabecera()
+        self.cargar_partitura(nombre)
 
         
     def dibujar(self, pantalla):
