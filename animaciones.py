@@ -1,11 +1,9 @@
-import pygame, sys, os
+import pygame
 from pygame.locals import *
 from gestor_recursos import *
 from misprite import *
 
-class Ataque(MiSprite):
-    "Ataque"
-
+class Animaciones(MiSprite):
     def __init__(self, archivoImagen, archivoCoordenadas, numImagenes, retardoAnimacion, left, top):
 
         # Primero invocamos al constructor de la clase padre
@@ -55,55 +53,18 @@ class Ataque(MiSprite):
                 self.numImagenPostura = len(self.coordenadasHoja[self.numPostura])-1
             self.image = self.hoja.subsurface(self.coordenadasHoja[self.numPostura][self.numImagenPostura])
             self.count += 1
-            
 
-class Onda1(Ataque):
-    "Ataque con forma de onda de jugador 1"
-
+class AnimacionCambio(Animaciones):
+    "Cambio de jugador"
     def __init__(self, left, top):
-        Ataque.__init__(self, 'onda1.png', 'coordOnda1.txt', [10], RETARDO_ANIMACION_ONDA, left, top)
-        self.tipo = 1
+        Animaciones.__init__(self, 'onda4.png', 'coordOnda4.txt', [8], RETARDO_ANIMACION_ONDA, left, top)
+        self.tipo = 4
 
     def update(self, jugador_activo, tiempo):
-        summ = 0
-        if self.count + 1  < self.img_num:
-            summ = 10 * self.count
-            self.rect = pygame.Rect(jugador_activo.rect.left - summ, jugador_activo.rect.top- summ , self.coordenadasHoja[self.numPostura][self.numImagenPostura][2], self.coordenadasHoja[self.numPostura][self.numImagenPostura][3])
-            self.actualizarPostura()
-            MiSprite.update(self, tiempo)
-        else:
-            self.kill()
-
-class Onda2(Ataque):
-    "Ataque con forma de onda de jugador 2"
-
-    def __init__(self, left, top):
-        Ataque.__init__(self, 'onda2.png', 'coordOnda2.txt', [10], RETARDO_ANIMACION_ONDA, left, top)
-        self.tipo = 2
-
-    def update(self, jugador_activo, tiempo):
-        summ = 0
         if self.count + 1 < self.img_num:
-            summ = 10 * self.count
-
-            self.rect = pygame.Rect(jugador_activo.rect.left - summ, jugador_activo.rect.top- summ , self.coordenadasHoja[self.numPostura][self.numImagenPostura][2], self.coordenadasHoja[self.numPostura][self.numImagenPostura][3])
-            self.actualizarPostura()
-            MiSprite.update(self, tiempo)
-        else:
-            self.kill()
-
-class Onda3(Ataque):
-    "Ataque con forma de onda de jugador 3"
-
-    def __init__(self, left, top):
-        Ataque.__init__(self, 'onda3.png', 'coordOnda3.txt', [10], RETARDO_ANIMACION_ONDA, left, top)
-        self.tipo = 3
-
-    def update(self, jugador_activo, tiempo):
-        summ = 0
-        if self.count + 1 < self.img_num:
-            summ = 8 * self.count
-            self.rect = pygame.Rect(jugador_activo.rect.left - summ, jugador_activo.rect.top- summ , self.coordenadasHoja[self.numPostura][self.numImagenPostura][2], self.coordenadasHoja[self.numPostura][self.numImagenPostura][3])     
+            # Actualizamos la posición de la onda para que coincida con la del jugador
+            self.rect.centerx = jugador_activo.rect.centerx
+            self.rect.centery = jugador_activo.rect.centery-10
             self.actualizarPostura()
             MiSprite.update(self, tiempo)
         else:

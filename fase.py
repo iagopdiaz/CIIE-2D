@@ -18,6 +18,7 @@ from pared import *
 from dialogos import Dialogos 
 from enemigos import *
 from onda import *
+from animaciones import *
 
 class Fase(Escena):
     def __init__(self, director, nivel, dialogos = True):
@@ -337,7 +338,7 @@ class Fase(Escena):
                 self.jugador_activo.registrar_observador(self)
                 
                 #Creamos el humo para el cambio del jugador
-                ataque = Onda4(self.jugador_activo.rect.left, self.jugador_activo.rect.top)
+                ataque = AnimacionCambio(self.jugador_activo.rect.left, self.jugador_activo.rect.top)
                 self.grupoAtaques.add(ataque)
 
                 #Ponemos el sonido del cambio de jugador
