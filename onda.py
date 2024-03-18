@@ -53,7 +53,6 @@ class Ataque(MiSprite):
                 self.numImagenPostura = 0
             if self.numImagenPostura < 0:
                 self.numImagenPostura = len(self.coordenadasHoja[self.numPostura])-1
-
             self.image = self.hoja.subsurface(self.coordenadasHoja[self.numPostura][self.numImagenPostura])
             self.count += 1
             
@@ -105,6 +104,23 @@ class Onda3(Ataque):
         if self.count + 1 < self.img_num:
             summ = 8 * self.count
             self.rect = pygame.Rect(jugador_activo.rect.left - summ, jugador_activo.rect.top- summ , self.coordenadasHoja[self.numPostura][self.numImagenPostura][2], self.coordenadasHoja[self.numPostura][self.numImagenPostura][3])     
+            self.actualizarPostura()
+            MiSprite.update(self, tiempo)
+        else:
+            self.kill()
+
+class Onda4(Ataque):
+    "Cambio de jugador"
+
+    def __init__(self, left, top):
+        Ataque.__init__(self, 'onda4.png', 'coordOnda4.txt', [8], RETARDO_ANIMACION_ONDA, left, top)
+        self.tipo = 4
+        
+    def update(self, jugador_activo, tiempo):
+        if self.count + 1 < self.img_num:
+            # Actualizamos la posición de la onda para que coincida con la del jugador
+            self.rect.centerx = jugador_activo.rect.centerx
+            self.rect.centery = jugador_activo.rect.centery-10
             self.actualizarPostura()
             MiSprite.update(self, tiempo)
         else:

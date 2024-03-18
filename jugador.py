@@ -38,11 +38,13 @@ class Jugador(Personaje, Observable):
         if self.inventario != None:
             print("Tocando: " + str(self.inventario.nombre))
             GestorSonido.reproducir_partitura(self.inventario.musica)
+            en_area_activacion = False  # Variable para rastrear si el jugador está en el área de activación de alguna puerta
             for puerta in grupoPuertas:
                 # Crea un rectángulo para el área de activación del personaje
                 area_activacion_personaje = pygame.Rect(self.posicion[0], self.posicion[1], self.rect.width, self.rect.height)
 
                 if (puerta.area.colliderect(area_activacion_personaje)):                    
+                    en_area_activacion = True  # El jugador está en el área de activación de una puerta
                     if (puerta.añadir_partitura(self.inventario)):
                         grupoPartituras.remove(self.inventario)
                         self.inventario = None
@@ -52,39 +54,42 @@ class Jugador(Personaje, Observable):
                     else:
                         self.notificar_observers("accion", PUERTA_PARTITURA_NO) 
                         print("La partitura no abre esta puerta")
-                else:
-                    self.notificar_observers("accion", ABRIR_PUERTA) 
-                    print("No hay puerta en el area de activacion")
+            if not en_area_activacion:
+                self.notificar_observers("accion", ABRIR_PUERTA) 
+                print("No hay puerta en el area de activacion")
         else:
             self.notificar_observers("accion", SIN_PARTITURA)
             print("No hay partitura en el inventario")
+
     
     def escuchar(self, grupoPuertas):
         for puerta in grupoPuertas:
                 area_activacion_personaje = pygame.Rect(self.posicion[0], self.posicion[1], self.rect.width, self.rect.height)
                 if (puerta.area.colliderect(area_activacion_personaje)):
                     puerta.escuchar(self.id)
-                    self.notificar_observers("accion", ESCUCHANDO)  # Notifica a la interfaz que esta escuchando una puerta
+                    return
+                
 
     def recoger_partitura(self, partitura, grupoPartituras, grupoParedes, grupoPuertas, grupoCubosGrises):
         if self.id == partitura.jugador:
             if self.inventario:  # Si ya tiene una partitura en el inventario
-                self.soltar_partitura(grupoPartituras, grupoParedes, grupoPuertas, grupoCubosGrises)  
+                self.soltar_partitura(grupoPartituras, grupoParedes, grupoPuertas, grupoCubosGrises)
             #partitura.desaparecer() # La partitura desaparece del mapa
             grupoPartituras.remove(partitura)  # La partitura desaparece del grupo de partituras
             self.inventario = partitura  # Recoge la nueva partitura
         imagen = partitura.archivoImagen
         self.notificar_observers("partitura", imagen)  # Notifica a la interfaz que ha recogido una partitura
         self.notificar_observers("accion", PARTITURA_RECOGIDA)  # Notifica a la interfaz que ha recogido una partitura
+        GestorSonido.reproducir_efecto(SONIDO_COGER_PARTITURA)
         
     def soltar_partitura(self, grupoPartituras, grupoParedes, grupoPuertas, grupoCubosGrises):
         if self.inventario:
             # Definición de las posiciones en función de la dirección
             posiciones_por_direccion = {
-                IZQUIERDA : (65, 0),    # Si está mirando a la derecha, mueve 50 unidades en el eje x
-                DERECHA : (-65, 0),   # Si está mirando a la izquierda, mueve -50 unidades en el eje x
-                ARRIBA : (0, 65),      # Si está mirando arriba, mueve -50 unidades en el eje y
-                ABAJO : (0, -65)       # Si está mirando abajo, mueve 50 unidades en el eje y
+                IZQUIERDA : (70, 0),    # Si está mirando a la derecha, mueve 50 unidades en el eje x
+                DERECHA : (-70, 0),   # Si está mirando a la izquierda, mueve -50 unidades en el eje x
+                ARRIBA : (0, 70),      # Si está mirando arriba, mueve -50 unidades en el eje y
+                ABAJO : (0, -70)       # Si está mirando abajo, mueve 50 unidades en el eje y
             }
 
             # Obtén las coordenadas según la dirección actual
@@ -98,6 +103,7 @@ class Jugador(Personaje, Observable):
                 self.inventario = None
                 self.notificar_observers("DELpartitura", "partituras\partituraX.png")  # Notifica a la interfaz que ha soltado una partitura
                 self.notificar_observers("accion", PARTITURA_SOLTADA)  # Notifica a la interfaz que ha soltado una partitura
+                GestorSonido.reproducir_efecto(SONIDO_SOLTAR_PARTITURA)
                 print("Partitura soltada en la dirección actual")
                 return
 
@@ -113,6 +119,7 @@ class Jugador(Personaje, Observable):
                         print("Partitura soltada en otra")
                         self.notificar_observers("DELpartitura", "partituras\partituraX.png")  # Notifica a la interfaz que ha soltado una partitura
                         self.notificar_observers("accion", PARTITURA_SOLTADA)  # Notifica a la interfaz que ha soltado una partitura
+                        GestorSonido.reproducir_efecto(SONIDO_SOLTAR_PARTITURA)
                         return
 
             print("No se puede soltar la partitura aqui, soltando true")

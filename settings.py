@@ -41,6 +41,9 @@ MUSICA_MENUS = 'musica/menus/menus.ogg'
 SONIDO_PERDER_VIDA = 'musica/sonidos/lose_vida.ogg'
 SONIDO_PUERTA = 'musica/sonidos/sonido_puerta.ogg'
 SONIDO_PERDER = 'musica/sonidos/perder.ogg'
+SONIDO_COGER_PARTITURA = 'musica/sonidos/coger_partitura.ogg'
+SONIDO_SOLTAR_PARTITURA = 'musica/sonidos/soltar_partitura.ogg'
+SONIDO_CAMBIO_JUGADOR = 'musica/sonidos/cambio_personaje.ogg'
 
 CABECERA = "cabecera.txt"
 NIVEL1 = "1.txt"
@@ -76,6 +79,7 @@ PUERTA_PARTITURA = "Partitura añadida a la puerta"
 PUERTA_PARTITURA_NO = "La partitura no abre esta puerta"
 SOLTAR_PARTITURA_NO = "No se puede soltar la partitura aquí"
 PUERTA_MAS = "Falta alguna partitura"
+PUERTA_MAS_OTRO = "Falta alguna partitura de otro personaje..."
 ENHORABUENA = "enhorabuena"
 MUERTE = "muerte"
 

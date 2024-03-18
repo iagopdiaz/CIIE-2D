@@ -17,6 +17,7 @@ from penumbra import *
 from pared import *
 from dialogos import Dialogos 
 from enemigos import *
+from onda import *
 
 class Fase(Escena):
     def __init__(self, director, nivel, dialogos = True):
@@ -234,6 +235,8 @@ class Fase(Escena):
                 self.dialogos.actualizar_accion(11) 
             elif (imagen == ESCUCHANDO):
                 self.dialogos.actualizar_accion(12) 
+            elif (imagen == PUERTA_MAS_OTRO):
+                self.dialogos.actualizar_accion(13)
                                    
             else:
                 pass         
@@ -332,6 +335,14 @@ class Fase(Escena):
                 self.jugador_activo = nuevo_jugador_activo
                 self.interfazUsuario.actualizar_jugador(self.jugador_activo)
                 self.jugador_activo.registrar_observador(self)
+                
+                #Creamos el humo para el cambio del jugador
+                ataque = Onda4(self.jugador_activo.rect.left, self.jugador_activo.rect.top)
+                self.grupoAtaques.add(ataque)
+
+                #Ponemos el sonido del cambio de jugador
+                GestorSonido.reproducir_efecto(SONIDO_CAMBIO_JUGADOR)
+
             else:
                 print("No se puede cambiar de jugador en esta posicion")
 

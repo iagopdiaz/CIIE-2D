@@ -75,12 +75,12 @@ class Puerta(MiSprite, Observable):
             self.inventario.append(partitura)
             print("Partitura añadida a la puerta, falta:", len(self.partituras)-len(self.inventario), "partituras")
             self.notificar_observers("accion", PUERTA_PARTITURA)
-            GestorSonido.reproducir_efecto(SONIDO_PUERTA)
             return True
         self.notificar_observers("accion", PUERTA_PARTITURA_NO)
         return False
     
     def abrir_puerta(self):
+        if self.frame_actual == 15: GestorSonido.reproducir_efecto(SONIDO_PUERTA)
         self.contador_retardo += 1
         if self.contador_retardo == 10:
             self.frame_actual -= 1
@@ -115,11 +115,16 @@ class Puerta(MiSprite, Observable):
     def escuchar(self, id_jugador):
         # Obtenemos las partituras que aún no se han añadido al inventario
         partituras_restantes = [partitura for partitura in self.partituras if partitura not in self.inventario]
-        
+        escuchado = False
         # Si hay partituras restantes, se reproduce la del jugador
         if partituras_restantes:
             #De las restantes, busca la que le corresponde al jugador
             for partitura in partituras_restantes:
                 if partitura.jugador == id_jugador:
                     GestorSonido.reproducir_partitura(partitura.musica)
+                    self.notificar_observers("accion", ESCUCHANDO)
+                    escuchado = True
                     return
+            if not escuchado:
+                self.notificar_observers("accion", PUERTA_MAS_OTRO)
+            
