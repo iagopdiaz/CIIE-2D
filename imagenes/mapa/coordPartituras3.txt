@@ -1,24 +1,24 @@
-Melodia de la vida - 0
+Concierto de las constelaciones - 0
 135 388
-p11 - 1
+Danza de los destellos - 1
 135 657
 Melodia de los cielos - 2
 382 388
-Sinfonia del silencio - 2
+Sonata de las pesadillas - 2
 2323 524
 Arpegio de la aurora - 0
 1665 757
-p13 - 0
+Ritmo de la renovacion - 0
 1143 803
-p5 - 2
+Melodia de la vida - 2
 829 763
-Rapsodia del resplandor - 1
+Armonia de la esperanza - 1
 651 689
-p7 - 2
+Preludio de la paz - 2
 4142 893
-p9 - 1
+Sonido de la serenidad - 1
 4830 708
-p4 - 2
+Balada de la lluvia - 2
 2998 587
-p6 - 0
+Melodia del resplandor - 0
 4021 263

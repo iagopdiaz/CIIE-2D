@@ -1,15 +1,15 @@
-[Melodia de la vida][Arpegio de la aurora]
+[Arpegio de la aventura][Balada de la lluvia]
 519 478 0
 449 475 188 138
-[Sinfonia del silencio][Rapsodia del resplandor]
+[Composicion de los cometas][Ritmo de la renovacion]
 955 126 0
 900 126 200 138
-[Sinfonia del silencio][Rapsodia del resplandor]
+[Composicion de los cometas][Ritmo de la renovacion]
 955 480 0
 900 480 200 138
-[Sinfonia del silencio][Rapsodia del resplandor]
+[Composicion de los cometas][Ritmo de la renovacion]
 955 831 0
 900 831 200 138
-[p15][p5]
+[Danza de la medianoche][Melodia de los cielos]
 4761 480 0
 4720 480 200 138

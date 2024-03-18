@@ -11,6 +11,7 @@ class GestorSonido:
     volumen_efectos = 50
     
     
+    
     @classmethod
     def init(self):
         pygame.mixer.pre_init(44100, -16, 2, 2048)
@@ -30,29 +31,33 @@ class GestorSonido:
 
     @classmethod
     def musica_nivel_1(self):
-        self.canal_musica.play(pygame.mixer.Sound(MUSICA_NIVEL_1))  # Usar el canal de música
+        self.canal_musica.play(pygame.mixer.Sound(MUSICA_NIVEL_1), loops=-1)  # Usar el canal de música
         self.poner_volumen_musica(self.volumen_musica)
+        self.poner_volumen_partitura(self.volumen_musica)
+
 
     @classmethod
     def musica_nivel_2(self):
-        self.canal_musica.play(pygame.mixer.Sound(MUSICA_NIVEL_2))
+        self.canal_musica.play(pygame.mixer.Sound(MUSICA_NIVEL_2), loops=-1)
         self.poner_volumen_musica(self.volumen_musica)
-
+        self.poner_volumen_partitura(self.volumen_musica)
 
     @classmethod
     def musica_nivel_3(self):
-        self.canal_musica.play(pygame.mixer.Sound(MUSICA_NIVEL_3))
+        self.canal_musica.play(pygame.mixer.Sound(MUSICA_NIVEL_3), loops=-1)
         self.poner_volumen_musica(self.volumen_musica)
-    
+        self.poner_volumen_partitura(self.volumen_musica)
+
     @classmethod
     def musica_menu_principal(self):
-        self.canal_musica.play(pygame.mixer.Sound(MUSICA_MENU_PRINCIPAL))
+        self.canal_musica.play(pygame.mixer.Sound(MUSICA_MENU_PRINCIPAL), loops=-1)
         self.poner_volumen_musica(self.volumen_musica)
-    
+
     @classmethod
     def musica_menus(self):
-        self.canal_musica.play(pygame.mixer.Sound(MUSICA_MENUS))
+        self.canal_musica.play(pygame.mixer.Sound(MUSICA_MENUS), loops=-1)
         self.poner_volumen_musica(self.volumen_musica)
+
 
     @classmethod
     def poner_volumen_musica(self,volumen):
@@ -63,6 +68,10 @@ class GestorSonido:
     def poner_volumen_efectos(self,volumen):
         self.volumen_efectos = volumen
         self.canal_efectos.set_volume(self.volumen_efectos/100.0)
+
+    @classmethod
+    def poner_volumen_partitura(self,volumen):
+        self.canal_partitura.set_volume(volumen/100.0)
         
     @classmethod
     def subir_volumen_musica(self,volumen):

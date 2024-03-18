@@ -344,6 +344,7 @@ class Fase(Escena):
                     self.dialogos.siguiente_dialogo()
                     if (self.dialogos.final()):
                         self.jugando = True
+                    print(self.jugador_activo.posicion)
                 if self.jugando:
                     if evento.key == pygame.K_TAB:
                         self.cambiar_jugador()

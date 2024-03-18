@@ -1,16 +1,16 @@
-Melodia de la vida - 0
+Arpegio de la aventura - 0
 135 388
-Arpegio de la aurora - 1
+Balada de la lluvia - 1
 135 657
-Sinfonia del silencio - 0
+Composicion de los cometas - 0
 1178 368
-Rapsodia del resplandor - 1
+Ritmo de la renovacion - 1
 1157 694
-p15 - 1
+Danza de la medianoche - 1
 3174 180
-p12 - 0
+Armonia de la esperanza - 0
 2081 808
-p6 - 1
+Sinfonia del silencio - 1
 4026 346
-p5 - 0
+Melodia de los cielos - 0
 2946 725

@@ -1,9 +1,9 @@
 [Melodia de la vida]
 519 478 0
 449 475 188 138
-[Sinfonia del silencio][Rapsodia del resplandor]
+[Sinfonia del silencio][Armonia de la esperanza]
 2398 126 0
 2330 126 200 150
-[Arpegio de la aurora][Melodia de los cielos]
+[Serenata de las estrellas][Preludio de la paz]
 5312 188 1
 5350 160 220 220
